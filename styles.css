@@ -339,3 +339,26 @@ body {
     color: var(--text);
     line-height: 1.5;
 }
+.card-equipo {
+    width: 186px;
+    min-height: 350px;
+}
+.custom-border{
+        border: solid #088C7B 2px;
+
+}
+.bi-github {
+    color: rgb(109, 77, 173);
+}
+
+.icono {
+    width: 35px;
+    height: 35px;
+}
+
+.github {
+    border-color: rgb(109, 77, 173) !important;
+}
+.pointer{
+    cursor: pointer;
+}
