@@ -435,3 +435,294 @@ body {
         font-size: 24px;
     }
 }
+/* ===========================
+            PQRS
+=========================== */
+
+.pqrs-card{
+    border:none;
+    border-radius:25px;
+    overflow:hidden;
+    background:#fff;
+    box-shadow:0 20px 45px rgba(2,29,58,.12);
+}
+
+.pqrs-info{
+    background:linear-gradient(160deg,var(--dark),var(--primary));
+    color:#fff;
+    padding:50px 40px;
+}
+
+.pqrs-info h3{
+    font-family:'Montserrat',sans-serif;
+    font-weight:700;
+    margin-bottom:18px;
+}
+
+.pqrs-info p{
+    color:#dfe8ec;
+    line-height:1.7;
+}
+
+.pqrs-info i{
+    color:#69d2e7;
+}
+
+.pqrs-form{
+    padding:50px;
+    background:#fff;
+}
+
+.pqrs-form h5{
+    color:var(--primary);
+    font-family:'Montserrat',sans-serif;
+    font-weight:700;
+    margin-bottom:30px;
+}
+
+/* LABELS */
+
+.pqrs-form label{
+    font-weight:600;
+    color:var(--dark);
+    margin-bottom:8px;
+}
+
+/* INPUT GROUP */
+
+.input-group-text{
+
+    background:#fff;
+    border:2px solid #dfe8ec;
+    border-right:none;
+    color:var(--secondary);
+    border-radius:12px 0 0 12px;
+}
+
+.input-group .form-control{
+
+    border-left:none;
+    border-radius:0 12px 12px 0;
+}
+
+/* INPUTS */
+
+.form-control,
+.form-select{
+
+    min-height:56px;
+
+    border:2px solid #dfe8ec;
+
+    border-radius:12px;
+
+    transition:.30s;
+
+    font-size:15px;
+
+    color:var(--text);
+
+    box-shadow:none;
+
+}
+
+textarea.form-control{
+
+    min-height:180px;
+
+    resize:none;
+
+}
+
+.form-control:focus,
+.form-select:focus{
+
+    border-color:var(--secondary);
+
+    box-shadow:0 0 0 .18rem rgba(8,127,124,.15);
+
+}
+
+/* PLACEHOLDER */
+
+.form-control::placeholder{
+
+    color:#9aa6af;
+
+}
+
+/* SELECT */
+
+.form-select{
+
+    cursor:pointer;
+
+}
+
+/* FILE */
+
+.file-upload{
+
+    border:2px dashed var(--secondary);
+
+    border-radius:18px;
+
+    background:#f7fbfb;
+
+    padding:45px;
+
+    text-align:center;
+
+    transition:.30s;
+
+}
+
+.file-upload:hover{
+
+    background:#eef9f8;
+
+    border-color:var(--primary);
+
+}
+
+.file-upload i{
+
+    font-size:60px;
+
+    color:var(--secondary);
+
+    margin-bottom:15px;
+
+}
+
+.file-upload input{
+
+    margin-top:20px;
+
+}
+
+/* CHECK */
+
+.form-check-input{
+
+    width:20px;
+
+    height:20px;
+
+    cursor:pointer;
+
+}
+
+.form-check-input:checked{
+
+    background:var(--secondary);
+
+    border-color:var(--secondary);
+
+}
+
+.form-check-label{
+
+    margin-left:8px;
+
+    color:var(--text);
+
+}
+
+/* BOTÓN */
+
+.btn-pqrs{
+
+    background:linear-gradient(135deg,var(--secondary),var(--primary));
+
+    color:#fff;
+
+    border:none;
+
+    border-radius:50px;
+
+    height:60px;
+
+    font-size:17px;
+
+    font-weight:700;
+
+    letter-spacing:.3px;
+
+    transition:.35s;
+
+}
+
+.btn-pqrs:hover{
+
+    transform:translateY(-3px);
+
+    background:linear-gradient(135deg,var(--primary),var(--dark));
+
+    box-shadow:0 15px 25px rgba(2,29,58,.25);
+
+    color:#fff;
+
+}
+
+/* HR */
+
+.pqrs-form hr{
+
+    border-top:2px solid #edf2f5;
+
+    opacity:1;
+
+}
+
+/* ICONOS */
+
+.input-group i{
+
+    font-size:18px;
+
+}
+
+/* RESPONSIVE */
+
+@media(max-width:992px){
+
+    .pqrs-info{
+
+        padding:35px;
+
+        text-align:center;
+
+    }
+
+    .pqrs-form{
+
+        padding:35px;
+
+    }
+
+}
+
+@media(max-width:576px){
+
+    .pqrs-form{
+
+        padding:25px;
+
+    }
+
+    .pqrs-info{
+
+        padding:25px;
+
+    }
+
+    .btn-pqrs{
+
+        height:55px;
+
+        font-size:16px;
+
+    }
+
+}
