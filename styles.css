@@ -400,3 +400,169 @@ body {
         bottom: 16px;
     }
 }
+
+/*  BANNER CONTACTO  */
+.banner-contacto {
+    background: linear-gradient(135deg, #0a1f2c, #0f6d73);
+    color: white;
+    padding: 80px 0;
+    border-radius: 20px;
+}
+
+/* etiqueta */
+.badge-banner {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    border: 1px solid rgba(255,255,255,0.3);
+    padding: 8px 16px;
+    border-radius: 30px;
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
+/* titulo */
+.titulo-banner {
+    font-size: 3rem;
+    font-weight: 700;
+}
+
+.titulo-banner span {
+    color: #4fd1c5;
+}
+
+/* textos */
+.subtexto {
+    font-size: 1.2rem;
+    margin-top: 10px;
+}
+
+.descripcion {
+    opacity: 0.8;
+    margin-bottom: 30px;
+}
+
+/* contacto */
+.contacto-info {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.separador {
+    width: 1px;
+    height: 40px;
+    background: rgba(255,255,255,0.3);
+}
+
+.item {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    min-width: 200px;
+}
+
+.item span {
+    font-size: 14px;
+    opacity: 0.8;
+}
+
+.item p {
+    margin: 0;
+    font-weight: 600;
+}
+
+/* botón */
+.btn-whatsapp {
+    display: inline-block;
+    background: #e5e7eb;
+    color: #000;
+    padding: 15px 25px;
+    border-radius: 40px;
+    text-decoration: none;
+    font-weight: 600;
+    margin-bottom: 30px;
+}
+
+/* beneficios */
+.beneficios {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: nowrap; 
+    margin-top: 30px;
+}
+
+.beneficio {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+}
+
+
+/* imagen */
+.img-banner {
+    max-width: 100%;
+}
+
+
+@media (max-width: 768px) {
+
+    .titulo-banner {
+        font-size: 2rem;
+    }
+
+    .contacto-info {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .beneficios {       
+        align-items: flex-start;
+        gap: 8px;          
+        margin-top: 30px;
+        white-space: nowrap;
+        text-align: center;
+}
+
+.beneficio div {
+    display: flex;
+    flex-direction: column; 
+    line-height: 1.2;
+}
+
+    .linea {
+        display: none;
+    }
+
+    .linea {
+    width: 1px;
+    height: 20px;
+    background: rgba(255,255,255,0.3);
+    flex-shrink: 0;
+}
+
+    .banner-contacto {
+        padding: 50px 20px;
+    }
+
+}
+
+.card-prioridad {
+    margin-top: 30px;
+    padding: 20px;
+    border-radius: 15px;
+    border: 1px solid rgba(255,255,255,0.2);
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.titulo-card {
+    margin: 0;
+    font-weight: 600;
+}
+.card-prioridad {
+    max-width: 420px;
+}
