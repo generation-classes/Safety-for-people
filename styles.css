@@ -976,7 +976,6 @@ body {
     }
 
 }
-<<<<<<< HEAD
 .card-confianza p{
     margin:0;
     font-size:0.9rem;
@@ -1009,7 +1008,6 @@ body {
 .form-outline {
     border: 2px solid var(--primary);
 }
-=======
 /* DASHBOARD ADMINISTRADOR*/
 
 
@@ -1369,7 +1367,6 @@ body {
         margin-bottom:20px;
     }
 }
->>>>>>> santiago
 
 .simple-card {
     width: 250px;
