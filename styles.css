@@ -1558,3 +1558,14 @@ textarea.form-control{
 @media (max-width: 700px){
     .hero-features{ grid-template-columns:1fr; }
 }
+
+/* Tarjetas de categorías (home) */
+.simple-card{
+    width: 250px;
+    height: 250px;
+    border: 2px solid var(--secondary);
+    transition: 0.3s ease;
+}
+.simple-card:hover{
+    transform: translateY(-10px);
+}
