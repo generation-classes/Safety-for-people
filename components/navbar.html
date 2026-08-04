@@ -1,8 +1,8 @@
 <header>
     <nav class="navbar navbar-expand-lg bg-white shadow-sm py-3">
         <div class="container-fluid px-4">
-            <a class="navbar-brand me-5" href="../index.html">
-                <img src="../Assets/images/safety.svg" alt="Safety" class="logo">
+            <a class="navbar-brand me-5" href="{{base}}index.html">
+                <img src="{{base}}Assets/images/safety.svg" alt="Safety" class="logo">
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu"
                 aria-controls="menu" aria-expanded="false" aria-label="Toggle navigation">
@@ -11,11 +11,11 @@
             <div class="collapse navbar-collapse" id="menu">
                 <div class="d-flex align-items-center justify-content-center flex-grow-1 flex-wrap gap-3">
                     <ul class="navbar-nav flex-row align-items-center flex-wrap">
-                        <li class="nav-item me-4"><a class="nav-link" href="../index.html">Inicio</a></li>
-                        <li class="nav-item me-4"><a class="nav-link" href="productos.html">Productos</a></li>
-                        <li class="nav-item me-4"><a class="nav-link" href="categorias.html">Categorías</a></li>
-                        <li class="nav-item me-4"><a class="nav-link" href="about-us.html">Nosotros</a></li>
-                        <li class="nav-item"><a class="nav-link" href="contacto.html">Contacto</a></li>
+                        <li class="nav-item me-4"><a class="nav-link" data-page="inicio" href="{{base}}index.html">Inicio</a></li>
+                        <li class="nav-item me-4"><a class="nav-link" data-page="productos" href="{{base}}pages/productos.html">Productos</a></li>
+                        <li class="nav-item me-4"><a class="nav-link" data-page="categorias" href="{{base}}pages/categorias.html">Categorías</a></li>
+                        <li class="nav-item me-4"><a class="nav-link" data-page="aboutUs" href="{{base}}pages/about-us.html">Nosotros</a></li>
+                        <li class="nav-item"><a class="nav-link" data-page="contacto" href="{{base}}pages/contacto.html">Contacto</a></li>
                     </ul>
                     <form class="d-flex buscador" role="search">
                         <input class="form-control" type="search" placeholder="Buscar productos" aria-label="Buscar">
