@@ -179,8 +179,6 @@
                                     <input type="hidden" name="_subject" value="Nueva solicitud PQRS - SAPE">
                                     <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off">
 
-                                    <div id="pqrsAlert"></div>
-
                                     <h5>
 
                                         <i class="bi bi-person-circle me-2"></i>
@@ -289,6 +287,22 @@
 
                                         <div class="col-md-6">
 
+                                            <label>Dirección</label>
+
+                                            <div class="input-group">
+
+                                                <span class="input-group-text">
+                                                    <i class="bi bi-geo-alt"></i>
+                                                </span>
+
+                                                <input type="text" class="form-control" name="direccion" placeholder="Calle 00 #00-00">
+
+                                            </div>
+
+                                        </div>
+
+                                        <div class="col-md-6">
+
                                             <label>Departamento *</label>
 
                                             <select class="form-select" name="departamento">
@@ -349,22 +363,6 @@
                                                 <option>Ibagué</option>
 
                                             </select>
-
-                                        </div>
-
-                                        <div class="col-md-6">
-
-                                            <label>Dirección</label>
-
-                                            <div class="input-group">
-
-                                                <span class="input-group-text">
-                                                    <i class="bi bi-geo-alt"></i>
-                                                </span>
-
-                                                <input type="text" class="form-control" name="direccion" placeholder="Calle 00 #00-00">
-
-                                            </div>
 
                                         </div>
 
@@ -607,12 +605,28 @@
             </div>
         </div>
     </footer>
+
+    <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 1080">
+        <div id="pqrsToast" class="toast align-items-center border-0" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="5000">
+            <div class="d-flex">
+                <div class="toast-body d-flex align-items-center gap-2">
+                    <i id="pqrsToastIcon" class="bi bi-check-circle-fill fs-5"></i>
+                    <span id="pqrsToastMessage">Envío exitoso</span>
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Cerrar"></button>
+            </div>
+        </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
         crossorigin="anonymous"></script>
     <script>
         const formPQRS = document.getElementById('formPQRS');
-        const pqrsAlert = document.getElementById('pqrsAlert');
+        const pqrsToastEl = document.getElementById('pqrsToast');
+        const pqrsToastIcon = document.getElementById('pqrsToastIcon');
+        const pqrsToastMessage = document.getElementById('pqrsToastMessage');
+        const pqrsToast = new bootstrap.Toast(pqrsToastEl);
 
         formPQRS.addEventListener('submit', function (event) {
             event.preventDefault();
@@ -629,18 +643,18 @@
             })
                 .then((response) => {
                     if (response.ok) {
-                        showPqrsAlert('success', '¡Tu solicitud fue enviada con éxito! Te responderemos pronto.');
+                        showPqrsToast('success', 'Envío exitoso', '¡Tu solicitud fue enviada! Te responderemos pronto.');
                         formPQRS.reset();
                     } else {
                         return response.json().then((data) => {
                             const message = data?.errors?.map((err) => err.message).join(', ')
                                 || 'Ocurrió un error al enviar tu solicitud. Intenta de nuevo.';
-                            showPqrsAlert('danger', message);
+                            showPqrsToast('danger', 'Envío fallido', message);
                         });
                     }
                 })
                 .catch(() => {
-                    showPqrsAlert('danger', 'No se pudo enviar tu solicitud. Revisa tu conexión e intenta de nuevo.');
+                    showPqrsToast('danger', 'Envío fallido', 'No se pudo enviar tu solicitud. Revisa tu conexión e intenta de nuevo.');
                 })
                 .finally(() => {
                     submitBtn.disabled = false;
@@ -648,9 +662,12 @@
                 });
         });
 
-        function showPqrsAlert(type, message) {
-            pqrsAlert.innerHTML = `<div class="alert alert-${type} mt-3" role="alert">${message}</div>`;
-            pqrsAlert.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        function showPqrsToast(type, title, message) {
+            pqrsToastEl.classList.remove('text-bg-success', 'text-bg-danger');
+            pqrsToastEl.classList.add(type === 'success' ? 'text-bg-success' : 'text-bg-danger');
+            pqrsToastIcon.className = type === 'success' ? 'bi bi-check-circle-fill fs-5' : 'bi bi-exclamation-triangle-fill fs-5';
+            pqrsToastMessage.textContent = `${title}: ${message}`;
+            pqrsToast.show();
         }
     </script>
 </body>
