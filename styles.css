@@ -1064,3 +1064,363 @@ textarea.form-control{
     }
 
 }
+
+/* DASHBOARD ADMINISTRADOR*/
+
+
+/*  ESTRUCTURA GENERAL */
+
+.dashboard-row {
+    min-height: 500px;
+}
+
+
+.dashboard-card {
+    background:#ffffff;
+    border-radius:18px;
+    border:1px solid #DFE8EC !important;
+    transition:all .3s ease;
+    overflow:hidden;
+}
+
+
+
+/* Barra superior de color */
+
+.dashboard-card::before,
+.row > .col-lg-3 .card::before {
+
+    content:"";
+
+    display:block;
+
+    height:4px;
+
+    background:linear-gradient(
+        90deg,
+        #021D3A,
+        #087F7C
+    );
+
+}
+
+
+
+/* Hover */
+
+.dashboard-card:hover,
+.row > .col-lg-3 .card:hover {
+
+    transform:translateY(-5px);
+
+    border-color:#087F7C !important;
+
+    box-shadow:
+    0 12px 25px rgba(8,127,124,.18);
+
+}
+
+
+
+
+/* TARJETAS SUPERIORES */
+
+
+.row > .col-lg-3 .card {
+
+    border-radius:18px !important;
+
+    background:linear-gradient(
+        145deg,
+        #ffffff,
+        #f4f7fa
+    );
+
+    overflow:hidden;
+
+    transition:.3s ease;
+
+}
+
+
+
+/* Títulos */
+
+.row > .col-lg-3 h6,
+.dashboard-card h4,
+.dashboard-card h5,
+.dashboard-card h6 {
+
+
+    color:#021D3A !important;
+
+    font-weight:700;
+
+}
+
+
+
+/* Valores */
+
+.row > .col-lg-3 h2,
+.card h2 {
+
+
+    color:#021D3A;
+
+    font-size:2rem;
+
+    font-weight:800;
+
+}
+
+
+
+/* Iconos */
+
+.row > .col-lg-3 span.fs-2 {
+
+
+    width:50px;
+
+    height:50px;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    border-radius:14px;
+
+
+    background:#DFE8EC;
+
+    color:#094051;
+
+}
+
+
+
+
+/* PORCENTAJES */
+
+
+.text-success {
+
+
+    color:#087F7C !important;
+
+    font-weight:700;
+
+}
+
+
+
+
+/*   GRAFICA */
+
+
+.chart-container {
+
+    position:relative;
+
+    width:100%;
+
+    height:320px;
+
+}
+
+
+#ventasChart {
+
+    max-height:320px;
+
+}
+
+
+
+/*   BADGES */
+
+
+.badge {
+
+    font-weight:600;
+
+    padding:8px 14px;
+
+    border-radius:20px;
+
+}
+
+
+
+/* Tiempo real */
+
+.badge.bg-primary {
+
+    background:#094051 !important;
+
+}
+
+
+
+/* Alertas */
+
+.badge.bg-danger {
+
+    background:#087F7C !important;
+
+}
+
+
+
+/*  PEDIDOS*/
+
+
+.list-group-item {
+
+
+    padding:14px 10px;
+
+    font-size:14px;
+
+    border-color:#edf1f3;
+
+    background:transparent;
+
+}
+
+
+
+.list-group-item span:first-child {
+
+
+    color:#4E535A;
+
+}
+
+/* PRODUCTOS */
+
+
+.dashboard-card ol {
+
+
+    padding-left:20px;
+
+}
+
+
+
+.dashboard-card ol li {
+
+
+    color:#4E535A;
+
+    font-size:14px;
+
+}
+
+
+
+.dashboard-card ol strong {
+
+
+    color:#021D3A;
+
+}
+
+/* LINKS*/
+
+.dashboard-card a {
+
+
+    color:#087F7C !important;
+
+    font-weight:600;
+
+    transition:.3s ease;
+
+}
+
+
+
+.dashboard-card a:hover {
+
+
+    color:#021D3A !important;
+
+}
+
+
+
+
+/*     BOTONES*/
+
+.dashboard-card .btn {
+
+
+    border-radius:20px;
+
+    font-weight:600;
+
+}
+.dashboard-card .btn-outline-primary {
+
+
+    color:#087F7C;
+
+    border-color:#087F7C;
+
+}
+.dashboard-card .btn-outline-primary:hover {
+
+
+    background:#087F7C;
+
+    border-color:#087F7C;
+
+    color:white;
+}
+
+/*  ALERTAS*/
+.dashboard-card .list-group-item {
+
+
+    color:#4E535A;
+}
+
+
+
+/*      RESPONSIVE*/
+
+@media(max-width:992px){
+
+
+    .dashboard-row {
+
+        min-height:auto;
+
+    }
+
+
+    .chart-container {
+
+        height:260px;
+
+    }
+
+
+}
+
+@media(max-width:576px){
+    .row > .col-lg-3 h2 {
+
+
+        font-size:1.6rem;
+
+    }
+    .dashboard-card {
+        margin-bottom:20px;
+    }
+}
