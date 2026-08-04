@@ -343,6 +343,7 @@ body {
     font-size: 28px;
 }
 
+
 @media (max-width: 1400px) {
     .about-slide__title,
     .about-slide__text {
@@ -401,7 +402,40 @@ body {
     }
 }
 
+.contacto-map {
+    width: 486px;
+    height: 498px;
+    max-width: 100%;
+}
 
+.contacto-map__title {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    font-size: 32px;
+    color: var(--dark);
+    margin: 0 0 24px;
+}
+
+.contacto-map__frame {
+    width: 450px;
+    height: 405px;
+    max-width: 100%;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 16px rgba(2, 29, 58, 0.15);
+}
+
+.contacto-map__frame iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+}
+
+@media (max-width: 575.98px) {
+    .contacto-map__title {
+        font-size: 24px;
+    }
+}
 /* ===========================
             PQRS
 =========================== */
@@ -692,4 +726,12 @@ textarea.form-control{
 
     }
 
+}
+
+.btn-contacto{
+    color: white;
+    background: linear-gradient( to right, var(--dark), var(--secondary));
+}
+.form-outline{
+    border: 2px solid var(--primary);
 }
