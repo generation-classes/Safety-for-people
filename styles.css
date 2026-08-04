@@ -343,6 +343,7 @@ body {
     font-size: 28px;
 }
 
+
 @media (max-width: 1400px) {
     .about-slide__title,
     .about-slide__text {
@@ -462,17 +463,71 @@ body{
 }
 .contacto-section h1 span{
     color:var(--teal);
+.contacto-map {
+    width: 486px;
+    height: 498px;
+    max-width: 100%;
+}
+
+.contacto-map__title {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    font-size: 32px;
+    color: var(--dark);
+    margin: 0 0 24px;
+}
+
+.contacto-map__frame {
+    width: 450px;
+    height: 405px;
+    max-width: 100%;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 16px rgba(2, 29, 58, 0.15);
+}
+
+.contacto-map__frame iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+}
+
+@media (max-width: 575.98px) {
+    .contacto-map__title {
+        font-size: 24px;
+    }
+}
+/* ===========================
+            PQRS
+=========================== */
+
+.pqrs-card{
+    border:none;
+    border-radius:25px;
+    overflow:hidden;
+    background:#fff;
+    box-shadow:0 20px 45px rgba(2,29,58,.12);
 }
 .subtitulo-fuerte{
     font-size:1.15rem;
     font-weight:600;
     margin-bottom:10px;
+
+.pqrs-info{
+    background:linear-gradient(160deg,var(--dark),var(--primary));
+    color:#fff;
+    padding:50px 40px;
 }
 .subtitulo-suave{
     color:var(--text-muted);
     font-size:0.98rem;
     max-width:460px;
     margin-bottom:32px;
+
+.pqrs-info h3{
+    font-family:'Montserrat',sans-serif;
+    font-weight:700;
+    margin-bottom:18px;
 }
 
 /* Bloques de contacto */
@@ -487,6 +542,13 @@ body{
     align-items:center;
     gap:14px;
     min-width:0;
+.pqrs-info p{
+    color:#dfe8ec;
+    line-height:1.7;
+}
+
+.pqrs-info i{
+    color:#69d2e7;
 }
 .icono-cuadro{
     width:52px;
@@ -500,6 +562,17 @@ body{
     justify-content:center;
     font-size:1.3rem;
     color:var(--teal);
+
+.pqrs-form{
+    padding:50px;
+    background:#fff;
+}
+
+.pqrs-form h5{
+    color:var(--primary);
+    font-family:'Montserrat',sans-serif;
+    font-weight:700;
+    margin-bottom:30px;
 }
 .contacto-item .label{
     display:block;
@@ -507,6 +580,13 @@ body{
     font-weight:600;
     font-size:0.92rem;
     margin-bottom:2px;
+
+/* LABELS */
+
+.pqrs-form label{
+    font-weight:600;
+    color:var(--dark);
+    margin-bottom:8px;
 }
 .contacto-item .valor{
     font-weight:500;
@@ -628,6 +708,170 @@ body{
     position: relative;
     z-index: 1;
     filter: drop-shadow(0 20px 30px rgba(0,0,0,0.35));
+
+/* INPUT GROUP */
+
+.input-group-text{
+
+    background:#fff;
+    border:2px solid #dfe8ec;
+    border-right:none;
+    color:var(--secondary);
+    border-radius:12px 0 0 12px;
+}
+
+.input-group .form-control{
+
+    border-left:none;
+    border-radius:0 12px 12px 0;
+}
+
+/* INPUTS */
+
+.form-control,
+.form-select{
+
+    height: 100% !important;
+
+    border:2px solid #dfe8ec;
+
+    border-radius:12px;
+
+    transition:.30s;
+
+    font-size:15px;
+
+    color:var(--text);
+
+    box-shadow:none;
+
+}
+
+textarea.form-control{
+
+    min-height:180px;
+
+    resize:none;
+
+}
+
+.form-control:focus,
+.form-select:focus{
+
+    border-color:var(--secondary);
+
+    box-shadow:0 0 0 .18rem rgba(8,127,124,.15);
+
+}
+
+/* PLACEHOLDER */
+
+.form-control::placeholder{
+
+    color:#9aa6af;
+
+}
+
+/* SELECT */
+
+.form-select{
+
+    cursor:pointer;
+
+}
+
+/* FILE */
+
+.file-upload{
+
+    border:2px dashed var(--secondary);
+
+    border-radius:18px;
+
+    background:#f7fbfb;
+
+    padding:45px;
+
+    text-align:center;
+
+    transition:.30s;
+
+}
+
+.file-upload:hover{
+
+    background:#eef9f8;
+
+    border-color:var(--primary);
+
+}
+
+.file-upload i{
+
+    font-size:60px;
+
+    color:var(--secondary);
+
+    margin-bottom:15px;
+
+}
+
+.file-upload input{
+
+    margin-top:20px;
+
+}
+
+/* CHECK */
+
+.form-check-input{
+
+    width:20px;
+
+    height:20px;
+
+    cursor:pointer;
+
+}
+
+.form-check-input:checked{
+
+    background:var(--secondary);
+
+    border-color:var(--secondary);
+
+}
+
+.form-check-label{
+
+    margin-left:8px;
+
+    color:var(--text);
+
+}
+
+/* BOTÓN */
+
+.btn-pqrs{
+
+    background:linear-gradient(135deg,var(--secondary),var(--primary));
+
+    color:#fff;
+
+    border:none;
+
+    border-radius:50px;
+
+    height:60px;
+
+    font-size:17px;
+
+    font-weight:700;
+
+    letter-spacing:.3px;
+
+    transition:.35s;
+
 }
 
 .badge-flotante{
@@ -692,6 +936,78 @@ body{
     justify-content:center;
     font-size:1.2rem;
     flex:0 0 44px;
+.btn-pqrs:hover{
+
+    transform:translateY(-3px);
+
+    background:linear-gradient(135deg,var(--primary),var(--dark));
+
+    box-shadow:0 15px 25px rgba(2,29,58,.25);
+
+    color:#fff;
+
+}
+
+/* HR */
+
+.pqrs-form hr{
+
+    border-top:2px solid #edf2f5;
+
+    opacity:1;
+
+}
+
+/* ICONOS */
+
+.input-group i{
+
+    font-size:18px;
+
+}
+
+/* RESPONSIVE */
+
+@media(max-width:992px){
+
+    .pqrs-info{
+
+        padding:35px;
+
+        text-align:center;
+
+    }
+
+    .pqrs-form{
+
+        padding:35px;
+
+    }
+
+}
+
+@media(max-width:576px){
+
+    .pqrs-form{
+
+        padding:25px;
+
+    }
+
+    .pqrs-info{
+
+        padding:25px;
+
+    }
+
+    .btn-pqrs{
+
+        height:55px;
+
+        font-size:16px;
+
+    }
+
 }
 .card-confianza p{
     margin:0;
@@ -708,4 +1024,11 @@ body{
 }
 .row {
     margin: 0;
+
+.btn-contacto{
+    color: white;
+    background: linear-gradient( to right, var(--dark), var(--secondary));
+}
+.form-outline{
+    border: 2px solid var(--primary);
 }

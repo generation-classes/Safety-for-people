@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sobre Nosotros | PQRS </title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Inter:wght@300;400;500&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="d-flex flex-column min-vh-100" data-page="contacto">
+
+    <div id="site-header"></div>
+
+    <main class="py-5">
+
+        <div class="container">
+
+            <a href="contacto.html" class="text-decoration-none text-secondary d-inline-flex align-items-center gap-2 mb-4">
+                <i class="bi bi-arrow-left"></i> Volver a Contacto
+            </a>
+
+            <!-- Encabezado -->
+            <div class="row justify-content-center mb-5">
+
+                <div class="col-lg-8 text-center">
+
+                    <span class="badge badge-brand rounded-pill px-4 py-2 mb-3">
+                         Atención al Cliente</span>
+
+                    <h1 class="titulo mb-3">Peticiones, Quejas, Reclamos y Sugerencias</h1>
+                    <p class="text-secondary fs-5">
+                        En <strong>SAPE</strong> queremos brindarte una atención oportuna.
+                        Completa el siguiente formulario para registrar tu solicitud.
+                        Nuestro equipo responderá en el menor tiempo posible.</p>
+
+                </div>
+
+            </div>
+
+            <div class="row justify-content-center">
+
+                <div class="col-xl-11">
+
+                    <div class="card pqrs-card">
+
+                        <div class="row g-0">
+
+                            <!-- Panel Izquierdo -->
+
+                            <div class="col-lg-4 pqrs-info d-flex flex-column justify-content-center">
+
+                                <div class="text-center mb-4">
+
+                                    <i class="bi bi-headset display-1"></i>
+
+                                </div>
+
+                                <h3 class="text-center">Centro de Atención SAPE</h3>
+
+                                <p class="text-center">
+
+                                    Nuestro compromiso es brindarte una respuesta clara,
+                                    rápida y efectiva.
+
+                                </p>
+
+                                <hr class="border-light opacity-50 my-4">
+
+                                <div class="mb-4 d-flex">
+
+                                    <i class="bi bi-clock-history fs-3 me-3"></i>
+
+                                    <div>
+
+                                        <strong>Tiempo de respuesta</strong>
+
+                                        <br>
+
+                                        15 dias hábiles
+
+                                    </div>
+
+                                </div>
+
+                                <div class="mb-4 d-flex">
+
+                                    <i class="bi bi-envelope fs-3 me-3"></i>
+
+                                    <div>
+
+                                        <strong>Correo</strong>
+
+                                        <br>
+
+                                        safetyforpeople2026@gmail.com
+
+                                    </div>
+
+                                </div>
+
+                                <div class="mb-4 d-flex">
+
+                                    <i class="bi bi-telephone fs-3 me-3"></i>
+
+                                    <div>
+
+                                        <strong>Línea Nacional</strong>
+
+                                        <br>
+
+                                        +57 300 000 0000
+
+                                    </div>
+
+                                </div>
+
+                                <div class="mb-4 d-flex">
+
+                                    <i class="bi bi-geo-alt fs-3 me-3"></i>
+
+                                    <div>
+
+                                        <strong>Ubicación</strong>
+
+                                        <br>
+
+                                        Cra 35 #10-69 Puente Aranda, Bogotá, Colombia
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <!-- Formulario -->
+
+                            <div class="col-lg-8 pqrs-form">
+
+                                <form id="formPQRS" action="https://formspree.io/f/xvzeeenb" method="POST" enctype="multipart/form-data">
+
+                                    <input type="hidden" name="_subject" value="Nueva solicitud PQRS - SAPE">
+                                    <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off">
+
+                                    <h5>
+
+                                        <i class="bi bi-person-circle me-2"></i>
+
+                                        Datos del solicitante
+
+                                    </h5>
+
+                                    <div class="row g-4">
+
+                                        <div class="col-md-6">
+
+                                            <label>Nombre completo *</label>
+
+                                            <div class="input-group">
+
+                                                <span class="input-group-text">
+                                                    <i class="bi bi-person"></i>
+                                                </span>
+
+                                                <input type="text" class="form-control" name="nombre"
+                                                    placeholder="Ej: Juan David Pérez" required>
+
+                                            </div>
+
+                                        </div>
+
+                                        <div class="col-md-6">
+
+                                            <label>Tipo de documento *</label>
+
+                                            <select class="form-select" name="tipo_documento" required>
+
+                                                <option selected disabled>
+                                                    Seleccione...
+                                                </option>
+
+                                                <option>Cédula de ciudadanía</option>
+
+                                                <option>Cédula de extranjería</option>
+
+                                                <option>Pasaporte</option>
+
+                                                <option>NIT</option>
+
+                                            </select>
+
+                                        </div>
+
+                                       
+
+                                        <div class="col-md-6">
+
+                                            <label>Número de documento *</label>
+
+                                            <div class="input-group">
+
+                                                <span class="input-group-text">
+
+                                                    <i class="bi bi-credit-card"></i>
+
+                                                </span>
+
+                                                <input type="text" class="form-control" name="numero_documento" placeholder="123456789"
+                                                    required>
+
+                                            </div>
+
+                                        </div>
+
+                                        <div class="col-md-6">
+
+                                            <label>Correo electrónico *</label>
+
+                                            <div class="input-group">
+
+                                                <span class="input-group-text">
+
+                                                    <i class="bi bi-envelope"></i>
+
+                                                </span>
+
+                                                <input type="email" class="form-control" name="email"
+                                                    placeholder="correo@ejemplo.com" required>
+
+                                            </div>
+
+                                        </div>
+                                        <div class="col-md-6">
+
+                                            <label>Departamento *</label>
+
+                                            <select class="form-select" name="departamento">
+
+                                                <option selected disabled>
+                                                    Seleccione...
+                                                </option>
+
+                                                <option>Amazonas</option>
+                                                <option>Antioquia</option>
+                                                <option>Atlántico</option>
+                                                <option>Bogotá D.C.</option>
+                                                <option>Bolívar</option>
+                                                <option>Boyacá</option>
+                                                <option>Caldas</option>
+                                                <option>Caquetá</option>
+                                                <option>Cauca</option>
+                                                <option>Cesar</option>
+                                                <option>Córdoba</option>
+                                                <option>Cundinamarca</option>
+                                                <option>Huila</option>
+                                                <option>La Guajira</option>
+                                                <option>Magdalena</option>
+                                                <option>Meta</option>
+                                                <option>Nariño</option>
+                                                <option>Norte de Santander</option>
+                                                <option>Quindío</option>
+                                                <option>Risaralda</option>
+                                                <option>Santander</option>
+                                                <option>Sucre</option>
+                                                <option>Tolima</option>
+                                                <option>Valle del Cauca</option>
+
+                                            </select>
+
+                                        </div>
+                                        <div class="col-md-6">
+
+                                            <label>Ciudad *</label>
+
+                                            <select class="form-select" name="ciudad" required>
+
+                                                <option selected disabled>
+                                                    Seleccione...
+                                                </option>
+
+                                                <option>Bogotá D.C.</option>
+                                                <option>Medellín</option>
+                                                <option>Cali</option>
+                                                <option>Barranquilla</option>
+                                                <option>Cartagena</option>
+                                                <option>Bucaramanga</option>
+                                                <option>Santa Marta</option>
+                                                <option>Pereira</option>
+                                                <option>Manizales</option>
+                                                <option>Cúcuta</option>
+                                                <option>Villavicencio</option>
+                                                <option>Ibagué</option>
+
+                                            </select>
+
+                                        </div>
+
+
+
+                                        <div class="col-md-6">
+
+                                            <label>Dirección</label>
+
+                                            <div class="input-group">
+
+                                                <span class="input-group-text">
+                                                    <i class="bi bi-geo-alt"></i>
+                                                </span>
+
+                                                <input type="text" class="form-control" name="direccion" placeholder="Calle 00 #00-00">
+
+                                            </div>
+
+                                        </div>
+                                        <div class="col-md-6">
+
+                                            <label>Celular *</label>
+
+                                            <div class="input-group">
+
+                                                <span class="input-group-text">
+
+                                                    <i class="bi bi-phone"></i>
+
+                                                </span>
+
+                                                <input type="tel" class="form-control" name="celular" placeholder="3001234567"
+                                                    required>
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                    <hr class="my-5">
+
+                                    <h5>
+
+                                        <i class="bi bi-chat-left-text me-2"></i>
+
+                                        Información de la solicitud
+
+                                    </h5>
+
+                                    <div class="row g-4">
+
+                                        <div class="col-md-6">
+
+                                            <label>Tipo de solicitud *</label>
+
+                                            <select class="form-select" name="tipo_solicitud" required>
+
+                                                <option selected disabled>
+                                                    Seleccione...
+                                                </option>
+
+                                                <option>Petición</option>
+
+                                                <option>Queja</option>
+
+                                                <option>Reclamo</option>
+
+                                                <option>Sugerencia</option>
+
+                                                <option>Felicitación</option>
+
+                                            </select>
+
+                                        </div>
+
+                                        <div class="col-md-6">
+
+                                            <label>Categoría *</label>
+
+                                            <select class="form-select" name="categoria">
+
+                                                <option selected disabled>
+                                                    Seleccione...
+                                                </option>
+
+                                                <option>Productos</option>
+
+                                                <option>Pedidos</option>
+
+                                                <option>Garantías</option>
+
+                                                <option>Pagos</option>
+
+                                                <option>Envíos</option>
+
+                                                <option>Atención al cliente</option>
+
+                                                <option>Página web</option>
+
+                                            </select>
+
+                                        </div>
+
+                                        <div class="col-md-6">
+
+                                            <label>Número de pedido</label>
+
+                                            <div class="input-group">
+
+                                                <span class="input-group-text">
+
+                                                    <i class="bi bi-bag-check"></i>
+
+                                                </span>
+
+                                                <input type="text" class="form-control" name="numero_pedido" placeholder="PED-000001">
+
+                                            </div>
+
+                                        </div>
+
+                                        <div class="col-md-6">
+
+                                            <label>Fecha del inconveniente</label>
+
+                                            <input type="date" class="form-control" name="fecha_inconveniente">
+
+                                        </div>
+
+                                        <div class="col-12">
+
+                                            <label>Asunto *</label>
+
+                                            <input type="text" class="form-control" name="asunto" placeholder="Escriba el asunto"
+                                                required>
+
+                                        </div>
+
+                                        <div class="col-12">
+
+                                            <label>Descripción detallada *</label>
+
+                                            <textarea rows="7" class="form-control" name="descripcion"
+                                                placeholder="Describe detalladamente tu solicitud..."
+                                                required></textarea>
+
+                                        </div>
+
+                                        <div class="col-12">
+
+                                            <label class="mb-3">
+                                                Adjuntar evidencia
+                                            </label>
+
+                                            <div class="file-upload">
+
+                                                <i class="bi bi-cloud-arrow-up"></i>
+
+                                                <h5 class="mt-3">
+                                                    Adjunta tus archivos
+                                                </h5>
+
+                                                <p class="text-muted">
+
+                                                    Puedes cargar imágenes,
+                                                    archivos PDF o documentos
+                                                    relacionados con tu solicitud.
+
+                                                </p>
+
+                                                <input type="file" class="form-control" name="evidencia">
+
+                                            </div>
+
+                                        </div>
+
+                                        <div class="col-12">
+
+                                            <div class="form-check mt-3">
+
+                                                <input class="form-check-input" type="checkbox" id="datos" name="autorizacion_datos" value="Sí" required>
+
+                                                <label class="form-check-label" for="datos">
+
+                                                    Autorizo el tratamiento de mis datos personales conforme a la Ley
+                                                    1581 de 2012.
+
+                                                </label>
+
+                                            </div>
+
+                                        </div>
+
+                                        <div class="col-12 mt-4">
+
+                                            <button type="submit" class="btn btn-pqrs w-100">
+
+                                                <i class="bi bi-send-fill me-2"></i>
+
+                                                Enviar solicitud
+
+                                            </button>
+
+                                        </div>
+
+                                    </div>
+
+                                </form>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+    <div id="site-footer"></div>
+
+    <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 1080">
+        <div id="pqrsToast" class="toast align-items-center border-0" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="5000">
+            <div class="d-flex">
+                <div class="toast-body d-flex align-items-center gap-2">
+                    <i id="pqrsToastIcon" class="bi bi-check-circle-fill fs-5"></i>
+                    <span id="pqrsToastMessage">Envío exitoso</span>
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Cerrar"></button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous"></script>
+    <script src="../app/app.js"></script>
+    <script>
+        const formPQRS = document.getElementById('formPQRS');
+        const pqrsToastEl = document.getElementById('pqrsToast');
+        const pqrsToastIcon = document.getElementById('pqrsToastIcon');
+        const pqrsToastMessage = document.getElementById('pqrsToastMessage');
+        const pqrsToast = new bootstrap.Toast(pqrsToastEl);
+
+        formPQRS.addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            const submitBtn = formPQRS.querySelector('button[type="submit"]');
+            const originalBtnHTML = submitBtn.innerHTML;
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = 'Enviando...';
+
+            fetch(formPQRS.action, {
+                method: formPQRS.method,
+                body: new FormData(formPQRS),
+                headers: { Accept: 'application/json' },
+            })
+                .then((response) => {
+                    if (response.ok) {
+                        showPqrsToast('success', 'Envío exitoso', '¡Tu solicitud fue enviada! Te responderemos pronto.');
+                        formPQRS.reset();
+                    } else {
+                        return response.json().then((data) => {
+                            const message = data?.errors?.map((err) => err.message).join(', ')
+                                || 'Ocurrió un error al enviar tu solicitud. Intenta de nuevo.';
+                            showPqrsToast('danger', 'Envío fallido', message);
+                        });
+                    }
+                })
+                .catch(() => {
+                    showPqrsToast('danger', 'Envío fallido', 'No se pudo enviar tu solicitud. Revisa tu conexión e intenta de nuevo.');
+                })
+                .finally(() => {
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = originalBtnHTML;
+                });
+        });
+
+        function showPqrsToast(type, title, message) {
+            pqrsToastEl.classList.remove('text-bg-success', 'text-bg-danger');
+            pqrsToastEl.classList.add(type === 'success' ? 'text-bg-success' : 'text-bg-danger');
+            pqrsToastIcon.className = type === 'success' ? 'bi bi-check-circle-fill fs-5' : 'bi bi-exclamation-triangle-fill fs-5';
+            pqrsToastMessage.textContent = `${title}: ${message}`;
+            pqrsToast.show();
+        }
+    </script>
+</body>
+
+</html>
