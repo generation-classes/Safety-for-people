@@ -510,7 +510,7 @@ body {
 .form-control,
 .form-select{
 
-    min-height:56px;
+    height: 100% !important;
 
     border:2px solid #dfe8ec;
 
