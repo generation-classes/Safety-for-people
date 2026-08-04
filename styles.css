@@ -468,6 +468,7 @@ body{
     height: 498px;
     max-width: 100%;
 }
+}
 
 .contacto-map__title {
     font-family: 'Montserrat', sans-serif;
@@ -512,7 +513,7 @@ body{
     font-size:1.15rem;
     font-weight:600;
     margin-bottom:10px;
-
+}
 .pqrs-info{
     background:linear-gradient(160deg,var(--dark),var(--primary));
     color:#fff;
@@ -523,7 +524,7 @@ body{
     font-size:0.98rem;
     max-width:460px;
     margin-bottom:32px;
-
+}
 .pqrs-info h3{
     font-family:'Montserrat',sans-serif;
     font-weight:700;
@@ -546,7 +547,7 @@ body{
     color:#dfe8ec;
     line-height:1.7;
 }
-
+}
 .pqrs-info i{
     color:#69d2e7;
 }
@@ -562,7 +563,7 @@ body{
     justify-content:center;
     font-size:1.3rem;
     color:var(--teal);
-
+}
 .pqrs-form{
     padding:50px;
     background:#fff;
@@ -580,7 +581,7 @@ body{
     font-weight:600;
     font-size:0.92rem;
     margin-bottom:2px;
-
+}
 /* LABELS */
 
 .pqrs-form label{
@@ -708,7 +709,7 @@ body{
     position: relative;
     z-index: 1;
     filter: drop-shadow(0 20px 30px rgba(0,0,0,0.35));
-
+}
 /* INPUT GROUP */
 
 .input-group-text{
@@ -936,7 +937,7 @@ textarea.form-control{
     justify-content:center;
     font-size:1.2rem;
     flex:0 0 44px;
-.btn-pqrs:hover{
+    .btn-pqrs:hover{
 
     transform:translateY(-3px);
 
@@ -945,7 +946,7 @@ textarea.form-control{
     box-shadow:0 15px 25px rgba(2,29,58,.25);
 
     color:#fff;
-
+}
 }
 
 /* HR */
@@ -1024,11 +1025,151 @@ textarea.form-control{
 }
 .row {
     margin: 0;
-
+}
 .btn-contacto{
     color: white;
     background: linear-gradient( to right, var(--dark), var(--secondary));
 }
 .form-outline{
     border: 2px solid var(--primary);
+}
+
+
+/* BANNER INICIO */
+
+
+body{
+    font-family:"Poppins", sans-serif;
+    margin:0;
+    background:#dfe8ec;
+}
+
+.hero-banner{
+    background:var(--bg-section);
+    padding:10px 0 48px;
+}
+
+.hero-banner h1{
+    font-size:clamp(2rem, 3.6vw, 2.7rem);
+    font-weight:800;
+    color:var(--navy);
+    line-height:1.2;
+    margin-top:0;
+    margin-bottom:28px;
+}
+
+.hero-banner h1 span{
+    color:var(--teal);
+}
+
+.hero-botones{
+    display:flex;
+    flex-wrap:nowrap;
+    gap:10px;
+    margin-bottom:44px;
+}
+
+.btn-explorar{
+    background:linear-gradient(90deg, #087F7C 0%, #021D3A 100%);
+    color:#fff;
+    border:none;
+    border-radius:50px;
+    padding:12px 22px;
+    font-weight:600;
+    font-size:0.85rem;
+    white-space:nowrap;
+    text-decoration:none;
+    display:inline-block;
+    transition:opacity 0.15s ease;
+}
+
+.btn-explorar:hover{
+    opacity:0.9;
+    color:#fff;
+}
+
+.btn-categorias{
+    background:#fff;
+    color:var(--navy);
+    border:1px solid #d5dbe2;
+    border-radius:50px;
+    padding:12px 18px;
+    font-weight:600;
+    font-size:0.85rem;
+    white-space:nowrap;
+    text-decoration:none;
+    transition:border-color 0.15s ease;
+}
+
+.btn-categorias:hover{
+    border-color:var(--navy);
+    color:var(--navy);
+}
+
+.hero-features{
+    display:grid;
+    grid-template-columns:repeat(3, auto);
+    gap:24px;
+}
+
+.hero-feature-item{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    min-width:0;
+}
+
+.hero-feature-item .icono{
+    width:20px;
+    height:20px;
+    color:var(--teal);
+    font-size:1.1rem;
+    flex:0 0 auto;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.hero-feature-item .texto strong{
+    display:block;
+    font-size:0.78rem;
+    font-weight:600;
+    color:var(--navy);
+    line-height:1.25;
+}
+
+.hero-feature-item .texto span{
+    font-size:0.7rem;
+    color:var(--text-gray);
+}
+
+/* Espacio para la imagen */
+.hero-imagen{
+    width:92%;
+    margin-left:auto;
+    aspect-ratio:4 / 3;
+    background:#dfe4e8;
+    border-radius:28px;
+    box-shadow:0 20px 45px rgba(2, 29, 58, 0.18);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#8a94a0;
+    font-size:0.9rem;
+    text-align:center;
+    overflow:hidden;
+}
+
+.hero-imagen img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+@media (max-width: 991px){
+    .hero-imagen{ margin-top:36px; }
+}
+
+@media (max-width: 700px){
+    .hero-features{ grid-template-columns:1fr; }
 }
