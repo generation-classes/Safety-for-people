@@ -1033,3 +1033,13 @@ textarea.form-control{
 .form-outline{
     border: 2px solid var(--primary);
 }
+
+.simple-card{
+    width: 250px;
+    height: 250px;
+    border: 2px var(--secondary) solid;
+    transition: 0.3s ease;
+}
+.simple-card:hover{
+    transform: translateY(-10px);
+}
