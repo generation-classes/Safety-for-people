@@ -343,6 +343,7 @@ body {
     font-size: 28px;
 }
 
+
 @media (max-width: 1400px) {
     .about-slide__title,
     .about-slide__text {
@@ -725,4 +726,12 @@ textarea.form-control{
 
     }
 
+}
+
+.btn-contacto{
+    color: white;
+    background: linear-gradient( to right, var(--dark), var(--secondary));
+}
+.form-outline{
+    border: 2px solid var(--primary);
 }
