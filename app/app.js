@@ -1,15 +1,42 @@
 const App = {
     pages: {
-        inicio: 'index.html',
-        productos: 'pages/productos.html',
-        categorias: 'pages/categorias.html',
-        aboutUs: 'pages/about-us.html',
-        contacto: 'pages/contacto.html',
+        inicio: 'pages/home-usuario/index.html',
+        productos: 'pages/productos/index.html',
+        categorias: 'pages/categorias/index.html',
+        aboutUs: 'pages/about-us/index.html',
+        contacto: 'pages/contacto/index.html',
+        admin: 'pages/home-administrador/index.html',
     },
 };
 
 App.getBasePath = function () {
-    return /\/pages\//.test(window.location.pathname) ? '../' : '';
+    const match = window.location.pathname.match(/\/pages\/(.+)$/);
+    if (!match) return '';
+    const depth = match[1].split('/').length;
+    return '../'.repeat(depth);
+};
+
+App.getRole = function () {
+    return localStorage.getItem('sape_role') || 'user';
+};
+
+App.setupRoleSwitch = function (base) {
+    const radios = document.querySelectorAll('input[name="userRole"]');
+    if (!radios.length) return;
+
+    const currentRole = App.getRole();
+    radios.forEach(radio => {
+        radio.checked = radio.value === currentRole;
+    });
+
+    radios.forEach(radio => {
+        radio.addEventListener('change', () => {
+            if (!radio.checked) return;
+            localStorage.setItem('sape_role', radio.value);
+            const target = radio.value === 'admin' ? App.pages.admin : App.pages.inicio;
+            window.location.href = base + target;
+        });
+    });
 };
 
 App.loadLayout = async function () {
@@ -33,6 +60,8 @@ App.loadLayout = async function () {
             link.classList.add('active');
         });
     }
+
+    App.setupRoleSwitch(base);
 };
 
 document.addEventListener('DOMContentLoaded', App.loadLayout);
