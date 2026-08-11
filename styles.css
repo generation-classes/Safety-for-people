@@ -400,3 +400,15 @@ body {
         bottom: 16px;
     }
 }
+
+ .accordion-button:not(.collapsed) {
+    background-color: #094051;
+    color: #ffffff ;
+    box-shadow: none ;
+    
+}
+
+ .accordion-button:focus {
+    box-shadow: none;
+    border-color: transparent;
+}
