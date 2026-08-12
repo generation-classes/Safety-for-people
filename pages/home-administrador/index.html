@@ -29,8 +29,78 @@
                 Gestiona usuarios, reservas, reportes y configuraciones
                 desde tu panel de control.
             </p>
+            <button type="button" class="btn btn-sm shadow-sm" style="background-color: #006D77; color: white; border-radius: 10px;" data-bs-toggle="modal" data-bs-target="#modalAgregarProducto">
+            <i class="bi bi-tag-fill me-2"></i> Agregar nuevo producto
+        </button>
         </section>
 
+         <div class="modal fade" id="modalAgregarProducto" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content p-4 shadow-lg" style="border-radius: 16px; border: none;">
+                
+                 <div class="modal-header border-0 pb-0">
+                    <h5 class="modal-title fw-bold" style="color: #004D40;">
+                        <i class="bi bi-tag-fill me-2"></i> Agregar nuevo producto
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                 <form id="formularioAgregarProducto">
+                    <div class="modal-body">
+                        
+                         <h6 class="fw-bold mt-2 mb-3" style="color: #004D40;">Informacion Básica</h6>
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-6">
+                                <label for="nombreProducto" class="form-label fw-semibold text-secondary small">Nombre del producto</label>
+                                <input type="text" class="form-control" id="nombreProducto" placeholder="EJ: Reloj GPS" style="border-color: #82C4C3;" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="categoriaProducto" class="form-label fw-semibold text-secondary small">Categoria</label>
+                                <input type="text" class="form-control" id="categoriaProducto" placeholder="EJ: Relojes" style="border-color: #82C4C3;" required>
+                            </div>
+                        </div>
+
+                         <div class="mb-4">
+                            <label for="descripcionProducto" class="form-label fw-semibold text-secondary small">Descripcion</label>
+                            <textarea class="form-control" id="descripcionProducto" rows="4" placeholder="Describe las características del producto" style="border-color: #82C4C3;"></textarea>
+                        </div>
+
+                         <h6 class="fw-bold mb-3" style="color: #004D40;">Precio e inventario</h6>
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-6">
+                                <label for="precioRegular" class="form-label fw-semibold text-secondary small">Precio regular</label>
+                                <input type="text" class="form-control" id="precioRegular" placeholder="EJ: $ 0" style="border-color: #82C4C3;" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="stockDisponible" class="form-label fw-semibold text-secondary small">stock disponible</label>
+                                <input type="number" class="form-control" id="stockDisponible" placeholder="EJ: 50" style="border-color: #82C4C3;" required>
+                            </div>
+                        </div>
+
+                         <h6 class="fw-bold mb-3" style="color: #004D40;">Imagen del producto</h6>
+                        <div class="mb-3">
+                            <div class="p-4 text-center rounded-3" style="background-color: #f8f9fa; border: 2px dashed #82C4C3;">
+                                <i class="bi bi-cloud-arrow-up fs-2" style="color: #006D77;"></i>
+                                <p class="fw-bold mb-1 mt-2" style="color: #004D40;">Adjunta tus archivos</p>
+                                <p class="text-muted small mb-3">Puedes cargar imágenes, archivos PDF o documentos relacionados con tu solicitud.</p>
+                                
+                                <div class="d-flex justify-content-center">
+                                    <input type="file" class="form-control form-control-sm w-75" id="archivoProducto" style="border-color: #82C4C3;">
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                     <div class="modal-footer border-0 pt-0">
+                        <button type="button" class="btn px-4" data-bs-dismiss="modal" style="border: 1px solid #006D77; color: #006D77; border-radius: 8px;">cancelar</button>
+                        <button type="submit" class="btn px-4 text-white" id="btnGuardarProducto" style="background-color: #00897B; border-radius: 8px;">Guardar</button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
 
         <div class="row g-4 align-items-stretch">
 
