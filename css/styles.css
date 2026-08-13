@@ -230,6 +230,50 @@ body[data-page="productos"] .buscador {
     line-height: 1;
 }
 
+.card-equipo {
+    position: relative;
+    perspective: 1000px;
+    background-color: transparent;
+    border: 0;
+}
+
+.card-flip {
+    position: relative;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: transform 0.6s ease;
+    background-color: #fff;
+}
+
+.card-equipo:hover .card-flip,
+.card-equipo.is-flipped .card-flip {
+    transform: rotateY(180deg);
+}
+
+.card-flip .front,
+.card-flip .back {
+    background-color: #fff;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    border-radius: inherit;
+}
+
+.card-flip .back {
+    position: absolute;
+    inset: 0;
+    transform: rotateY(180deg);
+}
+
+.card-equipo .back .social-icons {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.card-equipo .back .icono {
+    width: 45px;
+    height: 45px;
+}
+
 .icono {
     width: 35px;
     height: 35px;
