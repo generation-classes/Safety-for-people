@@ -860,7 +860,7 @@ body[data-page="productos"] .buscador {
 
 .faq-section .accordion-button:not(.collapsed){
     color:var(--secondary);
-    background-color:#070101;
+    background-color:var(--light);
     box-shadow:none;
 }
 
