@@ -196,7 +196,7 @@
             <div class="container">
 
                 <div class="text-center mb-5">
-                    <span class="badge-soft"><i class="bi bi-geo-alt"></i> UBÍCANOS</span>
+                  
                     <h2 class="fw-bold text-dark mt-3">Hablemos</h2>
                     <p class="text-muted">Encuéntranos o escríbenos, estamos para ayudarte</p>
                 </div>
@@ -233,22 +233,26 @@
                             <p class="text-muted mb-4">Rellena este formulario y te daremos respuesta tan pronto como
                                 podamos.</p>
                             <form action="https://formspree.io/f/mjgnnndz" method="post" id="contactForm"
-                                autocomplete="off" novalidate
-                                class="bg-light d-flex flex-column p-4 rounded-5 form-outline align-items-center gap-2">
-                                <label for="nombreInput">¿Como te llamas?</label>
-                                <input type="text" placeholder="Nombre" name="Nombre" id="nombreInput"
-                                    class="w-75 rounded-3 py-2 text-center">
-                                <label for="emailInput">Correo electronico</label>
-                                <input type="email" placeholder="ejemplo@email.com" name="Email" id="emailInput"
-                                    class="w-75 rounded-3 py-2 text-center">
-                                <label for="numberInput">Numero de telefono</label>
-                                <input type="tel" placeholder="+57 321 1234567" name="Numero" id="numberInput"
-                                    class="w-75 rounded-3 py-2 text-center">
-                                <label for="messageInput">Escribenos un mensaje</label>
-                                <textarea name="Mensaje" placeholder="Mensaje" id="messageInput"
-                                    class="w-75 rounded-3 py-5 text-center"></textarea>
-                                <button type="submit"
-                                    class="btn btn-contacto rounded px-5 py-2 fs-5 fw-bold">Enviar</button>
+                                autocomplete="off" novalidate class="contacto-form">
+                                <div class="contacto-form__group">
+                                    <label for="nombreInput">¿Cómo te llamas?</label>
+                                    <input type="text" placeholder="Ej: Juan David Pérez" name="Nombre"
+                                        id="nombreInput">
+                                </div>
+                                <div class="contacto-form__group">
+                                    <label for="emailInput">Correo electrónico</label>
+                                    <input type="email" placeholder="ejemplo@email.com" name="Email" id="emailInput">
+                                </div>
+                                <div class="contacto-form__group">
+                                    <label for="numberInput">Número de teléfono</label>
+                                    <input type="tel" placeholder="+57 321 1234567" name="Numero" id="numberInput">
+                                </div>
+                                <div class="contacto-form__group">
+                                    <label for="messageInput">Escríbenos un mensaje</label>
+                                    <textarea name="Mensaje" placeholder="¿En qué podemos ayudarte?"
+                                        id="messageInput"></textarea>
+                                </div>
+                                <button type="submit" class="btn-contacto-submit">Enviar mensaje</button>
                             </form>
                         </div>
                     </div>
@@ -258,114 +262,114 @@
         </section>
 
         <!-- PREGUNTAS FRECUENTES -->
-        <section class="py-5" style="background-color: #A5E4E3;">
-    <div class="container">
-        <div class="text-center mb-5">
-            <h2 class="fw-bold text-dark">Preguntas frecuentes</h2>  
-            <p class="text-muted">Encuentra respuestas a posibles dudas</p>
-        </div>
+        <section class="faq-section py-5">
+            <div class="container">
+                <div class="text-center mb-5">
+                    <h2 class="fw-bold text-dark">Preguntas frecuentes</h2>
+                    <p class="faq-section__subtitle">Encuentra respuestas a posibles dudas</p>
+                </div>
 
-        <div class="row justify-content-center">
-            <div class="col-lg-8">
-                <div class="accordion" id="faqAccordion">
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <div class="accordion" id="faqAccordion">
 
-                    <div class="accordion-item mb-3 shadow-sm">
-                        <h2 class="accordion-header" id="heading-uno">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-uno" aria-expanded="false" aria-controls="collapse-uno">
-                                1. ¿Qué es SAPE?
-                            </button>
-                        </h2>
-                        <div id="collapse-uno" class="accordion-collapse collapse" aria-labelledby="heading-uno" data-bs-parent="#faqAccordion">
-                            <div class="accordion-body">
-                                SAPE es una plataforma tecnológica que ofrece dispositivos inteligentes para la seguridad, el bienestar y el cuidado de toda la familia. Nuestro objetivo es brindar soluciones innovadoras que permitan monitorear, proteger y mejorar la calidad de vida de nuestros usuarios.
+                            <div class="accordion-item mb-3 shadow-sm">
+                                <h2 class="accordion-header" id="heading-uno">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-uno" aria-expanded="false" aria-controls="collapse-uno">
+                                        1. ¿Qué es SAPE?
+                                    </button>
+                                </h2>
+                                <div id="collapse-uno" class="accordion-collapse collapse" aria-labelledby="heading-uno" data-bs-parent="#faqAccordion">
+                                    <div class="accordion-body">
+                                        SAPE es una plataforma tecnológica que ofrece dispositivos inteligentes para la seguridad, el bienestar y el cuidado de toda la familia. Nuestro objetivo es brindar soluciones innovadoras que permitan monitorear, proteger y mejorar la calidad de vida de nuestros usuarios.
+                                    </div>
+                                </div>
                             </div>
+
+                            <div class="accordion-item mb-3 shadow-sm">
+                                <h2 class="accordion-header" id="heading-dos"> 
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-dos" aria-expanded="false" aria-controls="collapse-dos">
+                                        2. ¿Qué productos puedo encontrar en SAPE?
+                                    </button>
+                                </h2>
+                                <div id="collapse-dos" class="accordion-collapse collapse" aria-labelledby="heading-dos" data-bs-parent="#faqAccordion">
+                                    <div class="accordion-body">
+                                        En nuestra plataforma encontrarás productos organizados por categorías como: <br>
+                                        - Seguridad <br>
+                                        - Salud y Bienestar <br>
+                                        - Hogar Inteligente <br>
+                                        - Niños <br>
+                                        - Tecnología Wearable
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="accordion-item mb-3 shadow-sm">
+                                <h2 class="accordion-header" id="heading-tres">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-tres" aria-expanded="false" aria-controls="collapse-tres">
+                                        3. ¿Los productos cuentan con garantía?
+                                    </button>
+                                </h2>
+                                <div id="collapse-tres" class="accordion-collapse collapse" aria-labelledby="heading-tres" data-bs-parent="#faqAccordion">
+                                    <div class="accordion-body">
+                                        Sí. Todos los productos disponibles en SAPE cuentan con garantía del fabricante y cumplen con estándares de calidad y seguridad.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="accordion-item mb-3 shadow-sm">
+                                <h2 class="accordion-header" id="heading-cuatro">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-cuatro" aria-expanded="false" aria-controls="collapse-cuatro">
+                                        4. ¿Cómo puedo realizar una compra?
+                                    </button>
+                                </h2>
+                                <div id="collapse-cuatro" class="accordion-collapse collapse" aria-labelledby="heading-cuatro" data-bs-parent="#faqAccordion">
+                                    <div class="accordion-body">
+                                        - Crear una cuenta.<br>
+                                        - Iniciar sesión. <br>
+                                        - Seleccionar el producto de tu interés. <br>
+                                        - Agregarlo al carrito. <br>
+                                        - Finalizar el proceso de compra.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="accordion-item mb-3 shadow-sm">
+                                <h2 class="accordion-header" id="heading-cinco">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-cinco" aria-expanded="false" aria-controls="collapse-cinco">
+                                        5. ¿Qué métodos de pago aceptan?
+                                    </button>
+                                </h2>
+                                <div id="collapse-cinco" class="accordion-collapse collapse" aria-labelledby="heading-cinco" data-bs-parent="#faqAccordion">
+                                    <div class="accordion-body">
+                                        Aceptamos diferentes métodos de pago seguros, entre ellos:
+                                        - Tarjetas de crédito <br>
+                                        - Tarjetas débito <br>
+                                        - PSE <br>
+                                        - Transferencias bancarias <br>
+                                        - Billeteras digitales (según disponibilidad)
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="accordion-item mb-3 shadow-sm">
+                                <h2 class="accordion-header" id="heading-seis">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-seis" aria-expanded="false" aria-controls="collapse-seis">
+                                        6. ¿Realizan envíos a todo el país?
+                                    </button>
+                                </h2>
+                                <div id="collapse-seis" class="accordion-collapse collapse" aria-labelledby="heading-seis" data-bs-parent="#faqAccordion">
+                                    <div class="accordion-body">
+                                        Sí. Realizamos envíos a las principales ciudades y municipios de Colombia mediante empresas transportadoras aliadas.
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
-
-                    <div class="accordion-item mb-3 shadow-sm">
-                        <h2 class="accordion-header" id="heading-dos"> 
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-dos" aria-expanded="false" aria-controls="collapse-dos">
-                                2. ¿Qué productos puedo encontrar en SAPE?
-                            </button>
-                        </h2>
-                        <div id="collapse-dos" class="accordion-collapse collapse" aria-labelledby="heading-dos" data-bs-parent="#faqAccordion">
-                            <div class="accordion-body">
-                                En nuestra plataforma encontrarás productos organizados por categorías como: <br>
-                                - Seguridad <br>
-                                - Salud y Bienestar <br>
-                                - Hogar Inteligente <br>
-                                - Niños <br>
-                                - Tecnología Wearable
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="accordion-item mb-3 shadow-sm">
-                        <h2 class="accordion-header" id="heading-tres">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-tres" aria-expanded="false" aria-controls="collapse-tres">
-                                3. ¿Los productos cuentan con garantía?
-                            </button>
-                        </h2>
-                        <div id="collapse-tres" class="accordion-collapse collapse" aria-labelledby="heading-tres" data-bs-parent="#faqAccordion">
-                            <div class="accordion-body">
-                                Sí. Todos los productos disponibles en SAPE cuentan con garantía del fabricante y cumplen con estándares de calidad y seguridad.
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="accordion-item mb-3 shadow-sm">
-                        <h2 class="accordion-header" id="heading-cuatro">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-cuatro" aria-expanded="false" aria-controls="collapse-cuatro">
-                                4. ¿Cómo puedo realizar una compra?
-                            </button>
-                        </h2>
-                        <div id="collapse-cuatro" class="accordion-collapse collapse" aria-labelledby="heading-cuatro" data-bs-parent="#faqAccordion">
-                            <div class="accordion-body">
-                                - Crear una cuenta.<br>
-                                - Iniciar sesión. <br>
-                                - Seleccionar el producto de tu interés. <br>
-                                - Agregarlo al carrito. <br>
-                                - Finalizar el proceso de compra.
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="accordion-item mb-3 shadow-sm">
-                        <h2 class="accordion-header" id="heading-cinco">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-cinco" aria-expanded="false" aria-controls="collapse-cinco">
-                                5. ¿Qué métodos de pago aceptan?
-                            </button>
-                        </h2>
-                        <div id="collapse-cinco" class="accordion-collapse collapse" aria-labelledby="heading-cinco" data-bs-parent="#faqAccordion">
-                            <div class="accordion-body">
-                                Aceptamos diferentes métodos de pago seguros, entre ellos:
-                                - Tarjetas de crédito <br>
-                                - Tarjetas débito <br>
-                                - PSE <br>
-                                - Transferencias bancarias <br>
-                                - Billeteras digitales (según disponibilidad)
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="accordion-item mb-3 shadow-sm">
-                        <h2 class="accordion-header" id="heading-seis">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-seis" aria-expanded="false" aria-controls="collapse-seis">
-                                6. ¿Realizan envíos a todo el país?
-                            </button>
-                        </h2>
-                        <div id="collapse-seis" class="accordion-collapse collapse" aria-labelledby="heading-seis" data-bs-parent="#faqAccordion">
-                            <div class="accordion-body">
-                                Sí. Realizamos envíos a las principales ciudades y municipios de Colombia mediante empresas transportadoras aliadas.
-                            </div>
-                        </div>
-                    </div>
-
                 </div>
             </div>
-        </div>
-    </div>
-</section>
+        </section>
 
 
     </main>
