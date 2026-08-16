@@ -1,0 +1,604 @@
+/* FONDO GENERAL DEL CATÁLOGO */
+
+body {
+    background-color: #f2f7f7 !important;
+}
+
+
+/*  ENCABEZADO DEL CATÁLOGO  */
+
+.catalogo-header {
+    width: 100%;
+
+    background:
+        linear-gradient(
+            120deg,
+            #d5e9e8 0%,
+            #b7d9d7 55%,
+            #087F7C
+        ) !important;
+
+    padding: 45px 0 40px;
+
+    border-bottom: 1px solid rgba(8, 127, 124, 0.25);
+}
+
+/*  CONTENIDO DEL CATÁLOGO  */
+
+.catalogo-contenido {
+    background-color: transparent !important;
+}
+
+.productos {
+    background-color: transparent !important;
+}
+
+.productos-grid {
+    background-color: transparent !important;
+}
+
+
+/*  CONTENIDO DEL ENCABEZADO  */
+
+.catalogo-header-contenido {
+    width: 90%;
+    max-width: 1400px;
+
+    margin: 0 auto;
+
+    text-align: left;
+}
+
+
+/* Título */
+
+.catalogo-header h1 {
+    margin: 0 0 10px;
+
+    color: var(--dark);
+
+    font-family: 'Montserrat', sans-serif;
+
+    font-size: 36px;
+    font-weight: 700;
+
+    line-height: 1.2;
+}
+
+
+/* Descripción */
+
+.catalogo-header p {
+    margin: 0;
+
+    color: var(--text);
+
+    font-family: 'Inter', sans-serif;
+
+    font-size: 16px;
+    font-weight: 400;
+}
+
+
+.catalogo-contenido {
+
+    /* Coloca filtros y productos uno al lado del otro */
+    display: flex;
+
+    /* Alinea ambos elementos desde la parte superior */
+    align-items: flex-start;
+
+    /* Espacio entre filtros y productos */
+    gap: 30px;
+
+    /* Ancho máximo del catálogo */
+    max-width: 1250px;
+
+    /* Centra el catálogo en la página */
+    margin: 0 auto;
+
+    /* Espaciado superior e inferior */
+    padding: 40px 20px;
+
+    /* Fondo general claro */
+    background-color: var(--light);
+}
+
+/*    BARRA LATERAL DE FILTROS    */
+
+.filtros {
+
+    /* Ancho de la barra lateral */
+    width: 220px;
+
+    /* Evita que el filtro se haga más pequeño */
+    flex-shrink: 0;
+
+    /* Fondo blanco para diferenciarlo del fondo */
+    background-color: #ffffff;
+
+    /* Bordes redondeados */
+    border-radius: 12px;
+
+    /* Espaciado interno */
+    padding: 22px;
+
+    /* Borde utilizando el color secundario */
+    border: 1px solid var(--secondary);
+
+    /* Sombra suave */
+    box-shadow: 0 3px 10px rgba(2, 29, 58, 0.08);
+}
+
+
+/*    TÍTULO DE LA BARRA DE FILTROS    */
+
+.filtros h2 {
+
+    /* Color oscuro de la identidad */
+    color: var(--dark);
+
+    /* Fuente principal para títulos */
+    font-family: 'Montserrat', sans-serif;
+
+    /* Tamaño del título */
+    font-size: 20px;
+
+    /* Grosor */
+    font-weight: 700;
+
+    /* Separación inferior */
+    margin-bottom: 25px;
+}
+
+.filtro-caracteristicas h3 {
+    color: var(--primary);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+/*    GRUPOS DE FILTROS    */
+
+.filtro-grupo {
+
+    /* Separación entre cada grupo */
+    margin-bottom: 25px;
+}
+
+
+/* filtro caracteristica */
+
+.filtro-grupo h3 {
+
+    /* Color principal */
+    color: var(--primary);
+
+    /* Fuente de títulos */
+    font-family: 'Montserrat', sans-serif;
+
+    /* Tamaño */
+    font-size: 15px;
+
+    /* Grosor */
+    font-weight: 700;
+
+    /* Espacio debajo del título */
+    margin-bottom: 12px;
+}
+
+.filtro-caracteristicas li {
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    margin-bottom: 7px;
+    line-height: 1.3;
+}
+
+/*    OPCIONES DE CATEGORÍAS   */
+
+.filtro-grupo label {
+
+    display: block;
+    font-family: 'Inter', sans-serif;    
+    color: var(--text);    
+    font-size: 14px;    
+    margin-bottom: 10px;    
+    cursor: pointer;
+}
+
+
+/* Checkbox */
+
+.filtro-grupo input[type="checkbox"] {
+
+    /* Color del checkbox cuando está seleccionado */
+    accent-color: var(--secondary);
+
+    /* Separación con el texto */
+    margin-right: 8px;
+
+    /* Cambia el cursor */
+    cursor: pointer;
+}
+
+
+/*    CONTROL DE RANGO DE PRECIO    */
+
+.filtro-grupo input[type="range"] {
+
+    /* Ocupa todo el ancho disponible */
+    width: 100%;
+
+    /* Color principal del control */
+    accent-color: var(--secondary);
+
+    /* Cambia el cursor */
+    cursor: pointer;
+}
+
+/* separa las cantidades de precio/rango */
+.rango-precio-valores {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 6px;
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    font-size: 10px;
+}
+
+
+/*    ÁREA DE PRODUCTOS   */
+
+.productos {
+
+    /* Ocupa todo el espacio restante */
+    flex: 1;
+
+    /* Evita problemas de tamaño dentro del flex */
+    min-width: 0;
+}
+
+
+/*    ENCABEZADO DE PRODUCTOS   */
+
+.productos-header {
+
+    /* Coloca contador y selector en una misma línea */
+    display: flex;
+
+    /* Separa ambos extremos */
+    justify-content: space-between;
+
+    /* Centra verticalmente */
+    align-items: center;
+
+    /* Espacio inferior */
+    margin-bottom: 20px;
+
+    /* Color del texto */
+    color: var(--text);
+
+    /* Fuente */
+    font-family: 'Inter', sans-serif;
+
+    /* Tamaño */
+    font-size: 14px;
+}
+
+
+/*    SELECTOR "ORDENAR POR   */
+
+.ordenar {
+
+    /* Alinea el texto y el select */
+    display: flex;
+
+    /* Centra verticalmente */
+    align-items: center;
+
+    /* Espacio entre ambos */
+    gap: 8px;
+}
+
+
+.ordenar select {
+
+    /* Fondo blanco */
+    background-color: #ffffff;
+
+    /* Borde secundario */
+    border: 1px solid var(--secondary);
+
+    /* Bordes redondeados */
+    border-radius: 6px;
+
+    /* Espaciado */
+    padding: 7px 10px;
+
+    /* Color del texto */
+    color: var(--text);
+
+    /* Fuente */
+    font-family: 'Inter', sans-serif;
+
+    /* Cursor */
+    cursor: pointer;
+}
+
+
+/*    GRID DE PRODUCTOS    */
+
+.productos-grid {
+
+    /* Activa CSS Grid */
+    display: grid;
+
+    /* Tres tarjetas por fila */
+    grid-template-columns: repeat(3, 1fr);
+
+    /* Separación entre tarjetas */
+    gap: 22px;
+}
+
+
+/*    CARD DEL PRODUCTO    */
+
+.producto-card {
+
+    width: 100%;
+
+    /* Fondo blanco */
+    background-color: #ffffff;
+
+    /* Bordes redondeados */
+    border-radius: 14px;
+
+    /* Borde muy sutil */
+    border: 1.5px solid rgba(8, 127, 124, 0.45);
+
+    /* Evita que el contenido sobresalga */
+    overflow: hidden;
+
+    /* Sombra suave */
+    box-shadow: 0 3px 10px rgba(2, 29, 58, 0.08);
+
+    /* Transición para el hover */
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+
+/* Efecto al pasar el mouse */
+
+.producto-card:hover {
+
+    /* Eleva ligeramente la tarjeta */
+    transform: translateY(-3px);
+
+    /* Aumenta la sombra */
+    box-shadow: 0 8px 1px rgba(2, 29, 58, 0.12);
+}
+
+
+/*    CONTENEDOR DE LA IMAGEN    */
+
+.producto-imagen {
+    width: 100%;
+
+    /* Fondo claro */
+    background-color: #dce8e9;
+
+    /* Altura de la zona de imagen */
+    height: 190px;
+
+    /* Centra la imagen horizontalmente */
+    display: flex;
+
+    /* Centra la imagen verticalmente */
+    align-items: center;
+
+    /* Centra horizontalmente */
+    justify-content: center;
+
+    /* Espaciado */
+    padding: 15px;
+}
+
+
+/* Imagen */
+
+.producto-imagen img {
+
+    /* No supera el tamaño del contenedor */
+    max-width: 100%;
+
+    /* Altura máxima */
+    max-height: 160px;
+
+    /* Mantiene proporciones */
+    object-fit: contain;
+}
+
+
+/*    INFORMACIÓN DEL PRODUCTO    */
+
+.producto-info {
+
+    /* Espaciado interno */
+    padding: 18px;
+}
+
+
+/* Nombre del producto */
+
+.producto-info h3 {
+
+    /* Color oscuro */
+    color: var(--dark);
+
+    /* Fuente */
+    font-family: 'Montserrat', sans-serif;
+
+    /* Tamaño */
+    font-size: 17px;
+
+    /* Grosor */
+    font-weight: 700;
+
+    /* Espaciado */
+    margin-bottom: 8px;
+}
+
+
+/* Descripción */
+
+.producto-info p {
+
+    /* Color de texto */
+    color: var(--text);
+
+    /* Fuente */
+    font-family: 'Inter', sans-serif;
+
+    /* Tamaño */
+    font-size: 14px;
+
+    /* Altura de línea */
+    line-height: 1.5;
+
+    /* Separación inferior */
+    margin-bottom: 15px;
+}
+
+
+/*    PRECIO + CARRITO   */
+
+.producto-footer {
+
+    /* Coloca precio y botón en los extremos */
+    display: flex;
+
+    /* Separa ambos elementos */
+    justify-content: space-between;
+
+    /* Centra verticalmente */
+    align-items: center;
+}
+
+
+/* Precio */
+
+.producto-precio {
+
+    /* Color secundario */
+    color: var(--secondary);
+
+    /* Fuente */
+    font-family: 'Montserrat', sans-serif;
+
+    /* Grosor */
+    font-weight: 700;
+
+    /* Tamaño */
+    font-size: 15px;
+}
+
+
+/*    BOTÓN DEL CARRITO    */
+
+.producto-footer button {
+
+    /* Tamaño del botón */
+    width: 38px;
+    height: 38px;
+
+    /* Color secundario */
+    background-color: var(--secondary);
+
+    /* Icono blanco */
+    color: #ffffff;
+
+    /* Sin borde */
+    border: none;
+
+    /* Forma circular */
+    border-radius: 50%;
+
+    /* Centra el icono */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    /* Cursor */
+    cursor: pointer;
+
+    /* Transición */
+    transition: 0.2s ease;
+}
+
+
+/* Hover del carrito */
+
+.producto-footer button:hover {
+
+    /* Cambia al color principal */
+    background-color: var(--primary);
+
+    /* Aumenta ligeramente el tamaño */
+    transform: scale(1.05);
+}
+
+
+/*    DISEÑO RESPONSIVE    */
+
+/* Tablets */
+
+@media (max-width: 992px) {
+
+    /* Reduce el tamaño del filtro */
+    .filtros {
+        width: 190px;
+    }
+
+    /* Dos productos por fila */
+    .productos-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+
+/* Celulares */
+
+@media (max-width: 768px) {
+
+    /* Filtros y productos pasan a una sola columna */
+    .catalogo-contenido {
+        flex-direction: column;
+    }
+
+    /* El filtro ocupa todo el ancho */
+    .filtros {
+        width: 100%;
+    }
+
+    /* Productos ocupan todo el ancho */
+    .productos {
+        width: 100%;
+    }
+
+    /* Una tarjeta por fila */
+    .productos-grid {
+        grid-template-columns: 1fr;
+    }
+
+    /* Encabezado se adapta a móvil */
+    .productos-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+}
+
+
