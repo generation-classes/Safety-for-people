@@ -1,0 +1,421 @@
+/* FONDO GENERAL DEL DETALLE */
+
+body {
+    background-color: #f2f7f7 !important;
+}
+
+
+/* BREADCRUMB */
+
+.detalle-breadcrumb {
+    background-color: #ffffff;
+
+    border-bottom: 1px solid rgba(8, 127, 124, 0.25);
+
+    padding: 12px 0;
+}
+
+.detalle-breadcrumb .breadcrumb {
+    width: 90%;
+    max-width: 1250px;
+
+    margin: 0 auto;
+
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+}
+
+.detalle-breadcrumb .breadcrumb-item a {
+    color: var(--secondary);
+    text-decoration: none;
+}
+
+.detalle-breadcrumb .breadcrumb-item a:hover {
+    color: var(--primary);
+}
+
+.detalle-breadcrumb .breadcrumb-item.active {
+    color: var(--text);
+}
+
+
+/*  ENCABEZADO DEL DETALLE  */
+
+.detalle-header {
+    width: 100%;
+
+    background:
+        linear-gradient(
+            120deg,
+            #d5e9e8 0%,
+            #b7d9d7 55%,
+            #087F7C
+        ) !important;
+
+    padding: 45px 0 40px;
+
+    border-bottom: 1px solid rgba(8, 127, 124, 0.25);
+}
+
+.detalle-header-contenido {
+    width: 90%;
+    max-width: 1400px;
+
+    margin: 0 auto;
+
+    text-align: left;
+}
+
+.detalle-header h1 {
+    margin: 0 0 10px;
+
+    color: var(--dark);
+
+    font-family: 'Montserrat', sans-serif;
+    font-size: 36px;
+    font-weight: 700;
+
+    line-height: 1.2;
+}
+
+.detalle-header p {
+    margin: 0;
+
+    color: var(--text);
+
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+}
+
+
+/*  CONTENIDO PRINCIPAL  */
+
+.detalle-contenido {
+    max-width: 1250px;
+
+    margin: 0 auto;
+
+    padding: 40px 20px;
+}
+
+
+/*    CARD DE LA IMAGEN    */
+
+.detalle-imagen {
+    background-color: #ffffff;
+
+    border-radius: 14px;
+
+    border: 1.5px solid rgba(8, 127, 124, 0.45);
+
+    box-shadow: 0 3px 10px rgba(2, 29, 58, 0.08);
+
+    /* Centra la imagen */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 30px;
+
+    min-height: 380px;
+}
+
+.detalle-imagen img {
+    max-width: 100%;
+    max-height: 400px;
+
+    object-fit: contain;
+}
+
+
+/*    CARD DE LA INFORMACIÓN    */
+
+.detalle-info {
+    background-color: #ffffff;
+
+    border-radius: 14px;
+
+    border: 1.5px solid rgba(8, 127, 124, 0.45);
+
+    box-shadow: 0 3px 10px rgba(2, 29, 58, 0.08);
+
+    padding: 30px;
+}
+
+
+/* Categoría */
+
+.detalle-categoria {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+
+    color: var(--primary);
+
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+
+    margin-bottom: 18px;
+}
+
+.detalle-categoria i {
+    color: var(--secondary);
+    font-size: 15px;
+}
+
+
+/* Título */
+
+.detalle-info h2 {
+    color: var(--dark);
+
+    font-family: 'Montserrat', sans-serif;
+    font-size: 26px;
+    font-weight: 700;
+
+    margin-bottom: 10px;
+}
+
+
+/* Precio */
+
+.detalle-precio {
+    color: var(--secondary);
+
+    font-family: 'Montserrat', sans-serif;
+    font-size: 24px;
+    font-weight: 700;
+
+    margin-bottom: 16px;
+}
+
+
+/* Descripción */
+
+.detalle-descripcion {
+    color: var(--text);
+
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+
+    margin-bottom: 20px;
+}
+
+
+/*    STOCK    */
+
+.detalle-stock {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+
+    margin-bottom: 20px;
+}
+
+.detalle-stock i {
+    font-size: 18px;
+}
+
+.detalle-stock.disponible {
+    color: #1b8a5a;
+}
+
+.detalle-stock.agotado {
+    color: #d64545;
+}
+
+
+/*    CARACTERÍSTICAS    */
+
+.detalle-caracteristicas {
+    list-style: none;
+
+    margin: 0 0 24px;
+    padding: 0;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px 16px;
+}
+
+.detalle-caracteristicas li {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    color: var(--text);
+
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+}
+
+.detalle-caracteristicas i {
+    color: var(--secondary);
+    font-size: 15px;
+    flex-shrink: 0;
+}
+
+
+/*    CANTIDAD + CARRITO    */
+
+.detalle-comprar {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+
+    border-top: 1px solid #edf2f5;
+
+    padding-top: 24px;
+}
+
+
+/* Selector de cantidad */
+
+.detalle-cantidad {
+    display: flex;
+    align-items: center;
+
+    border: 1.5px solid var(--secondary);
+
+    border-radius: 10px;
+
+    overflow: hidden;
+}
+
+.cantidad-btn {
+    width: 40px;
+    height: 44px;
+
+    background-color: #ffffff;
+    color: var(--secondary);
+
+    border: none;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+
+    transition: 0.2s ease;
+}
+
+.cantidad-btn:hover {
+    background-color: var(--secondary);
+    color: #ffffff;
+}
+
+.cantidad-input {
+    width: 52px;
+    height: 44px;
+
+    border: none;
+    border-left: 1.5px solid rgba(8, 127, 124, 0.35);
+    border-right: 1.5px solid rgba(8, 127, 124, 0.35);
+
+    text-align: center;
+
+    color: var(--dark);
+
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+
+    -moz-appearance: textfield;
+    appearance: textfield;
+}
+
+.cantidad-input::-webkit-outer-spin-button,
+.cantidad-input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.cantidad-input:focus {
+    outline: none;
+}
+
+
+/* Botón agregar al carrito */
+
+.detalle-btn-carrito {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+
+    background: linear-gradient(to right, var(--dark), var(--secondary));
+    color: #ffffff;
+
+    border: none;
+    border-radius: 10px;
+
+    padding: 0 28px;
+    height: 44px;
+
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: opacity 0.2s ease;
+}
+
+.detalle-btn-carrito:hover {
+    opacity: 0.92;
+}
+
+
+/*    DISEÑO RESPONSIVE    */
+
+/* Tablets */
+
+@media (max-width: 992px) {
+    .detalle-imagen {
+        min-height: 300px;
+    }
+}
+
+/* Celulares */
+
+@media (max-width: 768px) {
+    .detalle-info {
+        padding: 22px;
+    }
+
+    .detalle-info h2 {
+        font-size: 22px;
+    }
+
+    .detalle-precio {
+        font-size: 20px;
+    }
+
+    .detalle-caracteristicas {
+        grid-template-columns: 1fr;
+    }
+
+    .detalle-comprar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .detalle-cantidad,
+    .detalle-btn-carrito {
+        width: 100%;
+    }
+
+    .detalle-btn-carrito {
+        height: 48px;
+    }
+}
