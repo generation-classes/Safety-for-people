@@ -1,796 +1,488 @@
-
 <!doctype html>
 <html lang="es">
+  <head>
+    <meta charset="UTF-8" />
 
-<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <meta charset="UTF-8" />
+    <title>Productos | SAPE</title>
 
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  />
+    <!-- Bootstrap -->
 
-  <title>Productos | SAPE</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
 
+    <!-- Bootstrap Icons -->
 
-  <!-- Bootstrap -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
+    />
 
-  <link
-    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-    rel="stylesheet"
-  />
+    <!-- Fuentes -->
 
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Inter:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
 
-  <!-- Bootstrap Icons -->
+    <!-- CSS -->
 
-  <link
-    rel="stylesheet"
-    href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
-  />
+    <link rel="stylesheet" href="../../css/styles.css" />
 
+    <link rel="stylesheet" href="productos.css" />
+  </head>
 
-  <!-- Fuentes -->
+  <body class="d-flex flex-column min-vh-100" data-page="productos">
+    <!-- ===================================================== -->
+    <!-- HEADER -->
+    <!-- ===================================================== -->
 
-  <link
-    href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Inter:wght@300;400;500&display=swap"
-    rel="stylesheet"
-  />
+    <div id="site-header"></div>
 
+    <!-- ===================================================== -->
+    <!-- ENCABEZADO -->
+    <!-- ===================================================== -->
 
-  <!-- CSS -->
+    <section class="catalogo-header">
+      <div class="catalogo-header-contenido">
+        <h1>Catálogo de productos</h1>
 
-  <link
-    rel="stylesheet"
-    href="../../css/styles.css"
-  />
-
-  <link
-    rel="stylesheet"
-    href="productos.css"
-  />
-
-</head>
-
-
-<body
-  class="d-flex flex-column min-vh-100"
-  data-page="productos"
->
-
-
-  <!-- ===================================================== -->
-  <!-- HEADER -->
-  <!-- ===================================================== -->
-
-  <div id="site-header"></div>
-
-
-
-  <!-- ===================================================== -->
-  <!-- ENCABEZADO -->
-  <!-- ===================================================== -->
-
-  <section class="catalogo-header">
-
-    <div class="catalogo-header-contenido">
-
-      <h1>
-        Catálogo de productos
-      </h1>
-
-      <p>
-        Encuentra dispositivos que brindan confianza, seguridad y
-        tranquilidad.
-      </p>
-
-    </div>
-
-  </section>
-
-
-
-  <!-- ===================================================== -->
-  <!-- CONTENIDO PRINCIPAL -->
-  <!-- ===================================================== -->
-
-  <section class="catalogo-contenido">
-
-
-    <!-- ================================================= -->
-    <!-- FILTROS -->
-    <!-- ================================================= -->
-
-    <aside class="filtros">
-
-      <h2>
-        Filtrar Productos
-      </h2>
-
-
-      <!-- CATEGORÍAS -->
-
-      <div class="filtro-grupo">
-
-        <h3>
-          Categorías
-        </h3>
-
-        <label>
-          <input
-            type="checkbox"
-          />
-          Todos los productos
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-          />
-          Relojes GPS
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-          />
-          Cadenas GPS
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-          />
-          Pulseras GPS
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-          />
-          Para niños
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-          />
-          Para adultos mayores
-        </label>
-
+        <p>
+          Encuentra dispositivos que brindan confianza, seguridad y
+          tranquilidad.
+        </p>
       </div>
+    </section>
 
+    <!-- ===================================================== -->
+    <!-- CONTENIDO PRINCIPAL -->
+    <!-- ===================================================== -->
 
-      <!-- RANGO DE PRECIOS -->
+    <section class="catalogo-contenido">
+      <!-- ================================================= -->
+      <!-- FILTROS -->
+      <!-- ================================================= -->
 
-      <div class="filtro-grupo">
+      <aside class="filtros">
+        <h2>Filtrar Productos</h2>
 
-        <h3>
-          Rango de precios
-        </h3>
+        <!-- CATEGORÍAS -->
 
-        <input
-          type="range"
-          min="100000"
-          max="500000"
-          value="250000"
-        />
+        <div class="filtro-grupo">
+          <h3>Categorías</h3>
 
-        <div class="rango-precio-valores">
-
-          <span>
-            $100.000
-          </span>
-
-          <span>
-            $500.000
-          </span>
-
-        </div>
-
-      </div>
-
-
-      <!-- CARACTERÍSTICAS -->
-
-      <div class="filtro-caracteristicas">
-
-        <h3>
-          Características
-        </h3>
-
-        <ul>
-
-          <li>
-            Botón de emergencia
-          </li>
-
-          <li>
-            Resistencia al agua
-          </li>
-
-          <li>
-            Ubicación en tiempo real
-          </li>
-
-          <li>
-            Batería de larga duración
-          </li>
-
-        </ul>
-
-      </div>
-
-    </aside>
-
-
-
-    <!-- ================================================= -->
-    <!-- PRODUCTOS -->
-    <!-- ================================================= -->
-
-    <div class="productos">
-
-
-      <!-- ENCABEZADO -->
-
-      <div class="productos-header">
-
-        <span id="cantidadProductos">
-          Mostrando 9 productos
-        </span>
-
-
-        <div class="ordenar">
-
-          <label for="ordenar">
-            Ordenar por
+          <label>
+            <input type="checkbox" name="categoria" value="todos" checked />
+            Todos los productos
           </label>
 
-          <select id="ordenar">
+          <label>
+            <input type="checkbox" name="categoria" value="relojes" />
+            Relojes GPS
+          </label>
 
-            <option value="precio">
-              Precio
-            </option>
+          <label>
+            <input type="checkbox" name="categoria" value="audifonos" />
+            Audifonos GPS
+          </label>
 
-            <option value="nombre">
-              Nombre
-            </option>
+          <label>
+            <input type="checkbox" name="categoria" value="gafas" />
+            Gafas GPS
+          </label>
 
-          </select>
+          <label>
+            <input type="checkbox" name="categoria" value="aretes" />
+            Aretes GPS
+          </label>
 
+          <label>
+            <input type="checkbox" name="categoria" value="llaveros" />
+            Laveros GPS
+          </label>
         </div>
 
-      </div>
+        <!-- RANGO DE PRECIOS -->
 
+        <div class="filtro-grupo">
+          <h3>Rango de precios</h3>
 
+          <input
+            type="range"
+            id="precioMaximo"
+            min="100000"
+            max="500000"
+            value="500000"
+          />
+
+          <div class="rango-precio-valores">
+            <span> $100.000 </span>
+
+            <span id="valorPrecio"> $500.000 COP </span>
+          </div>
+        </div>
+
+        <!-- CARACTERÍSTICAS -->
+
+        <div class="filtro-caracteristicas">
+          <h3>Características</h3>
+
+          <ul>
+            <li>Botón de emergencia</li>
+
+            <li>Resistencia al agua</li>
+
+            <li>Ubicación en tiempo real</li>
+
+            <li>Batería de larga duración</li>
+          </ul>
+        </div>
+      </aside>
 
       <!-- ================================================= -->
-      <!-- GRID DE PRODUCTOS -->
+      <!-- PRODUCTOS -->
       <!-- ================================================= -->
 
-      <div class="productos-grid">
+      <div class="productos">
+        <!-- ENCABEZADO -->
 
+        <div class="productos-header">
+          <span id="cantidadProductos"> Mostrando 9 productos </span>
 
+          <div class="ordenar">
+            <label for="ordenar"> Ordenar por </label>
 
-        <!-- ================================================= -->
-        <!-- PRODUCTO 1 -->
-        <!-- ================================================= -->
+            <select id="ordenar">
+              <option value="precio">Precio</option>
 
-        <article
-          class="producto-card"
-          data-producto-id="1"
-        >
-
-          <div class="producto-imagen">
-
-            <img
-              src="../../Assets/images/pulsera.png"
-              alt="Pulsera GPS Femenino"
-            />
-
+              <option value="nombre">Nombre</option>
+            </select>
           </div>
+        </div>
 
+        <!-- ================================================= -->
+        <!-- GRID DE PRODUCTOS -->
+        <!-- ================================================= -->
 
-          <div class="producto-info">
+        <div class="productos-grid">
+          <!-- ================================================= -->
+          <!-- PRODUCTO 1 -->
+          <!-- ================================================= -->
 
-            <h3>
-              Pulsera GPS Femenino
-            </h3>
-
-            <p>
-              Pulsera con GPS para mayor seguridad.
-            </p>
-
-
-            <div class="producto-footer">
-
-              <span class="producto-precio">
-                $199.900 COP
-              </span>
-
-              <button
-                type="button"
-                aria-label="Agregar al carrito"
-              >
-
-                <i class="bi bi-cart3"></i>
-
-              </button>
-
+          <article
+            class="producto-card"
+            data-producto-id="1"
+            data-categoria="pulseras"
+            data-publico="adultos"
+            data-precio="199900"
+          >
+            <div class="producto-imagen">
+              <img
+                src="../../Assets/images/pulsera.png"
+                alt="Pulsera GPS Femenino"
+              />
             </div>
 
-          </div>
+            <div class="producto-info">
+              <h3>Pulsera GPS Femenino</h3>
 
-        </article>
+              <p>Pulsera con GPS para mayor seguridad.</p>
 
+              <div class="producto-footer">
+                <span class="producto-precio"> $199.900 COP </span>
 
+                <button type="button" aria-label="Agregar al carrito">
+                  <i class="bi bi-cart3"></i>
+                </button>
+              </div>
+            </div>
+          </article>
 
-        <!-- ================================================= -->
-        <!-- PRODUCTO 2 -->
-        <!-- ================================================= -->
+          <!-- ================================================= -->
+          <!-- PRODUCTO 2 -->
+          <!-- ================================================= -->
 
-        <article
-          class="producto-card"
-          data-producto-id="2"
-        >
-
-          <div class="producto-imagen">
-
-            <img
-              src="../../Assets/images/audifono.png"
-              alt="Audífonos GPS integrado"
-            />
-
-          </div>
-
-
-          <div class="producto-info">
-
-            <h3>
-              Audífonos GPS integrado
-            </h3>
-
-            <p>
-              Audífonos inalámbricos con geolocalización.
-            </p>
-
-
-            <div class="producto-footer">
-
-              <span class="producto-precio">
-                $399.900 COP
-              </span>
-
-              <button
-                type="button"
-                aria-label="Agregar al carrito"
-              >
-
-                <i class="bi bi-cart3"></i>
-
-              </button>
-
+          <article
+            class="producto-card"
+            data-producto-id="2"
+            data-categoria="audifonos"
+            data-publico="adultos"
+            data-precio="399900"
+          >
+            <div class="producto-imagen">
+              <img
+                src="../../Assets/images/audifono.png"
+                alt="Audífonos GPS integrado"
+              />
             </div>
 
-          </div>
+            <div class="producto-info">
+              <h3>Audífonos GPS integrado</h3>
 
-        </article>
+              <p>Audífonos inalámbricos con geolocalización.</p>
 
+              <div class="producto-footer">
+                <span class="producto-precio"> $399.900 COP </span>
 
+                <button type="button" aria-label="Agregar al carrito">
+                  <i class="bi bi-cart3"></i>
+                </button>
+              </div>
+            </div>
+          </article>
 
-        <!-- ================================================= -->
-        <!-- PRODUCTO 3 -->
-        <!-- ================================================= -->
+          <!-- ================================================= -->
+          <!-- PRODUCTO 3 -->
+          <!-- ================================================= -->
 
-        <article
-          class="producto-card"
-          data-producto-id="3"
-        >
-
-          <div class="producto-imagen">
-
-            <img
-              src="../../Assets/images/reloj.png"
-              alt="Reloj GPS Masculino"
-            />
-
-          </div>
-
-
-          <div class="producto-info">
-
-            <h3>
-              Reloj GPS Masculino
-            </h3>
-
-            <p>
-              Reloj inteligente con GPS integrado.
-            </p>
-
-
-            <div class="producto-footer">
-
-              <span class="producto-precio">
-                $359.900 COP
-              </span>
-
-              <button
-                type="button"
-                aria-label="Agregar al carrito"
-              >
-
-                <i class="bi bi-cart3"></i>
-
-              </button>
-
+          <article
+            class="producto-card"
+            data-producto-id="3"
+            data-categoria="relojes"
+            data-publico="adultos"
+            data-precio="359900"
+          >
+            <div class="producto-imagen">
+              <img
+                src="../../Assets/images/reloj.png"
+                alt="Reloj GPS Masculino"
+              />
             </div>
 
-          </div>
+            <div class="producto-info">
+              <h3>Reloj GPS Masculino</h3>
 
-        </article>
+              <p>Reloj inteligente con GPS integrado.</p>
 
+              <div class="producto-footer">
+                <span class="producto-precio"> $359.900 COP </span>
 
+                <button type="button" aria-label="Agregar al carrito">
+                  <i class="bi bi-cart3"></i>
+                </button>
+              </div>
+            </div>
+          </article>
 
-        <!-- ================================================= -->
-        <!-- PRODUCTO 4 -->
-        <!-- ================================================= -->
+          <!-- ================================================= -->
+          <!-- PRODUCTO 4 -->
+          <!-- ================================================= -->
 
-        <article
-          class="producto-card"
-          data-producto-id="4"
-        >
-
-          <div class="producto-imagen">
-
-            <img
-              src="../../Assets/images/relojnino.png"
-              alt="Reloj GPS Niño"
-            />
-
-          </div>
-
-
-          <div class="producto-info">
-
-            <h3>
-              Reloj GPS Niño
-            </h3>
-
-            <p>
-              Reloj infantil con localización GPS.
-            </p>
-
-
-            <div class="producto-footer">
-
-              <span class="producto-precio">
-                $199.900 COP
-              </span>
-
-              <button
-                type="button"
-                aria-label="Agregar al carrito"
-              >
-
-                <i class="bi bi-cart3"></i>
-
-              </button>
-
+          <article
+            class="producto-card"
+            data-producto-id="4"
+            data-categoria="relojes"
+            data-publico="nonos"
+            data-precio="199900"
+          >
+            <div class="producto-imagen">
+              <img
+                src="../../Assets/images/relojnino.png"
+                alt="Reloj GPS Niño"
+              />
             </div>
 
-          </div>
+            <div class="producto-info">
+              <h3>Reloj GPS Niño</h3>
 
-        </article>
+              <p>Reloj infantil con localización GPS.</p>
 
+              <div class="producto-footer">
+                <span class="producto-precio"> $199.900 COP </span>
 
+                <button type="button" aria-label="Agregar al carrito">
+                  <i class="bi bi-cart3"></i>
+                </button>
+              </div>
+            </div>
+          </article>
 
-        <!-- ================================================= -->
-        <!-- PRODUCTO 5 -->
-        <!-- ================================================= -->
+          <!-- ================================================= -->
+          <!-- PRODUCTO 5 -->
+          <!-- ================================================= -->
 
-        <article
-          class="producto-card"
-          data-producto-id="5"
-        >
-
-          <div class="producto-imagen">
-
-            <img
-              src="../../Assets/images/manillanina.png"
-              alt="Pulsera GPS Niña"
-            />
-
-          </div>
-
-
-          <div class="producto-info">
-
-            <h3>
-              Pulsera GPS Niña
-            </h3>
-
-            <p>
-              Pulsera infantil con GPS.
-            </p>
-
-
-            <div class="producto-footer">
-
-              <span class="producto-precio">
-                $159.900 COP
-              </span>
-
-              <button
-                type="button"
-                aria-label="Agregar al carrito"
-              >
-
-                <i class="bi bi-cart3"></i>
-
-              </button>
-
+          <article
+            class="producto-card"
+            data-producto-id="5"
+            data-categoria="pulseras"
+            data-publico="nonos"
+            data-precio="159900"
+          >
+            <div class="producto-imagen">
+              <img
+                src="../../Assets/images/manillanina.png"
+                alt="Pulsera GPS Niña"
+              />
             </div>
 
-          </div>
+            <div class="producto-info">
+              <h3>Pulsera GPS Niña</h3>
 
-        </article>
+              <p>Pulsera infantil con GPS.</p>
 
+              <div class="producto-footer">
+                <span class="producto-precio"> $159.900 COP </span>
 
+                <button type="button" aria-label="Agregar al carrito">
+                  <i class="bi bi-cart3"></i>
+                </button>
+              </div>
+            </div>
+          </article>
 
-        <!-- ================================================= -->
-        <!-- PRODUCTO 6 -->
-        <!-- ================================================= -->
+          <!-- ================================================= -->
+          <!-- PRODUCTO 6 -->
+          <!-- ================================================= -->
 
-        <article
-          class="producto-card"
-          data-producto-id="6"
-        >
-
-          <div class="producto-imagen">
-
-            <img
-              src="../../Assets/images/gafas.png"
-              alt="Gafas de sol GPS"
-            />
-
-          </div>
-
-
-          <div class="producto-info">
-
-            <h3>
-              Gafas de sol GPS
-            </h3>
-
-            <p>
-              Gafas de sol con sistema de localización.
-            </p>
-
-
-            <div class="producto-footer">
-
-              <span class="producto-precio">
-                $199.900 COP
-              </span>
-
-              <button
-                type="button"
-                aria-label="Agregar al carrito"
-              >
-
-                <i class="bi bi-cart3"></i>
-
-              </button>
-
+          <article
+            class="producto-card"
+            data-producto-id="6"
+            data-categoria="gafas"
+            data-publico="adultos"
+            data-precio="199900"
+          >
+            <div class="producto-imagen">
+              <img src="../../Assets/images/gafas.png" alt="Gafas de sol GPS" />
             </div>
 
-          </div>
+            <div class="producto-info">
+              <h3>Gafas de sol GPS</h3>
 
-        </article>
+              <p>Gafas de sol con sistema de localización.</p>
 
+              <div class="producto-footer">
+                <span class="producto-precio"> $199.900 COP </span>
 
+                <button type="button" aria-label="Agregar al carrito">
+                  <i class="bi bi-cart3"></i>
+                </button>
+              </div>
+            </div>
+          </article>
 
-        <!-- ================================================= -->
-        <!-- PRODUCTO 7 -->
-        <!-- ================================================= -->
+          <!-- ================================================= -->
+          <!-- PRODUCTO 7 -->
+          <!-- ================================================= -->
 
-        <article
-          class="producto-card"
-          data-producto-id="7"
-        >
-
-          <div class="producto-imagen">
-
-            <img
-              src="../../Assets/images/aretes.png"
-              alt="Aretes GPS"
-            />
-
-          </div>
-
-
-          <div class="producto-info">
-
-            <h3>
-              Arete GPS
-            </h3>
-
-            <p>
-              Aretes discretos con localización.
-            </p>
-
-
-            <div class="producto-footer">
-
-              <span class="producto-precio">
-                $159.900 COP
-              </span>
-
-              <button
-                type="button"
-                aria-label="Agregar al carrito"
-              >
-
-                <i class="bi bi-cart3"></i>
-
-              </button>
-
+          <article
+            class="producto-card"
+            data-producto-id="7"
+            data-categoria="adulto"
+            data-publico="adulto"
+            data-precio="159900"
+          >
+            <div class="producto-imagen">
+              <img src="../../Assets/images/aretes.png" alt="Aretes GPS" />
             </div>
 
-          </div>
+            <div class="producto-info">
+              <h3>Arete GPS</h3>
 
-        </article>
+              <p>Aretes discretos con localización.</p>
 
+              <div class="producto-footer">
+                <span class="producto-precio"> $159.900 COP </span>
 
+                <button type="button" aria-label="Agregar al carrito">
+                  <i class="bi bi-cart3"></i>
+                </button>
+              </div>
+            </div>
+          </article>
 
-        <!-- ================================================= -->
-        <!-- PRODUCTO 8 -->
-        <!-- ================================================= -->
+          <!-- ================================================= -->
+          <!-- PRODUCTO 8 -->
+          <!-- ================================================= -->
 
-        <article
-          class="producto-card"
-          data-producto-id="8"
-        >
-
-          <div class="producto-imagen">
-
-            <img
-              src="../../Assets/images/aretesniña.png"
-              alt="Aretes GPS Niña"
-            />
-
-          </div>
-
-
-          <div class="producto-info">
-
-            <h3>
-              Arete GPS Niña
-            </h3>
-
-            <p>
-              Aretes infantiles con sistema de localización.
-            </p>
-
-
-            <div class="producto-footer">
-
-              <span class="producto-precio">
-                $99.900 COP
-              </span>
-
-              <button
-                type="button"
-                aria-label="Agregar al carrito"
-              >
-
-                <i class="bi bi-cart3"></i>
-
-              </button>
-
+          <article
+            class="producto-card"
+            data-producto-id="8"
+            data-categoria="aretes"
+            data-publico="ninos"
+            data-precio="99900"
+          >
+            <div class="producto-imagen">
+              <img
+                src="../../Assets/images/aretesniña.png"
+                alt="Aretes GPS Niña"
+              />
             </div>
 
-          </div>
+            <div class="producto-info">
+              <h3>Arete GPS Niña</h3>
 
-        </article>
+              <p>Aretes infantiles con sistema de localización.</p>
 
+              <div class="producto-footer">
+                <span class="producto-precio"> $99.900 COP </span>
 
+                <button type="button" aria-label="Agregar al carrito">
+                  <i class="bi bi-cart3"></i>
+                </button>
+              </div>
+            </div>
+          </article>
 
-        <!-- ================================================= -->
-        <!-- PRODUCTO 9 -->
-        <!-- ================================================= -->
+          <!-- ================================================= -->
+          <!-- PRODUCTO 9 -->
+          <!-- ================================================= -->
 
-        <article
-          class="producto-card"
-          data-producto-id="9"
-        >
-
-          <div class="producto-imagen">
-
-            <img
-              src="../../Assets/images/llavero.png"
-              alt="Llavero GPS Femenino"
-            />
-
-          </div>
-
-
-          <div class="producto-info">
-
-            <h3>
-              Llavero GPS Femenino
-            </h3>
-
-            <p>
-              Llavero discreto con rastreador GPS.
-            </p>
-
-
-            <div class="producto-footer">
-
-              <span class="producto-precio">
-                $159.900 COP
-              </span>
-
-              <button
-                type="button"
-                aria-label="Agregar al carrito"
-              >
-
-                <i class="bi bi-cart3"></i>
-
-              </button>
-
+          <article
+            class="producto-card"
+            data-producto-id="9"
+            data-categoria="llaveros"
+            data-publico="adultos"
+            data-precio="159900"
+          >
+            <div class="producto-imagen">
+              <img
+                src="../../Assets/images/llavero.png"
+                alt="Llavero GPS Femenino"
+              />
             </div>
 
-          </div>
+            <div class="producto-info">
+              <h3>Llavero GPS Femenino</h3>
 
-        </article>
+              <p>Llavero discreto con rastreador GPS.</p>
 
+              <div class="producto-footer">
+                <span class="producto-precio"> $159.900 COP </span>
 
-
+                <button type="button" aria-label="Agregar al carrito">
+                  <i class="bi bi-cart3"></i>
+                </button>
+              </div>
+            </div>
+          </article>
+        </div>
       </div>
+    </section>
 
-    </div>
+    <!-- FOOTER -->
 
-  </section>
+    <div id="site-footer"></div>
 
+    <!-- BOOTSTRAP JS -->
 
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-FKyoEForCGlyvwxJcJn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+      crossorigin="anonymous"
+    ></script>
 
-  <!-- FOOTER -->
+    <!-- JS DEL PROYECTO -->
 
+    <script src="../../app/app.js"></script>
 
-  <div id="site-footer"></div>
+    <!-- JS DEL DASHBOARD -->
 
+    <script src="../home-administrador/dashboard.js"></script>
 
-
-
-  <!-- BOOTSTRAP JS -->
-
-
-  <script
-    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-FKyoEForCGlyvwxJcJn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
-    crossorigin="anonymous"
-  ></script>
-
-
-
-  <!-- JS DEL PROYECTO -->
-
-
-  <script src="../../app/app.js"></script>
-
-
-  
-  <!-- JS DEL DASHBOARD -->
-  
-
-  <script src="../home-administrador/dashboard.js"></script>
-
-
-</body>
-
+    <script src="productos.js"></script>
+  </body>
 </html>
 ```
