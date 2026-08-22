@@ -54,7 +54,7 @@ function disminuirCantidad(id) {
 
         actualizarCarrito();
         console.log("Carrito actual:", carrito);
-    }
-}
+    };
+};
 
 
