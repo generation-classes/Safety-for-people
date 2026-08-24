@@ -9,16 +9,98 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../../css/styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body class="d-flex flex-column min-vh-100" data-page="productos">
     <div id="site-header"></div>
 
-    <main class="flex-grow-1 d-flex">
-        <section class="container d-flex flex-column align-items-center justify-content-center text-center py-5">
-            <h1 class="titulo mb-3">Productos</h1>
-            <span class="badge rounded-pill badge-brand fs-6 px-3 py-2 mb-3">En construcción</span>
-            <p class="text-secondary fs-5 mb-0 col-11 col-md-6">Esta sección estará disponible pronto.</p>
+    <main class="flex-grow-1 ">
+        <section >
+            <div class="banner-cat-productos">
+                <div>
+                    <h1>Catálogo de productos</h1>
+                    <p>Encuenta dispositivos que brindan confianza, seguridad y tranquilidad</p>
+          
+                </div>
+                <div class="banner-cat-productos-img">
+                    <img src="/Assets/images/img_cat_prod.png" alt="">
+                </div>
+                   </div>
+        </section>
+        <section class="d-flex flex-column flex-lg-row align-items-start gap-4 px-4 py-4 seccion-catalogo">
+            <aside class="sec-filtro flex-shrink-0">
+                <div class="filtro-header">
+                    <h4>Fiiltrar Productos</h4>
+                </div>
+
+                <div class="filtro-bloque">
+                    <h4>Categorías</h4>
+                    <ul class="lista-categorias">
+                        <li><button type="button" class="cat-btn active" data-categoria="todos">Todos los productos</button></li>
+                        <li><button type="button" class="cat-btn" data-categoria="relojes">Relojes GPS</button></li>
+                        <li><button type="button" class="cat-btn" data-categoria="cadenas">cadenas GPS</button></li>
+                        <li><button type="button" class="cat-btn" data-categoria="pulseras">Pulseras GPS</button></li>
+                        <li><button type="button" class="cat-btn" data-categoria="audifonos">Audífonos GPS</button></li>
+                        <li><button type="button" class="cat-btn" data-categoria="gafas">Gafas GPS</button></li>
+                        <li><button type="button" class="cat-btn" data-categoria="aretes">Aretes GPS</button></li>
+                        <li><button type="button" class="cat-btn" data-categoria="llavero">Llavero GPS</button></li>
+                        <li><button type="button" class="cat-btn cat-sub" data-categoria="ninos">Para niños</button></li>
+                        <li><button type="button" class="cat-btn cat-sub" data-categoria="adultos">Para adultos mayores</button></li>
+                    </ul>
+                </div>
+
+                <div class="filtro-bloque">
+                    <h4>Rango de precios</h4>
+                    <div class="precio-inputs">
+                        <label>De
+                            <input type="number" id="precioMin" min="0" step="10000" placeholder="0">
+                        </label>
+                        <label>a
+                            <input type="number" id="precioMax" min="0" step="10000" placeholder="300000">
+                        </label>
+                    </div>
+                </div>
+
+                <div class="filtro-bloque">
+                    <h4>Caracteristicas</h4>
+                    <div class="form-check">
+                        <input class="form-check-input filtro-check" type="checkbox" value="emergencia" id="chkEmergencia">
+                        <label class="form-check-label" for="chkEmergencia">Botón de emergencia</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input filtro-check" type="checkbox" value="agua" id="chkAgua">
+                        <label class="form-check-label" for="chkAgua">Resistencia al agua</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input filtro-check" type="checkbox" value="ubicacion" id="chkUbicacion">
+                        <label class="form-check-label" for="chkUbicacion">Ubicación en tiempo real</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input filtro-check" type="checkbox" value="bateria" id="chkBateria">
+                        <label class="form-check-label" for="chkBateria">Batería de larga duración</label>
+                    </div>
+                </div>
+            </aside>
+
+            <div class="flex-grow-1 w-100">
+                <div class="toolbar-productos d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+                    <span id="contadorProductos">Mostrando 0 productos</span>
+                    <div class="d-flex align-items-center gap-2">
+                        <span>Ordenar por</span>
+                        <select id="ordenarPor" class="form-select form-select-sm" aria-label="Ordenar por">
+                            <option value="relevancia">Relevancia</option>
+                            <option value="precio-asc">Precio: menor a mayor</option>
+                            <option value="precio-desc">Precio: mayor a menor</option>
+                            <option value="nombre">Nombre A-Z</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row g-4 mx-0" id="gridProductos"></div>
+                <p id="sinResultados" class="text-center text-muted py-5 d-none">No encontramos productos con esos filtros.</p>
+                <nav id="paginacionProductos" aria-label="Paginación de productos" class="mt-4"></nav>
+            </div>
         </section>
     </main>
 
@@ -28,6 +110,7 @@
         integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
         crossorigin="anonymous"></script>
     <script src="../../app/app.js"></script>
+    <script src="productos.js"></script>
 </body>
 
 </html>
