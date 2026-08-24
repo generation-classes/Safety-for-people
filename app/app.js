@@ -67,6 +67,10 @@ App.changeCartQuantity = function (id, cambio) {
     App.saveCart(carrito.filter(itemCarrito => itemCarrito.cantidad > 0));
 };
 
+App.removeFromCart = function (id) {
+    App.saveCart(App.getCart().filter(item => item.id !== id));
+};
+
 App.formatPrice = function (valor) { return `$${Number(valor).toLocaleString('es-CO')} COP`; };
 
 App.updateCartIndicator = function () {
@@ -90,7 +94,7 @@ App.renderCartComponent = function () {
     document.getElementById('contadorCarrito').textContent = totalUnidades;
     document.getElementById('totalCarrito').textContent = App.formatPrice(total);
     document.getElementById('carritoVacio').hidden = carrito.length > 0;
-    itemsRoot.innerHTML = carrito.map(item => `<div class="carrito-item"><img src="${item.imagen || ''}" alt=""><div class="carrito-item-info"><strong>${item.nombre || 'Producto'}</strong><span>${App.formatPrice(Number(item.precio || 0) * item.cantidad)}</span><div class="cantidad-control"><button type="button" data-cambio="-1" data-id="${item.id}" aria-label="Restar una unidad">−</button><span>${item.cantidad}</span><button type="button" data-cambio="1" data-id="${item.id}" aria-label="Sumar una unidad">+</button></div></div></div>`).join('');
+    itemsRoot.innerHTML = carrito.map(item => `<div class="carrito-item"><img src="${item.imagen || ''}" alt=""><div class="carrito-item-info"><div class="carrito-item-encabezado"><strong>${item.nombre || 'Producto'}</strong><button class="eliminar-carrito" type="button" data-eliminar="${item.id}" aria-label="Eliminar ${item.nombre || 'producto'} del carrito"><i class="bi bi-trash3"></i></button></div><span>${App.formatPrice(Number(item.precio || 0) * item.cantidad)}</span><div class="cantidad-control"><button type="button" data-cambio="-1" data-id="${item.id}" aria-label="Restar una unidad">−</button><span>${item.cantidad}</span><button type="button" data-cambio="1" data-id="${item.id}" aria-label="Sumar una unidad">+</button></div></div></div>`).join('');
 };
 
 App.setupCartComponent = function () {
@@ -99,6 +103,8 @@ App.setupCartComponent = function () {
     itemsRoot.addEventListener('click', event => {
         const boton = event.target.closest('[data-cambio]');
         if (boton) App.changeCartQuantity(Number(boton.dataset.id), Number(boton.dataset.cambio));
+        const eliminar = event.target.closest('[data-eliminar]');
+        if (eliminar) App.removeFromCart(Number(eliminar.dataset.eliminar));
     });
     App.renderCartComponent();
 };
@@ -132,5 +138,6 @@ App.loadLayout = async function () {
 
 document.addEventListener('DOMContentLoaded', App.loadLayout);
 window.App = App;
+
 
 

@@ -630,3 +630,7 @@ body {
 .producto-detalle-link:hover { color: var(--secondary); text-decoration: underline; }
 
 .producto-imagen { text-decoration: none; }
+
+.carrito-item-encabezado { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
+.eliminar-carrito { border: 0; background: transparent; color: #c74747; padding: 0; font-size: 15px; line-height: 1; cursor: pointer; }
+.eliminar-carrito:hover { color: #8f2525; }
