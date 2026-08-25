@@ -30,6 +30,22 @@ App.setupRoleSwitch = function (base) {
     }));
 };
 
+
+App.notify = function (mensaje, tipo = 'success') {
+    let contenedor = document.getElementById('sape-notificaciones');
+    if (!contenedor) {
+        contenedor = document.createElement('div');
+        contenedor.id = 'sape-notificaciones';
+        contenedor.className = 'sape-notificaciones';
+        document.body.appendChild(contenedor);
+    }
+    const aviso = document.createElement('div');
+    aviso.className = `sape-notificacion sape-notificacion-${tipo}`;
+    aviso.setAttribute('role', 'status');
+    aviso.innerHTML = `<i class="bi ${tipo === 'success' ? 'bi-check-circle-fill' : tipo === 'danger' ? 'bi-trash3-fill' : 'bi-info-circle-fill'}"></i><span>${mensaje}</span>`;
+    contenedor.appendChild(aviso);
+    setTimeout(() => aviso.remove(), 3200);
+};
 App.getCart = function () {
     try {
         const carrito = JSON.parse(localStorage.getItem('sape_carrito'));
@@ -57,6 +73,7 @@ App.addToCart = function (producto, cantidad = 1) {
         carrito.push({ id: producto.id, cantidad, nombre: producto.nombre, precio: producto.precio, imagen: producto.imagen });
     }
     App.saveCart(carrito);
+    App.notify(`${producto.nombre} fue agregado al carrito.`);
 };
 
 App.changeCartQuantity = function (id, cambio) {
@@ -65,10 +82,13 @@ App.changeCartQuantity = function (id, cambio) {
     if (!item) return;
     item.cantidad += cambio;
     App.saveCart(carrito.filter(itemCarrito => itemCarrito.cantidad > 0));
+    App.notify('Cantidad del producto actualizada.');
 };
 
 App.removeFromCart = function (id) {
+    const producto = App.getCart().find(item => item.id === id);
     App.saveCart(App.getCart().filter(item => item.id !== id));
+    App.notify(`${producto ? producto.nombre : 'El producto'} fue eliminado del carrito.`, 'info');
 };
 
 App.formatPrice = function (valor) { return `$${Number(valor).toLocaleString('es-CO')} COP`; };
@@ -138,6 +158,11 @@ App.loadLayout = async function () {
 
 document.addEventListener('DOMContentLoaded', App.loadLayout);
 window.App = App;
+
+
+
+
+
 
 
 
