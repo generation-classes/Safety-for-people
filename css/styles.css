@@ -1,4 +1,4 @@
-:root {
+﻿:root {
     --primary: #094051;
     --secondary: #087F7C;
     --light: #DFE8EC;
@@ -12,7 +12,7 @@ body {
 }
 
 /* Reserva el alto y el fondo del navbar antes de que app.js lo inyecte,
-   para que no haya salto de layout ni parpadeo al cargar cada página. */
+   para que no haya salto de layout ni parpadeo al cargar cada pÃ¡gina. */
 #site-header {
     min-height: 95px;
     background: #fff;
@@ -668,7 +668,7 @@ body[data-page="productos"] .buscador {
 }
 
 /* ===========================
-        UBICACIÓN / MAPA
+        UBICACIÃ“N / MAPA
 =========================== */
 
 .contacto-locate{
@@ -754,7 +754,7 @@ body[data-page="productos"] .buscador {
     border: 0;
 }
 
-/* Formulario "Escríbenos" */
+/* Formulario "EscrÃ­benos" */
 .contacto-form{
     display:flex;
     flex-direction:column;
@@ -1060,7 +1060,7 @@ textarea.form-control{
 
 }
 
-/* BOTÓN */
+/* BOTÃ“N */
 
 .btn-pqrs{
 
@@ -1114,7 +1114,7 @@ textarea.form-control{
 
 }
 
-/* BOTÓN CONTACTO */
+/* BOTÃ“N CONTACTO */
 
 .btn-contacto{
     color: white;
@@ -1248,7 +1248,7 @@ textarea.form-control{
 
 
 
-/* Títulos */
+/* TÃ­tulos */
 
 .row > .col-lg-3 h6,
 .dashboard-card h4,
@@ -1717,7 +1717,7 @@ textarea.form-control{
     }
 }
 
-/* Categorías principales (home) */
+/* CategorÃ­as principales (home) */
 .categorias-home{
     padding-left: 90px;
     padding-right: 90px;
@@ -1745,7 +1745,7 @@ textarea.form-control{
     }
 }
 
-/* Tarjetas de categorías (home) */
+/* Tarjetas de categorÃ­as (home) */
 .simple-card{
     width: 145px;
     height: 145px;
@@ -1810,7 +1810,7 @@ body {
 }
 
 /* Reserva el alto y el fondo del navbar antes de que app.js lo inyecte,
-   para que no haya salto de layout ni parpadeo al cargar cada página. */
+   para que no haya salto de layout ni parpadeo al cargar cada pÃ¡gina. */
 #site-header {
     min-height: 95px;
     background: #fff;
@@ -2511,7 +2511,7 @@ body[data-page="productos"] .buscador {
 }
 
 /* ===========================
-        UBICACIÓN / MAPA
+        UBICACIÃ“N / MAPA
 =========================== */
 
 .contacto-locate{
@@ -2816,7 +2816,7 @@ textarea.form-control{
 
 }
 
-/* BOTÓN */
+/* BOTÃ“N */
 
 .btn-pqrs{
 
@@ -2870,7 +2870,7 @@ textarea.form-control{
 
 }
 
-/* BOTÓN CONTACTO */
+/* BOTÃ“N CONTACTO */
 
 .btn-contacto{
     color: white;
@@ -3004,7 +3004,7 @@ textarea.form-control{
 
 
 
-/* Títulos */
+/* TÃ­tulos */
 
 .row > .col-lg-3 h6,
 .dashboard-card h4,
@@ -3473,7 +3473,7 @@ textarea.form-control{
     }
 }
 
-/* Categorías principales (home) */
+/* CategorÃ­as principales (home) */
 .categorias-home{
     padding-left: 90px;
     padding-right: 90px;
@@ -3501,7 +3501,7 @@ textarea.form-control{
     }
 }
 
-/* Tarjetas de categorías (home) */
+/* Tarjetas de categorÃ­as (home) */
 .simple-card{
     width: 145px;
     height: 145px;
@@ -3551,3 +3551,13 @@ textarea.form-control{
 }
 
 
+
+.sape-notificaciones { position: fixed; top: 88px; right: 24px; z-index: 2000; display: grid; gap: 10px; max-width: min(360px, calc(100vw - 32px)); }
+.sape-notificacion { display: flex; align-items: center; gap: 10px; padding: 13px 16px; border-radius: 10px; color: #fff; font: 500 14px 'Inter', sans-serif; box-shadow: 0 8px 22px rgba(2, 29, 58, .22); animation: sape-aviso .25s ease-out; }
+.sape-notificacion-success { background: #1b5e8f; }
+.sape-notificacion-info { background: #387c68; }
+.sape-notificacion i { font-size: 18px; }
+@keyframes sape-aviso { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+
+
+.sape-notificacion-danger { background: #b42318; }
