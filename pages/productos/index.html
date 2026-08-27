@@ -25,265 +25,103 @@
     <!-- Header -->
     <div id="site-header"></div>
 
-    <!-- Encabezado del catálogo -->
-    <section class="catalogo-header">
-      <div class="catalogo-header-contenido">
-        <h1>Catálogo de productos</h1>
-        <p>
-          Encuentra dispositivos que brindan confianza, seguridad y
-          tranquilidad.
-        </p>
-      </div>
-    </section>
+    <main class="flex-grow-1 ">
+        <section >
+            <div class="banner-cat-productos">
+                <div>
+                    <h1>Catálogo de productos</h1>
+                    <p>Encuenta dispositivos que brindan confianza, seguridad y tranquilidad</p>
+          
+                </div>
+                <div class="banner-cat-productos-img">
+                    <img src="/Assets/images/img_cat_prod.png" alt="">
+                </div>
+                   </div>
+        </section>
+        <section class="d-flex flex-column flex-lg-row align-items-start gap-4 px-4 py-4 seccion-catalogo">
+            <aside class="sec-filtro flex-shrink-0">
+                <div class="filtro-header">
+                    <h4>Fiiltrar Productos</h4>
+                </div>
 
-    <!-- ===================================================== -->
-    <!-- CONTENIDO PRINCIPAL DEL CATÁLOGO -->
-    <!-- ===================================================== -->
-    <section class="catalogo-contenido">
-      <!-- ================================================= -->
-      <!-- BARRA LATERAL DE FILTROS -->
-      <!-- ================================================= -->
-      <aside class="filtros">
-        <h2>Filtrar Productos</h2>
+                <div class="filtro-bloque">
+                    <h4>Categorías</h4>
+                    <ul class="lista-categorias">
+                        <li><button type="button" class="cat-btn active" data-categoria="todos">Todos los productos</button></li>
+                        <li><button type="button" class="cat-btn" data-categoria="relojes">Relojes GPS</button></li>
+                        <li><button type="button" class="cat-btn" data-categoria="cadenas">cadenas GPS</button></li>
+                        <li><button type="button" class="cat-btn" data-categoria="pulseras">Pulseras GPS</button></li>
+                        <li><button type="button" class="cat-btn" data-categoria="audifonos">Audífonos GPS</button></li>
+                        <li><button type="button" class="cat-btn" data-categoria="gafas">Gafas GPS</button></li>
+                        <li><button type="button" class="cat-btn" data-categoria="aretes">Aretes GPS</button></li>
+                        <li><button type="button" class="cat-btn" data-categoria="llavero">Llavero GPS</button></li>
+                        <li><button type="button" class="cat-btn cat-sub" data-categoria="ninos">Para niños</button></li>
+                        <li><button type="button" class="cat-btn cat-sub" data-categoria="adultos">Para adultos mayores</button></li>
+                    </ul>
+                </div>
 
-        <!-- Categorías -->
-        <div class="filtro-grupo">
-          <h3>Categorías</h3>
-          <label><input type="checkbox" /> Todos los productos</label>
-          <label><input type="checkbox" /> Relojes GPS</label>
-          <label><input type="checkbox" /> Cadenas GPS</label>
-          <label><input type="checkbox" /> Pulseras GPS</label>
-          <label><input type="checkbox" /> Para niños</label>
-          <label><input type="checkbox" /> Para adultos mayores</label>
-        </div>
+                <div class="filtro-bloque">
+                    <h4>Rango de precios</h4>
+                    <div class="precio-inputs">
+                        <label>De
+                            <input type="number" id="precioMin" min="0" step="10000" placeholder="0">
+                        </label>
+                        <label>a
+                            <input type="number" id="precioMax" min="0" step="10000" placeholder="300000">
+                        </label>
+                    </div>
+                </div>
 
-        <!-- Rango de precios -->
-        <div class="filtro-grupo">
-          <h3>Rango de precios</h3>
-          <input type="range" min="100000" max="500000" value="250000" />
-          <div class="rango-precio-valores">
-            <span>$100.000</span>
-            <span>$500.000</span>
-          </div>
-        </div>
+                <div class="filtro-bloque">
+                    <h4>Caracteristicas</h4>
+                    <div class="form-check">
+                        <input class="form-check-input filtro-check" type="checkbox" value="emergencia" id="chkEmergencia">
+                        <label class="form-check-label" for="chkEmergencia">Botón de emergencia</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input filtro-check" type="checkbox" value="agua" id="chkAgua">
+                        <label class="form-check-label" for="chkAgua">Resistencia al agua</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input filtro-check" type="checkbox" value="ubicacion" id="chkUbicacion">
+                        <label class="form-check-label" for="chkUbicacion">Ubicación en tiempo real</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input filtro-check" type="checkbox" value="bateria" id="chkBateria">
+                        <label class="form-check-label" for="chkBateria">Batería de larga duración</label>
+                    </div>
+                </div>
+            </aside>
 
-        <!-- Características -->
-        <div class="filtro-caracteristicas">
-          <h3>Características</h3>
-          <ul>
-            <li>Botón de emergencia</li>
-            <li>Resistencia al agua</li>
-            <li>Ubicación en tiempo real</li>
-            <li>Batería de larga duración</li>
-          </ul>
-        </div>
-      </aside>
+            <div class="flex-grow-1 w-100">
+                <div class="toolbar-productos d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+                    <span id="contadorProductos">Mostrando 0 productos</span>
+                    <div class="d-flex align-items-center gap-2">
+                        <span>Ordenar por</span>
+                        <select id="ordenarPor" class="form-select form-select-sm" aria-label="Ordenar por">
+                            <option value="relevancia">Relevancia</option>
+                            <option value="precio-asc">Precio: menor a mayor</option>
+                            <option value="precio-desc">Precio: mayor a menor</option>
+                            <option value="nombre">Nombre A-Z</option>
+                        </select>
+                    </div>
+                </div>
 
-      <!-- ================================================= -->
-      <!-- ÁREA DE PRODUCTOS -->
-      <!-- ================================================= -->
-      <div class="productos">
-        <!-- Encabezado de productos -->
-        <div class="productos-header">
-          <span>Mostrando 9 productos</span>
-          <div class="ordenar">
-            <label for="ordenar">Ordenar por</label>
-            <select id="ordenar">
-              <option value="precio">Precio</option>
-              <option value="nombre">Nombre</option>
-            </select>
-          </div>
-        </div>
-
-        <!-- ================================================= -->
-        <!-- GRID DE PRODUCTOS - TODAS LAS CARDS VAN AQUÍ DENTRO -->
-        <!-- ================================================= -->
-        <div class="productos-grid">
-          <!-- CARD 1 - PULSERA GPS FEMENINO -->
-          <article class="producto-card">
-            <div class="producto-imagen">
-              <img
-                src="../../Assets/images/pulsera.png"
-                alt="Pulsera GPS Femenino"
-              />
+                <div class="row g-4 mx-0" id="gridProductos"></div>
+                <p id="sinResultados" class="text-center text-muted py-5 d-none">No encontramos productos con esos filtros.</p>
+                <nav id="paginacionProductos" aria-label="Paginación de productos" class="mt-4"></nav>
             </div>
-            <div class="producto-info">
-              <h3>Pulsera GPS Femenino</h3>
-              <p>Pulsera con GPS para mayor seguridad.</p>
-              <div class="producto-footer">
-                <span class="producto-precio">$199.900 COP</span>
-                <button type="button" aria-label="Agregar al carrito">
-                  <i class="bi bi-cart3"></i>
-                </button>
-              </div>
-            </div>
-          </article>
-
-          <!-- CARD 2 - AUDÍFONOS GPS -->
-          <article class="producto-card">
-            <div class="producto-imagen">
-              <img
-                src="../../Assets/images/audifono.png"
-                alt="Audífonos GPS integrado"
-              />
-            </div>
-            <div class="producto-info">
-              <h3>Audífonos GPS integrado</h3>
-              <p>Audífonos inalámbricos con geolocalización.</p>
-              <div class="producto-footer">
-                <span class="producto-precio">$399.900 COP</span>
-                <button type="button" aria-label="Agregar al carrito">
-                  <i class="bi bi-cart3"></i>
-                </button>
-              </div>
-            </div>
-          </article>
-
-          <!-- CARD 3 - RELOJ GPS MASCULINO -->
-          <article class="producto-card">
-            <div class="producto-imagen">
-              <img
-                src="../../Assets/images/reloj.png"
-                alt="Reloj GPS Masculino"
-              />
-            </div>
-            <div class="producto-info">
-              <h3>Reloj GPS Masculino</h3>
-              <p>Reloj inteligente con GPS integrado.</p>
-              <div class="producto-footer">
-                <span class="producto-precio">$359.900 COP</span>
-                <button type="button" aria-label="Agregar al carrito">
-                  <i class="bi bi-cart3"></i>
-                </button>
-              </div>
-            </div>
-          </article>
-
-          <!-- CARD 4 - RELOJ GPS NIÑO -->
-          <article class="producto-card">
-            <div class="producto-imagen">
-              <img
-                src="../../Assets/images/relojnino.png"
-                alt="Reloj GPS Niño"
-              />
-            </div>
-            <div class="producto-info">
-              <h3>Reloj GPS Niño</h3>
-              <p>Reloj infantil con localización GPS.</p>
-              <div class="producto-footer">
-                <span class="producto-precio">$199.900 COP</span>
-                <button type="button" aria-label="Agregar al carrito">
-                  <i class="bi bi-cart3"></i>
-                </button>
-              </div>
-            </div>
-          </article>
-
-          <!-- CARD 5 - PULSERA GPS NIÑA -->
-          <article class="producto-card">
-            <div class="producto-imagen">
-              <img
-                src="../../Assets/images/manillanina.png"
-                alt="Pulsera GPS Niña"
-              />
-            </div>
-            <div class="producto-info">
-              <h3>Pulsera GPS Niña</h3>
-              <p>Pulsera infantil con GPS.</p>
-              <div class="producto-footer">
-                <span class="producto-precio">$159.900 COP</span>
-                <button type="button" aria-label="Agregar al carrito">
-                  <i class="bi bi-cart3"></i>
-                </button>
-              </div>
-            </div>
-          </article>
-
-          <!-- CARD 6 - GAFAS GPS -->
-          <article class="producto-card">
-            <div class="producto-imagen">
-              <img src="../../Assets/images/gafas.png" alt="Gafas de sol GPS" />
-            </div>
-            <div class="producto-info">
-              <h3>Gafas de sol GPS</h3>
-              <p>Gafas de sol con sistema de localización.</p>
-              <div class="producto-footer">
-                <span class="producto-precio">$199.900 COP</span>
-                <button type="button" aria-label="Agregar al carrito">
-                  <i class="bi bi-cart3"></i>
-                </button>
-              </div>
-            </div>
-          </article>
-
-          <!-- CARD 7 - ARETES GPS -->
-          <article class="producto-card">
-            <div class="producto-imagen">
-              <img src="../../Assets/images/aretes.png" alt="Aretes GPS" />
-            </div>
-            <div class="producto-info">
-              <h3>Arete GPS</h3>
-              <p>Aretes discretos con localización.</p>
-              <div class="producto-footer">
-                <span class="producto-precio">$159.900 COP</span>
-                <button type="button" aria-label="Agregar al carrito">
-                  <i class="bi bi-cart3"></i>
-                </button>
-              </div>
-            </div>
-          </article>
-
-          <!-- CARD 8 - ARETES GPS NIÑA -->
-          <article class="producto-card">
-            <div class="producto-imagen">
-              <img
-                src="../../Assets/images/aretesniña.png"
-                alt="Aretes GPS Niña"
-              />
-            </div>
-            <div class="producto-info">
-              <h3>Arete GPS Niña</h3>
-              <p>Aretes infantiles con sistema de localización.</p>
-              <div class="producto-footer">
-                <span class="producto-precio">$99.900 COP</span>
-                <button type="button" aria-label="Agregar al carrito">
-                  <i class="bi bi-cart3"></i>
-                </button>
-              </div>
-            </div>
-          </article>
-
-          <!-- CARD 9 - LLAVERO GPS FEMENINO -->
-          <article class="producto-card">
-            <div class="producto-imagen">
-              <img
-                src="../../Assets/images/llavero.png"
-                alt="Llavero GPS Femenino"
-              />
-            </div>
-            <div class="producto-info">
-              <h3>Llavero GPS Femenino</h3>
-              <p>Llavero discreto con rastreador GPS.</p>
-              <div class="producto-footer">
-                <span class="producto-precio">$159.900 COP</span>
-                <button type="button" aria-label="Agregar al carrito">
-                  <i class="bi bi-cart3"></i>
-                </button>
-              </div>
-            </div>
-          </article>
-        </div>
-      </div>
-    </section>
+        </section>
+    </main>
 
     <div id="site-footer"></div>
 
-    <!-- Bootstrap JavaScript -->
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
-      crossorigin="anonymous"
-    ></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous"></script>
+    <script src="../../app/app.js"></script>
+    <script src="productos.js"></script>
+</body>
 
     <!-- JavaScript del proyecto -->
     <script src="../../app/app.js"></script>
