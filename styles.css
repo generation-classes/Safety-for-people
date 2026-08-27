@@ -412,3 +412,12 @@ body {
     box-shadow: none;
     border-color: transparent;
 }
+.primary-text{
+color: var(--secondary);
+}
+.sape-primary{
+    color: var(--primary);
+}
+.sape-secondary{
+    color: var(--secondary);
+}
