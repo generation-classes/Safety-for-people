@@ -34,8 +34,8 @@
         <li class="breadcrumb-item">
           <a href="index.html">Productos</a>
         </li>
-        <li class="breadcrumb-item active" aria-current="page">
-          Pulsera GPS Femenino
+        <li class="breadcrumb-item active" aria-current="page" id="breadcrumbProducto">
+          Producto
         </li>
       </ol>
     </nav>
@@ -51,7 +51,7 @@
     <!-- ===================================================== -->
     <!-- CONTENIDO PRINCIPAL DEL DETALLE -->
     <!-- ===================================================== -->
-    <section class="detalle-contenido">
+    <section class="detalle-contenido" id="contenidoDetalle">
       <div class="row g-4 align-items-center">
         <!-- ================================================= -->
         <!-- IMAGEN DEL PRODUCTO -->
@@ -59,8 +59,9 @@
         <div class="col-12 col-lg-6">
           <div class="detalle-imagen">
             <img
+              id="imagenProducto"
               src="../../Assets/images/pulsera.png"
-              alt="Pulsera GPS Femenino"
+              alt="Producto"
             />
           </div>
         </div>
@@ -71,50 +72,30 @@
         <div class="col-12 col-lg-6">
           <div class="detalle-info">
             <!-- Categoría -->
-            <span class="detalle-categoria">
+            <span class="detalle-categoria" id="categoriaProducto">
               <i class="bi bi-tag-fill"></i>
-              Pulseras GPS
+              Producto
             </span>
 
             <!-- Título -->
-            <h2>Pulsera GPS Femenino</h2>
+            <h2 id="nombreProducto">Producto</h2>
 
             <!-- Precio -->
-            <p class="detalle-precio">$199.900 COP</p>
+            <p class="detalle-precio" id="precioProducto">$0 COP</p>
 
             <!-- Descripción -->
-            <p class="detalle-descripcion">
-              Pulsera con GPS para mayor seguridad. Diseñada para brindarte
-              tranquilidad, cuenta con botón de emergencia y seguimiento de
-              ubicación en tiempo real desde tu celular, para que siempre sepas
-              dónde está quien más quieres.
+            <p class="detalle-descripcion" id="descripcionProducto">
+              Información del producto.
             </p>
 
             <!-- Stock -->
-            <p class="detalle-stock disponible">
+            <p class="detalle-stock disponible" id="stockProducto">
               <i class="bi bi-check-circle-fill"></i>
-              Stock disponible: 25 unidades
+              Stock disponible
             </p>
 
             <!-- Características -->
-            <ul class="detalle-caracteristicas">
-              <li>
-                <i class="bi bi-check2"></i>
-                Botón de emergencia
-              </li>
-              <li>
-                <i class="bi bi-check2"></i>
-                Resistencia al agua
-              </li>
-              <li>
-                <i class="bi bi-check2"></i>
-                Ubicación en tiempo real
-              </li>
-              <li>
-                <i class="bi bi-check2"></i>
-                Batería de larga duración
-              </li>
-            </ul>
+            <ul class="detalle-caracteristicas" id="caracteristicasProducto"></ul>
 
             <!-- Cantidad + Carrito -->
             <div class="detalle-comprar">
@@ -155,5 +136,7 @@
 
     <!-- JavaScript del proyecto -->
     <script src="../../app/app.js"></script>
+    <script src="productos-data.js"></script>
+    <script src="detalle.js"></script>
   </body>
 </html>
