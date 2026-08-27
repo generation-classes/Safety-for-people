@@ -59,17 +59,13 @@ document.addEventListener('DOMContentLoaded', () => {
             const selectedRole = e.target.value;
             console.log(`Rol seleccionado: ${selectedRole}`);
             
-            // Puedes agregar lógica personalizada según el rol seleccionado
-            if (selectedRole === 'admin') {
-                // Lógica o redirección para administrador
-            } else {
-                // Lógica o redirección para usuario estándar
-            }
+             if (selectedRole === 'admin') {
+             } else {
+             }
         });
     });
 
-    // --- ENVÍO DE FORMULARIOS (MOCK) ---
-    const loginForm = document.getElementById('login-form');
+     const loginForm = document.getElementById('login-form');
     const registerForm = document.getElementById('register-form');
 
     if (loginForm) {
@@ -86,12 +82,94 @@ document.addEventListener('DOMContentLoaded', () => {
     if (registerForm) {
         registerForm.addEventListener('submit', (e) => {
             e.preventDefault();
-            const name = document.getElementById('reg-name').value;
-            const email = document.getElementById('reg-email').value;
-            const password = document.getElementById('reg-password').value;
-            const termsAccepted = document.getElementById('terms-accept').checked;
+            const nombreCompletoInput = document.getElementById('reg-name');
+            const numeroTelefonoInput = document.getElementById('reg-phone');
+            const correoElectronicoInput = document.getElementById('reg-email');
+            const contrasenaInput = document.getElementById('reg-password');
+            const confirmarContrasenaInput = document.getElementById('reg-confirm-password');
 
-            console.log('Register Submit:', { name, email, password, termsAccepted });
+            const nombreCompleto = nombreCompletoInput.value;
+            const numeroTelefono = numeroTelefonoInput.value;
+            const correoElectronico = correoElectronicoInput.value;
+            const contrasena = contrasenaInput.value;
+            const confirmarContrasena = confirmarContrasenaInput.value;
+
+            const mostrarError = (inputElement, mensaje) => {
+                const grupoInput = inputElement.closest('.input-group');
+                const elementoError = grupoInput.querySelector('.error-message');
+                if (elementoError) {
+                    elementoError.textContent = mensaje;
+                    elementoError.style.display = 'block';
+                }
+            };
+
+            const limpiarError = (inputElement) => {
+                const grupoInput = inputElement.closest('.input-group');
+                const elementoError = grupoInput.querySelector('.error-message');
+                if (elementoError) {
+                    elementoError.textContent = '';
+                    elementoError.style.display = 'none';
+                }
+            };
+
+            let formularioValido = true;
+
+            const soloLetrasEspacios = /^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/;
+            if (!nombreCompleto.trim() || nombreCompleto.length < 3 || nombreCompleto.length > 100 || !soloLetrasEspacios.test(nombreCompleto)) {
+                mostrarError(nombreCompletoInput, 'El nombre debe contener solo letras, entre 3 y 100 caracteres.');
+                formularioValido = false;
+            } else {
+                limpiarError(nombreCompletoInput);
+            }
+
+            const exactamenteDiezNumeros = /^[0-9]{10}$/;
+            if (!exactamenteDiezNumeros.test(numeroTelefono)) {
+                mostrarError(numeroTelefonoInput, 'El número de teléfono debe tener exactamente 10 dígitos numéricos.');
+                formularioValido = false;
+            } else {
+                limpiarError(numeroTelefonoInput);
+            }
+
+            const validarCorreo = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!validarCorreo.test(correoElectronico)) {
+                mostrarError(correoElectronicoInput, 'Por favor ingresa un correo electrónico válido.');
+                formularioValido = false;
+            } else {
+                limpiarError(correoElectronicoInput);
+            }
+
+            const formatoContrasenaSegura = /^(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{6,}$/;
+            if (!contrasena || !formatoContrasenaSegura.test(contrasena)) {
+                mostrarError(contrasenaInput, 'La contraseña debe tener mínimo 6 caracteres, letras, números, una mayúscula y un símbolo especial.');
+                formularioValido = false;
+            } else {
+                limpiarError(contrasenaInput);
+            }
+
+            if (contrasena !== confirmarContrasena) {
+                mostrarError(confirmarContrasenaInput, 'Las contraseñas no coinciden.');
+                formularioValido = false;
+            } else {
+                limpiarError(confirmarContrasenaInput);
+            }
+
+            if (!formularioValido) {
+                return;
+            }
+
+            const usuarioJson = JSON.stringify({
+                nombreCompleto: nombreCompleto,
+                telefono: numeroTelefono,
+                email: correoElectronico,
+                contrasena: contrasena
+            });
+
+            localStorage.setItem('usuarioRegistrado', usuarioJson);
+
+            console.log('Objeto JSON del usuario:', usuarioJson);
+            alert('¡Registro exitoso! ');
+
+            registerForm.reset();
         });
     }
 });
