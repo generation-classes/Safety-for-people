@@ -10,6 +10,10 @@ Marketplace web de dispositivos de seguridad para familias. Proyecto frontend co
 - `Assets/images/` — Imágenes y logos
 - `styles.css` / `script.js` — Estilos y lógica
 
+##  Deploy 
+**Rama:** `admin`
+https://itzjulians.github.io/Safety-for-people/pages/home-administrador/index.html
+
 ## Cómo verlo
 
 Abre `index.html` con Live Server (recomendado) o en el navegador.
