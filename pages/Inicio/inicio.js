@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    // --- ELEMENTOS DEL DOM ---
+
     const loginFormContainer = document.getElementById('login-form-container');
     const registerFormContainer = document.getElementById('register-form-container');
     
