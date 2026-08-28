@@ -9,7 +9,7 @@ const productos = [
         caracteristicas: ["emergencia", "ubicacion", "agua"],
         icono: "bi-smartwatch",
         color: "#DDEFFB",
-        img: "/Assets/images/products/1.png"
+        img: "../../Assets/images/products/1.png"
     },
     {
         id: 2,
@@ -169,5 +169,5 @@ function formatearPrecio(valor) {
 }
 
 function obtenerImagenProducto(producto) {
-    return producto.img || "/Assets/images/products/" + producto.id + ".png";
+    return App.normalizeImagePath(producto.img, producto.id);
 }
