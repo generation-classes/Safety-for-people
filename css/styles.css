@@ -4074,7 +4074,6 @@ body[data-page="productos"] .buscador {
 
 /* ===========================
         BANNER CONTACTO
-=========================== */
 
 .banner-contacto{
     background:linear-gradient(135deg, var(--dark) 0%, var(--primary) 55%, var(--secondary) 100%);
@@ -4318,7 +4317,6 @@ body[data-page="productos"] .buscador {
 
 /* ===========================
         UBICACIÓN / MAPA
-=========================== */
 
 .contacto-locate{
     background:var(--light);
@@ -4426,7 +4424,6 @@ body[data-page="productos"] .buscador {
 }
 /* ===========================
             PQRS
-=========================== */
 
 .pqrs-card{
     border:none;
@@ -5093,7 +5090,6 @@ textarea.form-control{
 
 /* ===========================
         BANNER INICIO
-=========================== */
 
 .hero-banner{
     background:var(--light);
@@ -5834,7 +5830,6 @@ body[data-page="productos"] .buscador {
 
 /* ===========================
         BANNER CONTACTO
-=========================== */
 
 .banner-contacto{
     background:linear-gradient(135deg, var(--dark) 0%, var(--primary) 55%, var(--secondary) 100%);
@@ -6078,7 +6073,6 @@ body[data-page="productos"] .buscador {
 
 /* ===========================
         UBICACIÓN / MAPA
-=========================== */
 
 .contacto-locate{
     background:var(--light);
@@ -6186,7 +6180,6 @@ body[data-page="productos"] .buscador {
 }
 /* ===========================
             PQRS
-=========================== */
 
 .pqrs-card{
     border:none;
@@ -6853,7 +6846,6 @@ textarea.form-control{
 
 /* ===========================
         BANNER INICIO
-=========================== */
 
 .hero-banner{
     background:var(--light);
