@@ -1,4 +1,4 @@
-<header>
+﻿<header>
     <nav class="navbar navbar-expand-lg bg-white shadow-sm py-3">
         <div class="container-fluid px-4">
             <a class="navbar-brand me-5" href="{{base}}pages/home-usuario/index.html">
@@ -13,7 +13,6 @@
                     <ul class="navbar-nav flex-row align-items-center flex-wrap">
                         <li class="nav-item me-4"><a class="nav-link" data-page="inicio" href="{{base}}pages/home-usuario/index.html">Inicio</a></li>
                         <li class="nav-item me-4"><a class="nav-link" data-page="productos" href="{{base}}pages/productos/index.html">Productos</a></li>
-                        <li class="nav-item me-4"><a class="nav-link" data-page="categorias" href="{{base}}pages/categorias/index.html">Categorías</a></li>
                         <li class="nav-item me-4"><a class="nav-link" data-page="aboutUs" href="{{base}}pages/about-us/index.html">Nosotros</a></li>
                         <li class="nav-item"><a class="nav-link" data-page="contacto" href="{{base}}pages/contacto/index.html">Contacto</a></li>
                     </ul>
@@ -23,8 +22,10 @@
                     </form>
                 </div>
                 <div class="d-flex align-items-center gap-4 ms-auto iconos">
-                    <a href="#" aria-label="Favoritos"><i class="bi bi-heart"></i></a>
-                    <a href="#" aria-label="Carrito"><i class="bi bi-cart3"></i></a>
+                    <a href="{{base}}pages/productos/Shopping cart/index.html" aria-label="Carrito" class="position-relative">
+                        <i class="bi bi-cart3"></i>
+                        <span data-cart-count class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" hidden>0</span>
+                    </a>
                     <div class="dropdown user-role-switch">
                         <a href="#" class="dropdown-toggle" id="userRoleToggle" data-bs-toggle="dropdown"
                             aria-expanded="false" aria-label="Cuenta">

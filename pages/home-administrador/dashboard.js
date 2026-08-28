@@ -685,6 +685,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // =========================================================
     // PÁGINA DE PRODUCTOS
     // =========================================================
+// Guarda el producto del formulario
 
     const contenedorProductos =
         document.querySelector(
