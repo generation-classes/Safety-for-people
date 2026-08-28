@@ -100,7 +100,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 });
 
-// funcione de guardadr informacion del modal
+// Guarda el producto del formulario
 
 const listaProductos = [];
 const formulario = document.getElementById('formularioAgregarProducto');
@@ -120,35 +120,35 @@ formulario.addEventListener('submit', function(evento) {
         ? inputArchivo.files[0].name
         : "Sin archivo adjunto";
 
-    // VALIDAR NOMBRE
+    // Valida el nombre
     if (nombre === "") {
         Swal.fire("Campo obligatorio", "Ingresa el nombre del producto", "error");
         console.error("Error: falta el nombre del producto");
         return;
     }
 
-    // VALIDAR CATEGORÍA
+    // Valida la categoría
     if (categoria === "") {
         Swal.fire("Campo obligatorio", "Selecciona una categoría", "error");
         console.error("Error: falta la categoría");
         return;
     }
 
-    // VALIDAR DESCRIPCIÓN
+    // Valida la descripción
     if (descripcion === "") {
         Swal.fire("Campo obligatorio", "Ingresa una descripción", "error");
         console.error("Error: falta la descripción");
         return;
     }
 
-    // VALIDAR PRECIO
+    // Valida el precio
     if (precio === "") {
         Swal.fire("Campo obligatorio", "Ingresa el precio regular", "error");
         console.error("Error: falta el precio");
         return;
     }
 
-    // VALIDAR STOCK
+    // Valida el stock
     if (stock === "") {
         Swal.fire("Campo obligatorio", "Ingresa el stock disponible", "error");
         console.error("Error: falta el stock");
