@@ -45,10 +45,12 @@ App.getCart = function () {
 };
 
 App.normalizeImagePath = function (path, id) {
-    if (path && path.startsWith('/pages/Assets/')) {
-        return path.replace('/pages/Assets/', '/Assets/');
-    }
-    return path || `/Assets/images/products/${id}.png`;
+    const rawPath = path || `/Assets/images/products/${id}.png`;
+    const assetsIndex = rawPath.indexOf('Assets/');
+    if (assetsIndex === -1) return rawPath;
+
+    const assetsPath = rawPath.slice(assetsIndex);
+    return new URL(`${App.getBasePath()}${assetsPath}`, document.baseURI).href;
 };
 
 App.notify = function (mensaje, tipo = 'success') {
