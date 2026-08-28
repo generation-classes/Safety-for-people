@@ -1,4 +1,10 @@
-const favoritos = new Set();
+let favoritosGuardados = [];
+try {
+    favoritosGuardados = JSON.parse(localStorage.getItem("sape_favoritos") || "[]");
+} catch {
+    favoritosGuardados = [];
+}
+const favoritos = new Set(Array.isArray(favoritosGuardados) ? favoritosGuardados : []);
 
 const gridProductos = document.getElementById("gridProductos");
 const contadorProductos = document.getElementById("contadorProductos");
@@ -9,10 +15,15 @@ const precioMin = document.getElementById("precioMin");
 const precioMax = document.getElementById("precioMax");
 const catBtns = document.querySelectorAll(".cat-btn");
 const filtroChecks = document.querySelectorAll(".filtro-check");
+const chkFavoritos = document.getElementById("chkFavoritos");
+const buscador = document.querySelector('.buscador input[type="search"]');
 
 const PRODUCTOS_POR_PAGINA = 9;
 let categoriaActiva = "todos";
 let paginaActual = 1;
+const terminoBusqueda = new URLSearchParams(window.location.search).get("buscar")?.trim().toLowerCase() || "";
+
+if (buscador) buscador.value = terminoBusqueda;
 
 function productoCoincideCategoria(producto) {
     if (categoriaActiva === "todos") return true;
@@ -33,11 +44,20 @@ function productoCoincideCaracteristicas(producto) {
     return seleccionadas.every(c => producto.caracteristicas.includes(c));
 }
 
+function productoCoincideBusqueda(producto) {
+    if (!terminoBusqueda) return true;
+    return [producto.nombre, producto.descripcion, producto.categoria, producto.grupo]
+        .filter(Boolean)
+        .some(valor => valor.toLowerCase().includes(terminoBusqueda));
+}
+
 function obtenerProductosFiltrados() {
     let resultado = productos.filter(p =>
         productoCoincideCategoria(p) &&
         productoCoincidePrecio(p) &&
-        productoCoincideCaracteristicas(p)
+        productoCoincideCaracteristicas(p) &&
+        productoCoincideBusqueda(p) &&
+        (!chkFavoritos.checked || p.isFavorite === true)
     );
 
     switch (ordenarPor.value) {
@@ -59,7 +79,8 @@ function crearTarjeta(producto) {
     const col = document.createElement("div");
     col.className = "col-12 col-sm-6 col-lg-4";
 
-    const esFavorito = favoritos.has(producto.id);
+    producto.isFavorite = favoritos.has(producto.id);
+    const esFavorito = producto.isFavorite;
 
     col.innerHTML = `
         <div class="producto-card" data-id="${producto.id}">
@@ -69,7 +90,7 @@ function crearTarjeta(producto) {
             <div class="producto-img-wrap" style="background:${producto.color};">
                 <img src="${obtenerImagenProducto(producto)}" alt="${producto.nombre}">
             </div>
-            <h3 class="producto-nombre">${producto.nombre}</h3>
+            <a class="producto-nombre text-decoration-none" href="detalle.html?id=${producto.id}">${producto.nombre}</a>
             <p class="producto-desc">${producto.descripcion}</p>
             <div class="producto-footer">
                 <span class="producto-precio">${formatearPrecio(producto.precio)}</span>
@@ -86,11 +107,13 @@ function crearTarjeta(producto) {
         } else {
             favoritos.add(producto.id);
         }
+        producto.isFavorite = favoritos.has(producto.id);
+        localStorage.setItem("sape_favoritos", JSON.stringify([...favoritos]));
         renderizarProductos();
     });
 
     col.querySelector(".producto-cart-btn").addEventListener("click", () => {
-        Swal.fire("Agregado al carrito", `${producto.nombre} se añadió correctamente`, "success");
+        App.addToCart(producto);
     });
 
     return col;
@@ -174,5 +197,6 @@ filtroChecks.forEach(chk => chk.addEventListener("change", aplicarFiltros));
 precioMin.addEventListener("change", aplicarFiltros);
 precioMax.addEventListener("change", aplicarFiltros);
 ordenarPor.addEventListener("change", aplicarFiltros);
+chkFavoritos.addEventListener("change", aplicarFiltros);
 
 renderizarProductos();

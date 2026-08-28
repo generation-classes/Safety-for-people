@@ -1,4 +1,4 @@
-:root {
+﻿:root {
     --primary: #094051;
     --secondary: #087F7C;
     --light: #DFE8EC;
@@ -437,6 +437,11 @@ body[data-page="productos"] .buscador {
     color:#fff;
     padding:70px 0;
     overflow:hidden;
+}
+
+.banner-contacto {
+    min-height: auto;
+    padding: 36px 0;
 }
 
 .badge-banner{
@@ -1498,6 +1503,38 @@ textarea.form-control{
     color:#4E535A;
 }
 
+.sape-notificaciones {
+    position: fixed;
+    top: 88px;
+    right: 24px;
+    z-index: 2000;
+    display: grid;
+    gap: 10px;
+    max-width: min(360px, calc(100vw - 32px));
+}
+
+.sape-notificacion {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 13px 16px;
+    border-radius: 10px;
+    color: #fff;
+    font: 500 14px 'Inter', sans-serif;
+    box-shadow: 0 8px 22px rgba(2, 29, 58, .22);
+    animation: sape-aviso .25s ease-out;
+}
+
+.sape-notificacion-success { background: #1b5e8f; }
+.sape-notificacion-info { background: #387c68; }
+.sape-notificacion-danger { background: #b42318; }
+.sape-notificacion i { font-size: 18px; }
+
+@keyframes sape-aviso {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
 
 
 /*      RESPONSIVE*/
@@ -2284,6 +2321,11 @@ body[data-page="productos"] .buscador {
     min-height:100vh;
     padding:50px 0 30px;
     overflow:hidden;
+}
+
+.banner-contacto {
+    min-height: auto;
+    padding: 36px 0;
 }
 
 .badge-banner{
@@ -7363,4 +7405,9 @@ textarea.form-control{
 #paginacionProductos .page-link:hover {
     color: var(--primary);
     background-color: var(--light);
+}
+
+.banner-contacto {
+    min-height: auto;
+    padding: 36px 0;
 }
