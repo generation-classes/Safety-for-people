@@ -1,26 +1,106 @@
-﻿const etiquetasCaracteristicas = { emergencia: 'Botón de emergencia', agua: 'Resistencia al agua', ubicacion: 'Ubicación en tiempo real', bateria: 'Batería de larga duración' };
-const formatearPrecio = valor => `$${valor.toLocaleString('es-CO')} COP`;
-document.addEventListener('DOMContentLoaded', () => {
-  const id = Number(new URLSearchParams(window.location.search).get('id'));
-  const producto = window.SAPE_PRODUCTOS.find(item => item.id === id);
-  if (!producto) { document.querySelector('.detalle-contenido').innerHTML = '<p class="text-center">No encontramos el producto solicitado. <a href="index.html">Volver al catálogo</a></p>'; return; }
-  document.title = `${producto.nombre} | SAPE`;
-  document.getElementById('breadcrumbProducto').textContent = producto.nombre;
-  document.getElementById('imagenProducto').src = producto.imagen;
-  document.getElementById('imagenProducto').alt = producto.nombre;
-  document.getElementById('categoriaProducto').innerHTML = `<i class="bi bi-tag-fill"></i> ${producto.categoria.toUpperCase()}`;
-  document.getElementById('nombreProducto').textContent = producto.nombre;
-  document.getElementById('precioProducto').textContent = formatearPrecio(producto.precio);
-  document.getElementById('descripcionProducto').textContent = producto.descripcion;
-  document.getElementById('caracteristicasProducto').innerHTML = producto.caracteristicas.map(caracteristica => `<li><i class="bi bi-check-circle-fill"></i>${etiquetasCaracteristicas[caracteristica]}</li>`).join('');
-  const inputCantidad = document.getElementById('cantidadProducto');
-  const cantidadActual = () => Math.max(1, Number(inputCantidad.value) || 1);
-  document.getElementById('btnDisminuir').addEventListener('click', () => { inputCantidad.value = Math.max(1, cantidadActual() - 1); });
-  document.getElementById('btnAumentar').addEventListener('click', () => { inputCantidad.value = cantidadActual() + 1; });
-  inputCantidad.addEventListener('change', () => { inputCantidad.value = cantidadActual(); });
-  document.getElementById('btnAgregarCarrito').addEventListener('click', () => {
-    App.addToCart(producto, cantidadActual());
-  });
-});
+const MapaCategorias = {
+    relojes: "Relojes GPS",
+    cadenas: "Cadenas GPS",
+    pulseras: "Pulseras GPS",
+    audifonos: "Audífonos GPS",
+    gafas: "Gafas GPS",
+    aretes: "Aretes GPS",
+    llavero: "Llavero GPS"
+};
 
+function leerIdDesdeUrl() {
+    const parametros = new URLSearchParams(window.location.search);
+    return parametros.get("id");
+}
 
+function buscarProductoPorId(id) {
+    return productos.find(producto => String(producto.id) === String(id));
+}
+
+function pintarProducto(producto) {
+
+    const imagen = document.getElementById("imagenProducto");
+    if (imagen) {
+        imagen.src = obtenerImagenProducto(producto);
+        imagen.alt = producto.nombre;
+    }
+
+    const categoria = document.getElementById("categoriaProducto");
+    if (categoria) {
+        const etiqueta = MapaCategorias[producto.categoria] || producto.categoria;
+        categoria.innerHTML = `<i class="bi bi-tag-fill"></i> ${etiqueta}`;
+    }
+
+    const nombre = document.getElementById("nombreProducto");
+    if (nombre) nombre.textContent = producto.nombre;
+
+    const precio = document.getElementById("precioProducto");
+    if (precio) precio.textContent = formatearPrecio(producto.precio);
+
+    const descripcion = document.getElementById("descripcionProducto");
+    if (descripcion) descripcion.textContent = producto.descripcion;
+
+    const stock = document.getElementById("stockProducto");
+    if (stock) {
+        stock.classList.add("disponible");
+        stock.innerHTML = '<i class="bi bi-check-circle-fill"></i> Stock disponible';
+    }
+
+    const caracteristicas = document.getElementById("caracteristicasProducto");
+    if (caracteristicas) {
+        caracteristicas.innerHTML = "";
+        producto.caracteristicas.forEach(codigo => {
+            const etiqueta = MapaCaracteristicas[codigo] || codigo;
+            const li = document.createElement("li");
+            li.innerHTML = `<i class="bi bi-check2"></i> ${etiqueta}`;
+            caracteristicas.appendChild(li);
+        });
+    }
+
+    const breadcrumb = document.getElementById("breadcrumbProducto");
+    if (breadcrumb) breadcrumb.textContent = producto.nombre;
+
+    document.title = `${producto.nombre} | SAPE`;
+
+    const cantidad = document.querySelector(".cantidad-input");
+    const disminuir = document.querySelector(".cantidad-btn:first-child");
+    const aumentar = document.querySelector(".cantidad-btn:last-child");
+    const agregar = document.querySelector(".detalle-btn-carrito");
+
+    const actualizarCantidad = cambio => {
+        const valor = Math.max(1, Number(cantidad.value || 1) + cambio);
+        cantidad.value = valor;
+    };
+
+    disminuir?.addEventListener("click", () => actualizarCantidad(-1));
+    aumentar?.addEventListener("click", () => actualizarCantidad(1));
+    cantidad?.addEventListener("change", () => {
+        cantidad.value = Math.max(1, Number(cantidad.value || 1));
+    });
+    agregar?.addEventListener("click", () => {
+        App.addToCart(producto, cantidad.value);
+    });
+}
+
+function mostrarProductoNoEncontrado() {
+
+    const contenido = document.getElementById("contenidoDetalle");
+    if (!contenido) return;
+
+    contenido.innerHTML = `
+        <div class="alert alert-danger text-center">
+            <h4>Producto no encontrado</h4>
+            <p>El producto que estás buscando no existe o ya no está disponible.</p>
+            <a href="index.html" class="btn btn-primary">Volver a productos</a>
+        </div>
+    `;
+}
+
+const id = leerIdDesdeUrl();
+const producto = buscarProductoPorId(id);
+
+if (producto) {
+    pintarProducto(producto);
+} else {
+    mostrarProductoNoEncontrado();
+}
