@@ -2669,308 +2669,622 @@ body[data-page="productos"] .buscador {
     }
 }
 /* ===========================
-            PQRS
+   PQRS
 =========================== */
 
-.pqrs-card{
-    border:none;
-    border-radius:25px;
-    overflow:hidden;
-    background:#fff;
-    box-shadow:0 20px 45px rgba(2,29,58,.12);
+
+/* =========================================================
+   ESTILOS GENERALES DE LA CARD PQRS
+   ========================================================= */
+
+.pqrs-card {
+    border: none;
+    border-radius: 25px;
+    overflow: hidden;
+    background: #fff;
+    box-shadow: 0 20px 45px rgba(2, 29, 58, .12);
 }
 
-.pqrs-info{
-    background:linear-gradient(160deg,var(--dark),var(--primary));
-    color:#fff;
-    padding:50px 40px;
+
+/* =========================================================
+   =========================================================
+   PÁGINA DE CONTACTO
+   TARJETA INFORMATIVA DE PQRS
+   =========================================================
+   ========================================================= */
+
+.pqrs-home {
+    background: var(--light);
+    padding-top: 50px;
+    padding-bottom: 50px;
 }
 
-.pqrs-info h3{
-    font-family:'Montserrat',sans-serif;
-    font-weight:700;
-    margin-bottom:18px;
+
+/* CARD */
+
+.pqrs-home .pqrs-card {
+    width: 100%;
+    border: none !important;
+    border-radius: 25px;
+    overflow: hidden;
+    background: #fff;
+    box-shadow: 0 20px 45px rgba(2, 29, 58, .12);
 }
 
-.pqrs-info p{
-    color:#dfe8ec;
-    line-height:1.7;
+
+/* =========================================================
+   PANEL IZQUIERDO
+   ========================================================= */
+
+.pqrs-home .pqrs-info {
+    min-height: 495px;
+
+    background: linear-gradient(
+        135deg,
+        var(--primary) 0%,
+        var(--secondary) 100%
+    ) !important;
+
+    color: #fff !important;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
-.pqrs-info i{
-    color:#69d2e7;
+
+/* TÍTULO */
+
+.pqrs-home .pqrs-info .titulo {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 40px;
+    font-weight: 700;
+    line-height: 1.15;
+
+    color: #fff !important;
+
+    margin-bottom: 25px;
 }
 
-.pqrs-form{
-    padding:50px;
-    background:#fff;
+
+/* TEXTO */
+
+.pqrs-home .pqrs-info p {
+    color: #fff !important;
+    font-size: 17px;
+    line-height: 1.6;
+    margin-bottom: 25px;
 }
 
-.pqrs-form h5{
-    color:var(--primary);
-    font-family:'Montserrat',sans-serif;
-    font-weight:700;
-    margin-bottom:30px;
+
+/* STRONG */
+
+.pqrs-home .pqrs-info strong {
+    color: #fff !important;
 }
+
+
+/* =========================================================
+   INFORMACIÓN PQRS
+   ========================================================= */
+
+.pqrs-home .pqrs-items {
+    margin-top: 10px;
+}
+
+
+.pqrs-home .pqrs-item {
+    display: flex;
+    align-items: center;
+
+    gap: 12px;
+
+    margin-bottom: 16px;
+
+    color: #fff !important;
+}
+
+
+.pqrs-home .pqrs-item i {
+    width: 28px;
+    min-width: 28px;
+
+    color: #fff !important;
+
+    font-size: 20px;
+}
+
+
+.pqrs-home .pqrs-item span {
+    color: #fff !important;
+
+    font-size: 15px;
+    line-height: 1.4;
+}
+
+
+/* =========================================================
+   PANEL DERECHO - CONTACTO
+   ========================================================= */
+
+.pqrs-home .pqrs-card .bg-white {
+    min-height: 495px;
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+}
+
+
+/* =========================================================
+   ICONO PRINCIPAL
+   ========================================================= */
+
+.pqrs-home .pqrs-icon {
+    width: 70px;
+    height: 70px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin-bottom: 20px !important;
+
+    border-radius: 50%;
+
+    background: rgba(8, 127, 124, .10);
+}
+
+
+.pqrs-home .pqrs-icon i {
+    color: var(--secondary) !important;
+    font-size: 30px;
+}
+
+
+/* =========================================================
+   TÍTULO DERECHO
+   ========================================================= */
+
+.pqrs-home .pqrs-card h3 {
+    font-family: 'Montserrat', sans-serif;
+
+    font-size: 30px;
+    font-weight: 700;
+
+    color: var(--dark) !important;
+
+    margin-bottom: 15px;
+}
+
+
+/* =========================================================
+   TEXTO DERECHO
+   ========================================================= */
+
+.pqrs-home .pqrs-card .text-secondary {
+    max-width: 500px;
+
+    color: var(--text) !important;
+
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+
+/* =========================================================
+   BOTÓN DE CONTACTO
+   ========================================================= */
+
+.pqrs-home .btn-pqrs {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    min-width: 330px;
+    height: 60px;
+
+    background: linear-gradient(
+        135deg,
+        var(--secondary),
+        var(--primary)
+    ) !important;
+
+    color: #fff !important;
+
+    border: none !important;
+    border-radius: 50px;
+
+    font-size: 17px;
+    font-weight: 700;
+
+    letter-spacing: .3px;
+
+    transition: .35s;
+}
+
+
+.pqrs-home .btn-pqrs:hover {
+    transform: translateY(-3px);
+
+    background: linear-gradient(
+        135deg,
+        var(--primary),
+        var(--dark)
+    ) !important;
+
+    box-shadow:
+        0 15px 25px rgba(2, 29, 58, .25);
+
+    color: #fff !important;
+}
+
+
+.pqrs-home .btn-pqrs i {
+    color: #fff !important;
+}
+
+
+/* =========================================================
+   TEXTO INFERIOR
+   ========================================================= */
+
+.pqrs-home .pqrs-card small {
+    color: var(--text) !important;
+}
+
+
+.pqrs-home .pqrs-card small strong {
+    color: var(--dark) !important;
+}
+
+
+/* PÁGINA DE PQRS*/
+
+
+/* FORMULARIO */
+
+.pqrs-form {
+    padding: 50px;
+    background: #fff;
+}
+
+
+/* TÍTULOS DE SECCIÓN */
+
+.pqrs-form h5 {
+    color: var(--primary);
+
+    font-family: 'Montserrat', sans-serif;
+
+    font-weight: 700;
+
+    margin-bottom: 30px;
+}
+
 
 /* LABELS */
 
-.pqrs-form label{
-    font-weight:600;
-    color:var(--dark);
-    margin-bottom:8px;
+.pqrs-form label {
+    font-weight: 600;
+
+    color: var(--dark);
+
+    margin-bottom: 8px;
 }
+
 
 /* INPUT GROUP */
 
-.input-group-text{
+.input-group-text {
+    display: flex;
 
-    display:flex;
-    align-items:center;
-    background:#fff;
-    border:2px solid #dfe8ec;
-    border-right:none;
-    color:var(--secondary);
-    border-radius:12px 0 0 12px;
+    align-items: center;
+    justify-content: center;
+
+    background: #fff;
+
+    border: 2px solid #dfe8ec;
+
+    border-right: none;
+
+    color: var(--secondary);
+
+    border-radius: 12px 0 0 12px;
 }
 
-.input-group .form-control{
 
-    border-left:none;
-    border-radius:0 12px 12px 0;
+.input-group .form-control {
+    border-left: none;
+
+    border-radius: 0 12px 12px 0;
 }
 
-/* INPUTS */
 
-.form-control,
-.form-select{
+/*  INPUTS */
 
-    height:50px;
+.pqrs-form .form-control,
+.pqrs-form .form-select {
+    min-height: 50px;
 
-    border:2px solid #dfe8ec;
+    border: 2px solid #dfe8ec;
 
-    border-radius:12px;
+    border-radius: 12px;
 
-    transition:.30s;
+    transition: .3s;
 
-    font-size:15px;
+    font-size: 15px;
 
-    color:var(--text);
+    color: var(--text);
 
-    box-shadow:none;
-
+    box-shadow: none;
 }
 
-textarea.form-control{
 
-    height:auto;
+/* TEXTAREA*/
 
-    min-height:180px;
+.pqrs-form textarea.form-control {
+    height: auto;
 
-    resize:none;
+    min-height: 180px;
 
+    resize: vertical;
 }
 
-.form-control:focus,
-.form-select:focus{
 
-    border-color:var(--secondary);
+/*  INPUTS AL SELECCIONAR */
 
-    box-shadow:0 0 0 .18rem rgba(8,127,124,.15);
+.pqrs-form .form-control:focus,
+.pqrs-form .form-select:focus {
+    border-color: var(--secondary);
 
+    box-shadow:
+        0 0 0 .18rem rgba(8, 127, 124, .15);
 }
 
-/* PLACEHOLDER */
 
-.form-control::placeholder{
+/*  PLACEHOLDER */
 
-    color:#9aa6af;
-
+.pqrs-form .form-control::placeholder {
+    color: #9aa6af;
 }
 
-/* SELECT */
 
-.form-select{
+/* SELECT*/
 
-    cursor:pointer;
-
+.pqrs-form .form-select {
+    cursor: pointer;
 }
 
-/* FILE */
 
-.file-upload{
+/* 
+   SEPARADORES */
 
-    border:2px dashed var(--secondary);
+.pqrs-form hr {
+    border-top: 2px solid #edf2f5;
 
-    border-radius:18px;
+    opacity: 1;
 
-    background:#f7fbfb;
+    margin-top: 45px;
 
-    padding:45px;
-
-    text-align:center;
-
-    transition:.30s;
-
+    margin-bottom: 45px;
 }
 
-.file-upload:hover{
 
-    background:#eef9f8;
+/* 
+   ARCHIVOS */
 
-    border-color:var(--primary);
+.file-upload {
+    border: 2px dashed var(--secondary);
 
+    border-radius: 18px;
+
+    background: #f7fbfb;
+
+    padding: 45px;
+
+    text-align: center;
+
+    transition: .3s;
 }
 
-.file-upload i{
 
-    font-size:60px;
+.file-upload:hover {
+    background: #eef9f8;
 
-    color:var(--secondary);
-
-    margin-bottom:15px;
-
+    border-color: var(--primary);
 }
 
-.file-upload input{
 
-    margin-top:20px;
+.file-upload i {
+    font-size: 60px;
 
+    color: var(--secondary);
+
+    margin-bottom: 15px;
 }
 
-/* CHECK */
 
-.form-check-input{
-
-    width:20px;
-
-    height:20px;
-
-    cursor:pointer;
-
+.file-upload input {
+    margin-top: 20px;
 }
 
-.form-check-input:checked{
 
-    background:var(--secondary);
+/* CHECKBOX */
 
-    border-color:var(--secondary);
+.pqrs-form .form-check-input {
+    width: 20px;
 
+    height: 20px;
+
+    cursor: pointer;
 }
 
-.form-check-label{
 
-    margin-left:8px;
+.pqrs-form .form-check-input:checked {
+    background: var(--secondary);
 
-    color:var(--text);
-
+    border-color: var(--secondary);
 }
 
-/* BOTÓN */
 
-.btn-pqrs{
+.pqrs-form .form-check-label {
+    margin-left: 8px;
 
-    background:linear-gradient(135deg,var(--secondary),var(--primary));
-
-    color:#fff;
-
-    border:none;
-
-    border-radius:50px;
-
-    height:60px;
-
-    font-size:17px;
-
-    font-weight:700;
-
-    letter-spacing:.3px;
-
-    transition:.35s;
-
+    color: var(--text);
 }
 
-.btn-pqrs:hover{
 
-    transform:translateY(-3px);
+/*  BOTÓN DEL FORMULARIO PQRS */
 
-    background:linear-gradient(135deg,var(--primary),var(--dark));
+.pqrs-form .btn-pqrs {
+    background: linear-gradient(
+        135deg,
+        var(--secondary),
+        var(--primary)
+    );
 
-    box-shadow:0 15px 25px rgba(2,29,58,.25);
+    color: #fff;
 
-    color:#fff;
+    border: none;
 
+    border-radius: 50px;
+
+    height: 60px;
+
+    font-size: 17px;
+
+    font-weight: 700;
+
+    letter-spacing: .3px;
+
+    transition: .35s;
 }
 
-/* HR */
 
-.pqrs-form hr{
+.pqrs-form .btn-pqrs:hover {
+    transform: translateY(-3px);
 
-    border-top:2px solid #edf2f5;
+    background: linear-gradient(
+        135deg,
+        var(--primary),
+        var(--dark)
+    );
 
-    opacity:1;
+    box-shadow:
+        0 15px 25px rgba(2, 29, 58, .25);
 
+    color: #fff;
 }
 
-/* ICONOS */
 
-.input-group i{
+/* ICONOS DEL FORMULARIO */
 
-    font-size:18px;
-
+.pqrs-form .input-group i {
+    font-size: 18px;
 }
 
-/* BOTÓN CONTACTO */
 
-.btn-contacto{
-    color: white;
-    background: linear-gradient(to right, var(--dark), var(--secondary));
-}
+/* 
+   RESPONSIVE - CONTACTO */
 
-.form-outline{
-    border: 2px solid var(--primary);
-}
+@media (max-width: 992px) {
 
-/* RESPONSIVE */
-
-@media(max-width:992px){
-
-    .pqrs-info{
-
-        padding:35px;
-
-        text-align:center;
-
+    .pqrs-home .pqrs-info {
+        min-height: auto;
     }
 
-    .pqrs-form{
+    .pqrs-home .pqrs-card .bg-white {
+        min-height: 400px;
+    }
 
-        padding:35px;
-
+    .pqrs-home .pqrs-info .titulo {
+        font-size: 36px;
     }
 
 }
 
-@media(max-width:576px){
 
-    .pqrs-form{
+/*
+   RESPONSIVE - FORMULARIO= */
 
-        padding:25px;
+@media (max-width: 992px) {
 
+    .pqrs-form {
+        padding: 35px;
     }
 
-    .pqrs-info{
+}
 
-        padding:25px;
 
+/* 
+   RESPONSIVE - TODO PQRS */
+
+@media (max-width: 576px) {
+
+    /* CONTACTO */
+
+    .pqrs-home {
+        padding-top: 25px;
+        padding-bottom: 25px;
     }
 
-    .btn-pqrs{
+    .pqrs-home .pqrs-card {
+        border-radius: 18px;
+    }
 
-        height:55px;
+    .pqrs-home .pqrs-info {
+        min-height: auto;
 
-        font-size:16px;
+        padding: 35px 25px !important;
+    }
 
+    .pqrs-home .pqrs-info .titulo {
+        font-size: 30px;
+    }
+
+    .pqrs-home .pqrs-info p {
+        font-size: 16px;
+    }
+
+    .pqrs-home .pqrs-card .bg-white {
+        min-height: 380px;
+
+        padding: 35px 25px !important;
+    }
+
+    .pqrs-home .pqrs-card h3 {
+        font-size: 25px;
+    }
+
+    .pqrs-home .btn-pqrs {
+        width: 100%;
+
+        min-width: 0;
+
+        font-size: 15px;
+    }
+
+
+    /* FORMULARIO */
+
+    .pqrs-card {
+        border-radius: 18px;
+    }
+
+    .pqrs-form {
+        padding: 25px;
+    }
+
+    .pqrs-form .btn-pqrs {
+        height: 55px;
+
+        font-size: 16px;
     }
 
 }
