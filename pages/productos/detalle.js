@@ -61,6 +61,25 @@ function pintarProducto(producto) {
     if (breadcrumb) breadcrumb.textContent = producto.nombre;
 
     document.title = `${producto.nombre} | SAPE`;
+
+    const cantidad = document.querySelector(".cantidad-input");
+    const disminuir = document.querySelector(".cantidad-btn:first-child");
+    const aumentar = document.querySelector(".cantidad-btn:last-child");
+    const agregar = document.querySelector(".detalle-btn-carrito");
+
+    const actualizarCantidad = cambio => {
+        const valor = Math.max(1, Number(cantidad.value || 1) + cambio);
+        cantidad.value = valor;
+    };
+
+    disminuir?.addEventListener("click", () => actualizarCantidad(-1));
+    aumentar?.addEventListener("click", () => actualizarCantidad(1));
+    cantidad?.addEventListener("change", () => {
+        cantidad.value = Math.max(1, Number(cantidad.value || 1));
+    });
+    agregar?.addEventListener("click", () => {
+        App.addToCart(producto, cantidad.value);
+    });
 }
 
 function mostrarProductoNoEncontrado() {
