@@ -1,74 +1,169 @@
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener("DOMContentLoaded", () => {
+  const loginFormContainer = document.getElementById("login-form-container");
+  const registerFormContainer = document.getElementById(
+    "register-form-container",
+  );
 
+  const goToRegisterBtn = document.getElementById("go-to-register");
+  const goToLoginBtn = document.getElementById("go-to-login");
 
-    const loginFormContainer = document.getElementById('login-form-container');
-    const registerFormContainer = document.getElementById('register-form-container');
-    
-    const goToRegisterBtn = document.getElementById('go-to-register');
-    const goToLoginBtn = document.getElementById('go-to-login');
-    
-    const imgLogin = document.getElementById('img-login');
-    const imgRegister = document.getElementById('img-register');
-    
-    const togglePasswordButtons = document.querySelectorAll('.toggle-password');
-    const roleRadios = document.querySelectorAll('input[name="userRole"]');
+  const imgLogin = document.getElementById("img-login");
+  const imgRegister = document.getElementById("img-register");
 
-    // --- ALTERNANCIA ENTRE LOGIN Y REGISTRO ---
-    const showRegister = (e) => {
-        if (e) e.preventDefault();
-        loginFormContainer.classList.remove('active');
-        imgLogin.classList.remove('active');
+  const togglePasswordButtons = document.querySelectorAll(".toggle-password");
+  const roleRadios = document.querySelectorAll('input[name="userRole"]');
+  const authContainer = document.querySelector(".auth-container");
 
-        registerFormContainer.classList.add('active');
-        imgRegister.classList.add('active');
-    };
+  // --- FUNCIONES AUXILIARES DE ERROR ---
+  const mostrarError = (inputElement, mensaje) => {
+    if (!inputElement) return;
+    const grupoInput =
+      inputElement.closest(".input-group") ||
+      inputElement.closest(".input-wrapper");
+    let elementoError = grupoInput.querySelector(".error-message");
+    if (!elementoError) {
+      elementoError = document.createElement("span");
+      elementoError.className = "error-message";
+      grupoInput.appendChild(elementoError);
+    }
+    elementoError.textContent = mensaje;
+    elementoError.style.display = "block";
+    inputElement.classList.add("is-invalid");
+  };
 
-    const showLogin = (e) => {
-        if (e) e.preventDefault();
-        registerFormContainer.classList.remove('active');
-        imgRegister.classList.remove('active');
+  const limpiarError = (inputElement) => {
+    if (!inputElement) return;
+    const grupoInput =
+      inputElement.closest(".input-group") ||
+      inputElement.closest(".input-wrapper");
+    const elementoError = grupoInput.querySelector(".error-message");
+    if (elementoError) {
+      elementoError.textContent = "";
+      elementoError.style.display = "none";
+    }
+    inputElement.classList.remove("is-invalid");
+  };
 
-        loginFormContainer.classList.add('active');
-        imgLogin.classList.add('active');
-    };
+  // --- ALTERNANCIA ENTRE LOGIN Y REGISTRO ---
+  const showRegister = (e) => {
+    if (e) e.preventDefault();
 
-    if (goToRegisterBtn) goToRegisterBtn.addEventListener('click', showRegister);
-    if (goToLoginBtn) goToLoginBtn.addEventListener('click', showLogin);
+    if (authContainer) authContainer.style.flexDirection = "row-reverse";
 
-    // --- MOSTRAR / OCULTAR CONTRASEÑA ---
-    togglePasswordButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            const inputWrapper = button.closest('.input-wrapper');
-            const input = inputWrapper ? inputWrapper.querySelector('input') : null;
-            const icon = button.querySelector('i');
+    loginFormContainer.classList.remove("active");
+    imgLogin.classList.remove("active");
 
-            if (input && icon) {
-                const isPassword = input.type === 'password';
-                input.type = isPassword ? 'text' : 'password';
-                
-                // Cambia el icono de FontAwesome entre ojo abierto y cerrado
-                icon.classList.toggle('fa-eye', !isPassword);
-                icon.classList.toggle('fa-eye-slash', isPassword);
-            }
-        });
+    registerFormContainer.classList.add("active");
+    imgRegister.classList.add("active");
+  };
+
+  const showLogin = (e) => {
+    if (e) e.preventDefault();
+
+    if (authContainer) authContainer.style.flexDirection = "row";
+
+    registerFormContainer.classList.remove("active");
+    imgRegister.classList.remove("active");
+
+    loginFormContainer.classList.add("active");
+    imgLogin.classList.add("active");
+  };
+
+  if (goToRegisterBtn) goToRegisterBtn.addEventListener("click", showRegister);
+  if (goToLoginBtn) goToLoginBtn.addEventListener("click", showLogin);
+
+  // --- MOSTRAR / OCULTAR CONTRASEÑA ---
+  togglePasswordButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      const inputWrapper = button.closest(".input-wrapper");
+      const input = inputWrapper ? inputWrapper.querySelector("input") : null;
+      const icon = button.querySelector("i");
+
+      if (input && icon) {
+        const isPassword = input.type === "password";
+        input.type = isPassword ? "text" : "password";
+
+        if (icon.classList.contains("bi")) {
+          icon.classList.toggle("bi-eye", !isPassword);
+          icon.classList.toggle("bi-eye-slash", isPassword);
+        } else {
+          icon.classList.toggle("fa-eye", !isPassword);
+          icon.classList.toggle("fa-eye-slash", isPassword);
+        }
+      }
     });
+  });
 
-    // --- CONMUTADOR DE ROL (USUARIO / ADMINISTRADOR) ---
-    roleRadios.forEach(radio => {
-        radio.addEventListener('change', (e) => {
-            const selectedRole = e.target.value;
-            console.log(`Rol seleccionado: ${selectedRole}`);
-            
-             if (selectedRole === 'admin') {
-             } else {
-             }
-        });
+  // --- CONMUTADOR DE ROL ---
+  roleRadios.forEach((radio) => {
+    radio.addEventListener("change", (e) => {
+      const selectedRole = e.target.value;
+      console.log(`Rol seleccionado: ${selectedRole}`);
     });
+  });
 
-     const loginForm = document.getElementById('login-form');
-    const registerForm = document.getElementById('register-form');
+  // --- FORMULARIO DE LOGIN ---
+  const loginForm = document.getElementById("login-form");
+  if (loginForm) {
+    loginForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const emailInput = document.getElementById("login-email");
+      const passwordInput = document.getElementById("login-password");
+      const rememberMe =
+        document.getElementById("remember-me")?.checked || false;
+   
+      limpiarError(emailInput);
+      limpiarError(passwordInput);
 
-    if (loginForm) {
+      const usuarioGuardado = JSON.parse(
+        localStorage.getItem("usuarioRegistrado"),
+      );
+
+      if (!usuarioGuardado) {
+        Swal.fire({
+          icon: "warning",
+          title: "Sin usuarios",
+          text: "No hay usuarios registrados.",
+          confirmButtonText: "Aceptar",
+ 
+        });
+        return;
+      }
+
+      if (usuarioGuardado.email !== emailInput.value) {
+        Swal.fire({
+          icon: "error",
+          title: "Correo incorrecto",
+          text: "El correo electrónico no está registrado.",
+          confirmButtonText: "Aceptar",
+        });
+
+    }
+
+        return;
+      }
+
+      if (usuarioGuardado.contrasena !== passwordInput.value) {
+        Swal.fire({
+          icon: "error",
+          title: "Contraseña incorrecta",
+          text: "La contraseña ingresada no es correcta.",
+          confirmButtonText: "Aceptar",
+        });
+        return;
+      }
+
+      console.log("Login exitoso:", { email: emailInput.value, rememberMe });
+      Swal.fire({
+        icon: "success",
+        title: "¡Bienvenido!",
+        text: "Inicio de sesión exitoso.",
+        confirmButtonText: "Continuar",
+      }).then(() => {
+        window.location.href = "../home-usuario/index.html";
+      });
+    
+     if (loginForm) {
         loginForm.addEventListener('submit', (e) => {
             e.preventDefault();
             const email = document.getElementById('login-email').value.trim();
@@ -94,104 +189,143 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
                 alert('Correo electrónico o contraseña incorrectos.');
             }
-        });
-    }
+    });
+  }
 
-    if (registerForm) {
-        registerForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const nombreCompletoInput = document.getElementById('reg-name');
-            const numeroTelefonoInput = document.getElementById('reg-phone');
-            const correoElectronicoInput = document.getElementById('reg-email');
-            const contrasenaInput = document.getElementById('reg-password');
-            const confirmarContrasenaInput = document.getElementById('reg-confirm-password');
+  // --- FORMULARIO DE REGISTRO ---
+  const registerForm = document.getElementById("register-form");
 
-            const nombreCompleto = nombreCompletoInput.value;
-            const numeroTelefono = numeroTelefonoInput.value;
-            const correoElectronico = correoElectronicoInput.value;
-            const contrasena = contrasenaInput.value;
-            const confirmarContrasena = confirmarContrasenaInput.value;
+  if (registerForm) {
+    const nombreCompletoInput = document.getElementById("reg-name");
+    const numeroTelefonoInput = document.getElementById("reg-phone");
+    const correoElectronicoInput = document.getElementById("reg-email");
+    const contrasenaInput = document.getElementById("reg-password");
+    const confirmarContrasenaInput = document.getElementById(
+      "reg-confirm-password",
+    );
 
-            const mostrarError = (inputElement, mensaje) => {
-                const grupoInput = inputElement.closest('.input-group');
-                const elementoError = grupoInput.querySelector('.error-message');
-                if (elementoError) {
-                    elementoError.textContent = mensaje;
-                    elementoError.style.display = 'block';
-                }
-            };
+    // Limpieza de errores en tiempo real mientras el usuario escribe
+    [
+      nombreCompletoInput,
+      numeroTelefonoInput,
+      correoElectronicoInput,
+      contrasenaInput,
+      confirmarContrasenaInput,
+    ].forEach((input) => {
+      if (input) {
+        input.addEventListener("input", () => limpiarError(input));
+      }
+    });
 
-            const limpiarError = (inputElement) => {
-                const grupoInput = inputElement.closest('.input-group');
-                const elementoError = grupoInput.querySelector('.error-message');
-                if (elementoError) {
-                    elementoError.textContent = '';
-                    elementoError.style.display = 'none';
-                }
-            };
+    registerForm.addEventListener("submit", (e) => {
+      e.preventDefault();
 
-            let formularioValido = true;
+      const nombreCompleto = nombreCompletoInput
+        ? nombreCompletoInput.value.trim()
+        : "";
+      const numeroTelefono = numeroTelefonoInput
+        ? numeroTelefonoInput.value.trim()
+        : "";
+      const correoElectronico = correoElectronicoInput
+        ? correoElectronicoInput.value.trim()
+        : "";
+      const contrasena = contrasenaInput ? contrasenaInput.value : "";
+      const confirmarContrasena = confirmarContrasenaInput
+        ? confirmarContrasenaInput.value
+        : "";
 
-            const soloLetrasEspacios = /^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/;
-            if (!nombreCompleto.trim() || nombreCompleto.length < 3 || nombreCompleto.length > 100 || !soloLetrasEspacios.test(nombreCompleto)) {
-                mostrarError(nombreCompletoInput, 'El nombre debe contener solo letras, entre 3 y 100 caracteres.');
-                formularioValido = false;
-            } else {
-                limpiarError(nombreCompletoInput);
-            }
+      let formularioValido = true;
 
-            const exactamenteDiezNumeros = /^[0-9]{10}$/;
-            if (!exactamenteDiezNumeros.test(numeroTelefono)) {
-                mostrarError(numeroTelefonoInput, 'El número de teléfono debe tener exactamente 10 dígitos numéricos.');
-                formularioValido = false;
-            } else {
-                limpiarError(numeroTelefonoInput);
-            }
+      // Validar Nombre
+      if (nombreCompletoInput) {
+        const soloLetrasEspacios = /^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/;
+        if (
+          !nombreCompleto ||
+          nombreCompleto.length < 3 ||
+          nombreCompleto.length > 100 ||
+          !soloLetrasEspacios.test(nombreCompleto)
+        ) {
+          mostrarError(
+            nombreCompletoInput,
+            "El nombre debe contener solo letras, entre 3 y 100 caracteres.",
+          );
+          formularioValido = false;
+        }
+      }
 
-            const validarCorreo = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!validarCorreo.test(correoElectronico)) {
-                mostrarError(correoElectronicoInput, 'Por favor ingresa un correo electrónico válido.');
-                formularioValido = false;
-            } else {
-                limpiarError(correoElectronicoInput);
-            }
+      // Validar Teléfono
+      if (numeroTelefonoInput) {
+        const exactamenteDiezNumeros = /^[0-9]{10}$/;
+        if (!exactamenteDiezNumeros.test(numeroTelefono)) {
+          mostrarError(
+            numeroTelefonoInput,
+            "El número debe tener exactamente 10 dígitos numéricos.",
+          );
+          formularioValido = false;
+        }
+      }
 
-            const formatoContrasenaSegura = /^(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{6,}$/;
-            if (!contrasena || !formatoContrasenaSegura.test(contrasena)) {
-                mostrarError(contrasenaInput, 'La contraseña debe tener mínimo 6 caracteres, letras, números, una mayúscula y un símbolo especial.');
-                formularioValido = false;
-            } else {
-                limpiarError(contrasenaInput);
-            }
+      // Validar Correo
+      if (correoElectronicoInput) {
+        const validarCorreo = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!validarCorreo.test(correoElectronico)) {
+          mostrarError(
+            correoElectronicoInput,
+            "Ingresa un correo electrónico válido.",
+          );
+          formularioValido = false;
+        }
+      }
 
-            if (contrasena !== confirmarContrasena) {
-                mostrarError(confirmarContrasenaInput, 'Las contraseñas no coinciden.');
-                formularioValido = false;
-            } else {
-                limpiarError(confirmarContrasenaInput);
-            }
+      // Validar Contraseña
+      if (contrasenaInput) {
+        const formatoContrasenaSegura = /^(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{6,}$/;
+        if (!contrasena || !formatoContrasenaSegura.test(contrasena)) {
+          mostrarError(
+            contrasenaInput,
+            "Mínimo 6 caracteres, letras, números, una mayúscula y un símbolo especial.",
+          );
+          formularioValido = false;
+        }
+      }
 
-            if (!formularioValido) {
-                return;
-            }
+      // Validar Confirmación de Contraseña
+      if (confirmarContrasenaInput) {
+        if (contrasena !== confirmarContrasena) {
+          mostrarError(
+            confirmarContrasenaInput,
+            "Las contraseñas no coinciden.",
+          );
+          formularioValido = false;
+        }
+      }
 
-            const usuarioJson = JSON.stringify({
-                nombreCompleto: nombreCompleto,
-                telefono: numeroTelefono,
-                email: correoElectronico,
-                contrasena: contrasena
-            });
+      if (!formularioValido) return;
 
-            localStorage.setItem('usuarioRegistrado', usuarioJson);
+      // Guardar en LocalStorage
+      const usuarioJson = JSON.stringify({
+        nombreCompleto,
+        telefono: numeroTelefono,
+        email: correoElectronico,
+        contrasena,
+      });
 
-            console.log('Objeto JSON del usuario:', usuarioJson);
-            alert('¡Registro exitoso! ');
+      localStorage.setItem("usuarioRegistrado", usuarioJson);
+      Swal.fire({
+        icon: "success",
+        title: "¡Registro exitoso!",
+        text: "Tu cuenta ha sido creada correctamente.",
+        confirmButtonText: "Iniciar sesión",
+      }).then(() => {
+        registerForm.reset();
+        showLogin();
+      });
 
-            registerForm.reset();
-        });
-    }
-
-    // --- cambio de inicion de sesion en el navbar 
+      registerForm.reset();
+      showLogin(); // Redirige automáticamente al panel de Login tras registrarse
+    });
+  }
+  // --- cambio de inicion de sesion en el navbar 
     const authNavAction = document.getElementById('auth-nav-action');
 
     const actualizarInterfazNavbar = () => {

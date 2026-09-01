@@ -21,9 +21,18 @@ const buscador = document.querySelector('.buscador input[type="search"]');
 const PRODUCTOS_POR_PAGINA = 9;
 let categoriaActiva = "todos";
 let paginaActual = 1;
-const terminoBusqueda = new URLSearchParams(window.location.search).get("buscar")?.trim().toLowerCase() || "";
+let terminoBusqueda = new URLSearchParams(window.location.search).get("buscar")?.trim().toLowerCase() || "";
 
 if (buscador) buscador.value = terminoBusqueda;
+
+document.addEventListener("input", (evento) => {
+    if (!evento.target.matches('.buscador input[type="search"]')) return;
+    terminoBusqueda = evento.target.value.trim().toLowerCase();
+    if (typeof renderizarProductos === "function") {
+        paginaActual = 1;
+        renderizarProductos();
+    }
+});
 
 function productoCoincideCategoria(producto) {
     if (categoriaActiva === "todos") return true;
