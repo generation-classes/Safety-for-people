@@ -46,8 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const isPassword = input.type === 'password';
                 input.type = isPassword ? 'text' : 'password';
                 
-                // Cambia el icono de FontAwesome entre ojo abierto y cerrado
-                icon.classList.toggle('fa-eye', !isPassword);
+                 icon.classList.toggle('fa-eye', !isPassword);
                 icon.classList.toggle('fa-eye-slash', isPassword);
             }
         });
@@ -87,10 +86,19 @@ document.addEventListener('DOMContentLoaded', () => {
             const usuarioRegistrado = JSON.parse(usuarioGuardadoString);
 
             if (email === usuarioRegistrado.email && password === usuarioRegistrado.contrasena) {
-                localStorage.setItem('sesionIniciada', 'true');
-                actualizarInterfazNavbar();
-                alert(`¡Bienvenido de nuevo, ${usuarioRegistrado.nombreCompleto}!`);
+                 localStorage.setItem('sesionIniciada', 'true');
+                
+                 if (window.App && typeof App.updateAuthUI === 'function') {
+                    App.updateAuthUI();
+                }
+
+                 alert(`¡Bienvenido de nuevo, ${usuarioRegistrado.nombreCompleto}!`);
                 loginForm.reset();
+                
+                 if (window.App) {
+                    window.location.href = App.getBasePath() + App.pages.inicio;
+                }
+                
             } else {
                 alert('Correo electrónico o contraseña incorrectos.');
             }
