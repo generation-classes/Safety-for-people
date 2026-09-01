@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
   const loginFormContainer = document.getElementById("login-form-container");
   const registerFormContainer = document.getElementById(
-    "register-form-container",
+    "register-form-container"
   );
 
   const goToRegisterBtn = document.getElementById("go-to-register");
@@ -115,8 +115,32 @@ document.addEventListener("DOMContentLoaded", () => {
       limpiarError(emailInput);
       limpiarError(passwordInput);
 
+      const emailVal = emailInput.value.trim();
+      const passwordVal = passwordInput.value;
+
+      // 1. VALIDACIÓN CREDENCIALES ADMINISTRADOR DIRECTAS
+      if (
+        emailVal === "safetyforpeople2026@gmail.com" &&
+        passwordVal === "1234"
+      ) {
+        console.log("Login exitoso como Administrador Master:", {
+          email: emailVal,
+          rememberMe,
+        });
+        Swal.fire({
+          icon: "success",
+          title: "¡Bienvenido Administrador!",
+          text: "Inicio de sesión exitoso.",
+          confirmButtonText: "Continuar",
+        }).then(() => {
+          window.location.href = "./../home-administrador/index.html";
+        });
+        return;
+      }
+
+      // 2. VALIDACIÓN USUARIO REGISTRADO EN LOCALSTORAGE
       const usuarioGuardado = JSON.parse(
-        localStorage.getItem("usuarioRegistrado"),
+        localStorage.getItem("usuarioRegistrado")
       );
 
       if (!usuarioGuardado) {
@@ -130,7 +154,7 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      if (usuarioGuardado.email !== emailInput.value) {
+      if (usuarioGuardado.email !== emailVal) {
         Swal.fire({
           icon: "error",
           title: "Correo incorrecto",
@@ -143,7 +167,7 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      if (usuarioGuardado.contrasena !== passwordInput.value) {
+      if (usuarioGuardado.contrasena !== passwordVal) {
         Swal.fire({
           icon: "error",
           title: "Contraseña incorrecta",
@@ -153,14 +177,22 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      console.log("Login exitoso:", { email: emailInput.value, rememberMe });
+      console.log("Login exitoso:", { email: emailVal, rememberMe });
       Swal.fire({
         icon: "success",
         title: "¡Bienvenido!",
         text: "Inicio de sesión exitoso.",
         confirmButtonText: "Continuar",
       }).then(() => {
-        window.location.href = "../home-usuario/index.html";
+        // Redirecciona según el rol guardado en la cuenta registrada
+        if (
+          usuarioGuardado.rol === "admin" ||
+          usuarioGuardado.rol === "administrador"
+        ) {
+          window.location.href = "../home-administrador/index.html";
+        } else {
+          window.location.href = "../home-usuario/index.html";
+        }
       });
     
      if (loginForm) {
@@ -201,7 +233,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const correoElectronicoInput = document.getElementById("reg-email");
     const contrasenaInput = document.getElementById("reg-password");
     const confirmarContrasenaInput = document.getElementById(
-      "reg-confirm-password",
+      "reg-confirm-password"
     );
 
     // Limpieza de errores en tiempo real mientras el usuario escribe
@@ -234,6 +266,11 @@ document.addEventListener("DOMContentLoaded", () => {
         ? confirmarContrasenaInput.value
         : "";
 
+      // Captura el rol seleccionado en el radio button al momento del registro
+      const rolSeleccionado =
+        document.querySelector('input[name="userRole"]:checked')?.value ||
+        "usuario";
+
       let formularioValido = true;
 
       // Validar Nombre
@@ -247,7 +284,7 @@ document.addEventListener("DOMContentLoaded", () => {
         ) {
           mostrarError(
             nombreCompletoInput,
-            "El nombre debe contener solo letras, entre 3 y 100 caracteres.",
+            "El nombre debe contener solo letras, entre 3 y 100 caracteres."
           );
           formularioValido = false;
         }
@@ -259,7 +296,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!exactamenteDiezNumeros.test(numeroTelefono)) {
           mostrarError(
             numeroTelefonoInput,
-            "El número debe tener exactamente 10 dígitos numéricos.",
+            "El número debe tener exactamente 10 dígitos numéricos."
           );
           formularioValido = false;
         }
@@ -271,7 +308,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!validarCorreo.test(correoElectronico)) {
           mostrarError(
             correoElectronicoInput,
-            "Ingresa un correo electrónico válido.",
+            "Ingresa un correo electrónico válido."
           );
           formularioValido = false;
         }
@@ -279,11 +316,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
       // Validar Contraseña
       if (contrasenaInput) {
-        const formatoContrasenaSegura = /^(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{6,}$/;
+        const formatoContrasenaSegura =
+          /^(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{6,}$/;
         if (!contrasena || !formatoContrasenaSegura.test(contrasena)) {
           mostrarError(
             contrasenaInput,
-            "Mínimo 6 caracteres, letras, números, una mayúscula y un símbolo especial.",
+            "Mínimo 6 caracteres, letras, números, una mayúscula y un símbolo especial."
           );
           formularioValido = false;
         }
@@ -294,7 +332,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (contrasena !== confirmarContrasena) {
           mostrarError(
             confirmarContrasenaInput,
-            "Las contraseñas no coinciden.",
+            "Las contraseñas no coinciden."
           );
           formularioValido = false;
         }
@@ -302,12 +340,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (!formularioValido) return;
 
-      // Guardar en LocalStorage
+      // Guardar en LocalStorage incluyendo el rol
       const usuarioJson = JSON.stringify({
         nombreCompleto,
         telefono: numeroTelefono,
         email: correoElectronico,
         contrasena,
+        rol: rolSeleccionado,
       });
 
       localStorage.setItem("usuarioRegistrado", usuarioJson);
@@ -320,9 +359,6 @@ document.addEventListener("DOMContentLoaded", () => {
         registerForm.reset();
         showLogin();
       });
-
-      registerForm.reset();
-      showLogin(); // Redirige automáticamente al panel de Login tras registrarse
     });
   }
   // --- cambio de inicion de sesion en el navbar 
