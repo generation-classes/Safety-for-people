@@ -256,7 +256,7 @@ App.getCart = function () {
             descripcion: item.descripcion || product.descripcion || '',
             precio: Number(item.precio ?? item.price ?? product.precio ?? product.price) || 0,
             quantity: Math.max(1, Number(item.quantity ?? item.cantidad ?? product.quantity ?? 1) || 1),
-            imagen: App.normalizeImagePath(item.imagen || item.img || item.image || product.imagen || product.img, id)
+            imagen: App.ajustarRutaImagen(item.imagen || item.img || item.image || product.imagen || product.img, id)
             };
         });
     } catch {
@@ -264,7 +264,7 @@ App.getCart = function () {
     }
 };
 
-App.normalizeImagePath = function (path, id) {
+App.ajustarRutaImagen = function (path, id) {
     const rawPath = path || `/Assets/images/products/${id}.png`;
     const assetsIndex = rawPath.indexOf('Assets/');
     if (assetsIndex === -1) return rawPath;
@@ -334,7 +334,7 @@ App.addToCart = function (product, quantity = 1) {
             nombre: product.nombre,
             descripcion: product.descripcion,
             precio: Number(product.precio),
-            imagen: App.normalizeImagePath(typeof obtenerImagenProducto === 'function'
+            imagen: App.ajustarRutaImagen(typeof obtenerImagenProducto === 'function'
                 ? obtenerImagenProducto(product)
                 : product.imagen || product.img, product.id),
             quantity: amount

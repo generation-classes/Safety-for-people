@@ -127,6 +127,37 @@ document.addEventListener("DOMContentLoaded", () => {
                 JSON.stringify(productos)
             );
 
+            const inventarioActual = JSON.parse(localStorage.getItem("sape_inventario") || "[]");
+            const inventario = Array.isArray(inventarioActual) ? inventarioActual : [];
+
+            productos.forEach((producto) => {
+                const existe = inventario.some((item) => String(item.id) === String(producto.id));
+                if (existe) {
+                    const item = inventario.find((entry) => String(entry.id) === String(producto.id));
+                    item.nombre = producto.nombre;
+                    item.descripcion = producto.descripcion;
+                    item.precio = Number(producto.precio || 0);
+                    item.stock = Number(producto.stock || 0);
+                    item.categoria = producto.categoria;
+                    item.imagen = producto.imagen || item.imagen;
+                    item.caracteristicas = Array.isArray(producto.caracteristicas) ? producto.caracteristicas : item.caracteristicas || [];
+                    return;
+                }
+
+                inventario.push({
+                    id: producto.id,
+                    nombre: producto.nombre,
+                    categoria: producto.categoria,
+                    descripcion: producto.descripcion,
+                    precio: Number(producto.precio || 0),
+                    stock: Number(producto.stock || 0),
+                    imagen: producto.imagen,
+                    caracteristicas: Array.isArray(producto.caracteristicas) ? producto.caracteristicas : []
+                });
+            });
+
+            localStorage.setItem("sape_inventario", JSON.stringify(inventario));
+
             return true;
 
         } catch (error) {
