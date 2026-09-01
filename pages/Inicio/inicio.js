@@ -1,8 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
   const loginFormContainer = document.getElementById("login-form-container");
-  const registerFormContainer = document.getElementById(
-    "register-form-container"
-  );
+  const registerFormContainer = document.getElementById("register-form-container");
 
   const goToRegisterBtn = document.getElementById("go-to-register");
   const goToLoginBtn = document.getElementById("go-to-login");
@@ -47,7 +45,6 @@ document.addEventListener("DOMContentLoaded", () => {
   // --- ALTERNANCIA ENTRE LOGIN Y REGISTRO ---
   const showRegister = (e) => {
     if (e) e.preventDefault();
-
     if (authContainer) authContainer.style.flexDirection = "row-reverse";
 
     loginFormContainer.classList.remove("active");
@@ -59,7 +56,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const showLogin = (e) => {
     if (e) e.preventDefault();
-
     if (authContainer) authContainer.style.flexDirection = "row";
 
     registerFormContainer.classList.remove("active");
@@ -109,8 +105,7 @@ document.addEventListener("DOMContentLoaded", () => {
       e.preventDefault();
       const emailInput = document.getElementById("login-email");
       const passwordInput = document.getElementById("login-password");
-      const rememberMe =
-        document.getElementById("remember-me")?.checked || false;
+      const rememberMe = document.getElementById("remember-me")?.checked || false;
    
       limpiarError(emailInput);
       limpiarError(passwordInput);
@@ -118,22 +113,24 @@ document.addEventListener("DOMContentLoaded", () => {
       const emailVal = emailInput.value.trim();
       const passwordVal = passwordInput.value;
 
-      // 1. VALIDACIÓN CREDENCIALES ADMINISTRADOR DIRECTAS
+      // 1. VALIDACIÓN CREDENCIALES ADMINISTRADOR MASTER
       if (
         emailVal === "safetyforpeople2026@gmail.com" &&
         passwordVal === "1234"
       ) {
-        console.log("Login exitoso como Administrador Master:", {
-          email: emailVal,
-          rememberMe,
-        });
+        localStorage.setItem('sesionIniciada', 'true');
+        localStorage.setItem('sape_role', 'admin');
+        if (window.App && typeof App.updateAuthUI === 'function') {
+          App.updateAuthUI();
+        }
+
         Swal.fire({
           icon: "success",
           title: "¡Bienvenido Administrador!",
           text: "Inicio de sesión exitoso.",
           confirmButtonText: "Continuar",
         }).then(() => {
-          window.location.href = "./../home-administrador/index.html";
+          window.location.href = "../home-administrador/index.html";
         });
         return;
       }
@@ -147,9 +144,8 @@ document.addEventListener("DOMContentLoaded", () => {
         Swal.fire({
           icon: "warning",
           title: "Sin usuarios",
-          text: "No hay usuarios registrados.",
+          text: "No hay ninguna cuenta registrada. Por favor, regístrate primero.",
           confirmButtonText: "Aceptar",
- 
         });
         return;
       }
@@ -161,9 +157,6 @@ document.addEventListener("DOMContentLoaded", () => {
           text: "El correo electrónico no está registrado.",
           confirmButtonText: "Aceptar",
         });
-
-    }
-
         return;
       }
 
@@ -177,50 +170,27 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      console.log("Login exitoso:", { email: emailVal, rememberMe });
+      // LOGIN DE USUARIO EXITOSO
+      localStorage.setItem('sesionIniciada', 'true');
+      localStorage.setItem('sape_role', usuarioGuardado.rol || 'user');
+      
+      if (window.App && typeof App.updateAuthUI === 'function') {
+        App.updateAuthUI();
+      }
+
       Swal.fire({
         icon: "success",
-        title: "¡Bienvenido!",
+        title: `¡Bienvenido de nuevo, ${usuarioGuardado.nombreCompleto}!`,
         text: "Inicio de sesión exitoso.",
         confirmButtonText: "Continuar",
       }).then(() => {
-        // Redirecciona según el rol guardado en la cuenta registrada
-        if (
-          usuarioGuardado.rol === "admin" ||
-          usuarioGuardado.rol === "administrador"
-        ) {
-          window.location.href = "../home-administrador/index.html";
+        loginForm.reset();
+        if (window.App) {
+          window.location.href = App.getBasePath() + App.pages.inicio;
         } else {
           window.location.href = "../home-usuario/index.html";
         }
       });
-    
-     if (loginForm) {
-        loginForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const email = document.getElementById('login-email').value.trim();
-            const password = document.getElementById('login-password').value;
-            const rememberMe = document.getElementById('remember-me').checked;
-
-            console.log('Login Submit:', { email, password, rememberMe });
-
-             const usuarioGuardadoString = localStorage.getItem('usuarioRegistrado');
-
-            if (!usuarioGuardadoString) {
-                alert('No hay ninguna cuenta registrada. Por favor, regístrate primero.');
-                return;
-            }
-
-            const usuarioRegistrado = JSON.parse(usuarioGuardadoString);
-
-            if (email === usuarioRegistrado.email && password === usuarioRegistrado.contrasena) {
-                localStorage.setItem('sesionIniciada', 'true');
-                actualizarInterfazNavbar();
-                alert(`¡Bienvenido de nuevo, ${usuarioRegistrado.nombreCompleto}!`);
-                loginForm.reset();
-            } else {
-                alert('Correo electrónico o contraseña incorrectos.');
-            }
     });
   }
 
@@ -232,9 +202,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const numeroTelefonoInput = document.getElementById("reg-phone");
     const correoElectronicoInput = document.getElementById("reg-email");
     const contrasenaInput = document.getElementById("reg-password");
-    const confirmarContrasenaInput = document.getElementById(
-      "reg-confirm-password"
-    );
+    const confirmarContrasenaInput = document.getElementById("reg-confirm-password");
 
     // Limpieza de errores en tiempo real mientras el usuario escribe
     [
@@ -252,24 +220,14 @@ document.addEventListener("DOMContentLoaded", () => {
     registerForm.addEventListener("submit", (e) => {
       e.preventDefault();
 
-      const nombreCompleto = nombreCompletoInput
-        ? nombreCompletoInput.value.trim()
-        : "";
-      const numeroTelefono = numeroTelefonoInput
-        ? numeroTelefonoInput.value.trim()
-        : "";
-      const correoElectronico = correoElectronicoInput
-        ? correoElectronicoInput.value.trim()
-        : "";
+      const nombreCompleto = nombreCompletoInput ? nombreCompletoInput.value.trim() : "";
+      const numeroTelefono = numeroTelefonoInput ? numeroTelefonoInput.value.trim() : "";
+      const correoElectronico = correoElectronicoInput ? correoElectronicoInput.value.trim() : "";
       const contrasena = contrasenaInput ? contrasenaInput.value : "";
-      const confirmarContrasena = confirmarContrasenaInput
-        ? confirmarContrasenaInput.value
-        : "";
+      const confirmarContrasena = confirmarContrasenaInput ? confirmarContrasenaInput.value : "";
 
-      // Captura el rol seleccionado en el radio button al momento del registro
       const rolSeleccionado =
-        document.querySelector('input[name="userRole"]:checked')?.value ||
-        "usuario";
+        document.querySelector('input[name="userRole"]:checked')?.value || "user";
 
       let formularioValido = true;
 
@@ -316,8 +274,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       // Validar Contraseña
       if (contrasenaInput) {
-        const formatoContrasenaSegura =
-          /^(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{6,}$/;
+        const formatoContrasenaSegura = /^(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{6,}$/;
         if (!contrasena || !formatoContrasenaSegura.test(contrasena)) {
           mostrarError(
             contrasenaInput,
@@ -361,53 +318,4 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     });
   }
-  // --- cambio de inicion de sesion en el navbar 
-    const authNavAction = document.getElementById('auth-nav-action');
-
-    const actualizarInterfazNavbar = () => {
-        if (!authNavAction) return;
-        const sesionIniciada = localStorage.getItem('sesionIniciada') === 'true';
-
-        if (sesionIniciada) {
-            authNavAction.innerHTML = `
-                <div class="dropdown">
-                  <a href="#" class="dropdown-toggle text-dark fs-5" id="userProfileDropdown" data-bs-toggle="dropdown"
-                    aria-expanded="false" aria-label="Cuenta de usuario">
-                    <i class="bi bi-person-circle"></i>
-                  </a>
-                  <ul class="dropdown-menu dropdown-menu-end shadow border-0" aria-labelledby="userProfileDropdown">
-                    <li>
-                      <button class="dropdown-item text-danger d-flex align-items-center gap-2" id="btn-logout">
-                        <i class="bi bi-box-arrow-right"></i> Cerrar sesión
-                      </button>
-                    </li>
-                  </ul>
-                </div>
-            `;
-
-            const btnLogout = document.getElementById('btn-logout');
-            if (btnLogout) {
-                btnLogout.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    localStorage.removeItem('sesionIniciada');
-                    actualizarInterfazNavbar();
-                    alert('Has cerrado sesión exitosamente.');
-                });
-            }
-      } else {
-            authNavAction.innerHTML = `
-                <a href="#" id="btn-show-login" class="fw-semibold text-decoration-none" style="font-size: 1rem !important; padding: 0.35rem 0.75rem !important; border: none !important; color: var(--primary);">Iniciar sesión</a>
-            `;
-
-            const nuevoBtnShowLogin = document.getElementById('btn-show-login');
-            if (nuevoBtnShowLogin) {
-                nuevoBtnShowLogin.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    showLogin();
-                });
-            }
-        }
-    };
-
-     actualizarInterfazNavbar();
 });

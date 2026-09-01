@@ -6,6 +6,7 @@ const App = {
         aboutUs: 'pages/about-us/index.html',
         contacto: 'pages/contacto/index.html',
         admin: 'pages/home-administrador/index.html',
+        login: 'pages/Inicio/index.html', // Ruta agregada
     },
 };
 
@@ -430,6 +431,49 @@ App.setupRoleSwitch = function (base) {
     });
 };
 
+// NUEVO: Función que evalúa si el usuario tiene sesión y renderiza el botón o el perfil.
+App.updateAuthUI = function () {
+    const authNavAction = document.getElementById('auth-nav-action');
+    if (!authNavAction) return;
+
+    const base = App.getBasePath();
+    const sesionIniciada = localStorage.getItem('sesionIniciada') === 'true';
+
+    if (sesionIniciada) {
+        // Renderizar icono de cuenta si está logueado
+        authNavAction.innerHTML = `
+            <div class="dropdown">
+              <a href="#" class="dropdown-toggle text-dark fs-5" id="userProfileDropdown" data-bs-toggle="dropdown"
+                aria-expanded="false" aria-label="Cuenta de usuario">
+                <i class="bi bi-person-circle"></i>
+              </a>
+              <ul class="dropdown-menu dropdown-menu-end shadow border-0" aria-labelledby="userProfileDropdown">
+                <li>
+                  <button class="dropdown-item text-danger d-flex align-items-center gap-2" id="btn-logout">
+                    <i class="bi bi-box-arrow-right"></i> Cerrar sesión
+                  </button>
+                </li>
+              </ul>
+            </div>
+        `;
+
+        const btnLogout = document.getElementById('btn-logout');
+        if (btnLogout) {
+            btnLogout.addEventListener('click', (e) => {
+                e.preventDefault();
+                localStorage.removeItem('sesionIniciada');
+                App.updateAuthUI(); // Volver a pintar el botón de Iniciar Sesión
+                App.notify('Has cerrado sesión exitosamente.', 'info');
+            });
+        }
+    } else {
+        // Renderizar botón de Iniciar Sesión que redirige a tu ruta si NO está logueado
+        authNavAction.innerHTML = `
+            <a href="${base}${App.pages.login}" id="btn-show-login" class="fw-semibold text-decoration-none" style="font-size: 1rem !important; padding: 0.35rem 0.75rem !important; border: none !important; color: var(--primary);">Iniciar sesión</a>
+        `;
+    }
+};
+
 App.loadLayout = async function () {
     const base = App.getBasePath();
     const currentPage = document.body.dataset.page;
@@ -438,6 +482,7 @@ App.loadLayout = async function () {
         { id: 'site-footer', file: 'components/footer.html' },
     ];
 
+    // Carga asíncrona de la navbar
     await Promise.all(targets.map(async ({ id, file }) => {
         const mount = document.getElementById(id);
         if (!mount) return;
@@ -451,6 +496,9 @@ App.loadLayout = async function () {
             link.classList.add('active');
         });
     }
+
+    // AHORA SÍ: Como la navbar ya cargó en el paso anterior, pintamos el botón o perfil
+    App.updateAuthUI();
 
     App.setupRoleSwitch(base);
     App.setupSearch(base);
