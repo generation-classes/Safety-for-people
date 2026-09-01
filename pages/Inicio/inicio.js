@@ -1,35 +1,18 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const sessionActual = JSON.parse(localStorage.getItem("sape_session") || "null");
-  const linkInicio = document.querySelector(".navbar-brand");
-
-  if (linkInicio) {
-    const destino = sessionActual?.role === "admin"
-      ? "../home-administrador/index.html"
-      : "../home-usuario/index.html";
-    linkInicio.setAttribute("href", destino);
-  }
-
-  if (sessionActual && sessionActual.role) {
-    const destino = sessionActual.role === "admin"
-      ? "../home-administrador/index.html"
-      : "../home-usuario/index.html";
-    window.location.href = destino;
-    return;
-  }
-
-  const usuarios = [
-    { nombre: "Usuario Demo", email: "user@safety.com", password: "User123!", role: "user" },
-    { nombre: "Administrador", email: "admin@safety.com", password: "Admin123!", role: "admin" },
-  ];
-
-  const guardarUsuariosBase = () => {
-    const usuariosGuardados = JSON.parse(localStorage.getItem("sape_users") || "[]");
-    if (!Array.isArray(usuariosGuardados) || usuariosGuardados.length === 0) {
-      localStorage.setItem("sape_users", JSON.stringify(usuarios));
+  // --- VERIFICACIÓN DE SESIÓN ACTIVA AL CARGAR LA PÁGINA ---
+  const sesionActiva = JSON.parse(localStorage.getItem("sesionActiva"));
+  if (sesionActiva) {
+    if (
+      sesionActiva.rol === "admin" ||
+      sesionActiva.rol === "administrador"
+    ) {
+      window.location.href = "../home-administrador/index.html";
+      return;
+    } else {
+      window.location.href = "../home-usuario/index.html";
+      return;
     }
-  };
-
-  guardarUsuariosBase();
+  }
 
   const loginFormContainer = document.getElementById("login-form-container");
   const registerFormContainer = document.getElementById(
@@ -139,29 +122,31 @@ document.addEventListener("DOMContentLoaded", () => {
   if (loginForm) {
     loginForm.addEventListener("submit", (e) => {
       e.preventDefault();
-
       const emailInput = document.getElementById("login-email");
       const passwordInput = document.getElementById("login-password");
       const rememberMe =
         document.getElementById("remember-me")?.checked || false;
 
-      if (!emailInput || !passwordInput) return;
-
       limpiarError(emailInput);
       limpiarError(passwordInput);
 
-      const emailVal = emailInput.value.trim().toLowerCase();
+      const emailVal = emailInput.value.trim();
       const passwordVal = passwordInput.value;
 
-      if (emailVal === "safetyforpeople2026@gmail.com" && passwordVal === "1234") {
-        localStorage.setItem("sape_role", "admin");
+      // 1. VALIDACIÓN CREDENCIALES ADMINISTRADOR DIRECTAS
+      if (
+        emailVal === "safetyforpeople2026@gmail.com" &&
+        passwordVal === "1234"
+      ) {
+        console.log("Login exitoso como Administrador Master:", {
+          email: emailVal,
+          rememberMe,
+        });
+
+        // Guardar estado de sesión activa
         localStorage.setItem(
-          "sape_session",
-          JSON.stringify({
-            email: emailVal,
-            nombre: "Administrador Master",
-            role: "admin",
-          }),
+          "sesionActiva",
+          JSON.stringify({ email: emailVal, rol: "admin" })
         );
 
         Swal.fire({
@@ -175,65 +160,67 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      const usuariosGuardados = JSON.parse(localStorage.getItem("sape_users") || "[]");
-      const usuarioValido = [...usuariosGuardados, ...usuarios].find(
-        (usuario) =>
-          usuario &&
-          usuario.email &&
-          usuario.email.toLowerCase() === emailVal &&
-          usuario.password === passwordVal,
+      // 2. VALIDACIÓN USUARIO REGISTRADO EN LOCALSTORAGE
+      const usuarioGuardado = JSON.parse(
+        localStorage.getItem("usuarioRegistrado")
       );
 
-      if (!usuarioValido) {
-        const usuarioGuardado = JSON.parse(localStorage.getItem("usuarioRegistrado") || "null");
-
-        if (usuarioGuardado && usuarioGuardado.email && usuarioGuardado.email.toLowerCase() === emailVal) {
-          Swal.fire({
-            icon: "error",
-            title: "Contraseña incorrecta",
-            text: "La contraseña ingresada no es correcta.",
-            confirmButtonText: "Aceptar",
-          });
-          return;
-        }
-
+      if (!usuarioGuardado) {
         Swal.fire({
-          icon: "error",
-          title: "Credenciales inválidas",
-          text: "El correo o la contraseña no coinciden con un usuario autorizado.",
+          icon: "warning",
+          title: "Sin usuarios",
+          text: "No hay usuarios registrados.",
           confirmButtonText: "Aceptar",
         });
         return;
       }
 
-      localStorage.setItem("sape_role", usuarioValido.role);
-      localStorage.setItem(
-        "sape_session",
-        JSON.stringify({
-          email: usuarioValido.email,
-          nombre: usuarioValido.nombre,
-          role: usuarioValido.role,
-        }),
-      );
+      if (usuarioGuardado.email !== emailVal) {
+        Swal.fire({
+          icon: "error",
+          title: "Correo incorrecto",
+          text: "El correo electrónico no está registrado.",
+          confirmButtonText: "Aceptar",
+        });
+        return;
+      }
 
-      console.log("Login exitoso:", {
-        email: usuarioValido.email,
-        role: usuarioValido.role,
-        rememberMe,
-      });
+      if (usuarioGuardado.contrasena !== passwordVal) {
+        Swal.fire({
+          icon: "error",
+          title: "Contraseña incorrecta",
+          text: "La contraseña ingresada no es correcta.",
+          confirmButtonText: "Aceptar",
+        });
+        return;
+      }
+
+      console.log("Login exitoso:", { email: emailVal, rememberMe });
+
+      // Guardar estado de sesión activa para usuarios dinámicos
+      localStorage.setItem(
+        "sesionActiva",
+        JSON.stringify({
+          email: usuarioGuardado.email,
+          rol: usuarioGuardado.rol || "usuario",
+        })
+      );
 
       Swal.fire({
         icon: "success",
         title: "¡Bienvenido!",
-        text: usuarioValido.role === "admin"
-          ? "Has iniciado sesión como administrador."
-          : "Inicio de sesión exitoso.",
+        text: "Inicio de sesión exitoso.",
         confirmButtonText: "Continuar",
       }).then(() => {
-        const destino = usuarioValido.role === "admin"
-          ? "../home-administrador/index.html"
-          : "../home-usuario/index.html";
-        window.location.href = destino;
+        // Redirecciona según el rol guardado en la cuenta registrada
+        if (
+          usuarioGuardado.rol === "admin" ||
+          usuarioGuardado.rol === "administrador"
+        ) {
+          window.location.href = "../home-administrador/index.html";
+        } else {
+          window.location.href = "../home-usuario/index.html";
+        }
       });
     });
   }
@@ -354,36 +341,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (!formularioValido) return;
 
-      const usuariosActuales = JSON.parse(localStorage.getItem("sape_users") || "[]");
-      const correoYaExiste = usuariosActuales.some(
-        (usuario) =>
-          usuario &&
-          usuario.email &&
-          usuario.email.toLowerCase() === correoElectronico.toLowerCase(),
-      );
-
-      if (correoYaExiste) {
-        Swal.fire({
-          icon: "warning",
-          title: "Usuario ya registrado",
-          text: "Este correo ya tiene una cuenta creada.",
-          confirmButtonText: "Aceptar",
-        });
-        return;
-      }
-
-      const nuevoUsuario = {
-        nombre: nombreCompleto,
-        email: correoElectronico,
-        password: contrasena,
-        role: rolSeleccionado === "admin" ? "admin" : "user",
-      };
-
-      localStorage.setItem(
-        "sape_users",
-        JSON.stringify([...usuariosActuales, nuevoUsuario]),
-      );
-
+      // Guardar en LocalStorage incluyendo el rol
       const usuarioJson = JSON.stringify({
         nombreCompleto,
         telefono: numeroTelefono,
