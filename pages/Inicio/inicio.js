@@ -111,7 +111,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const passwordInput = document.getElementById("login-password");
       const rememberMe =
         document.getElementById("remember-me")?.checked || false;
-
+   
       limpiarError(emailInput);
       limpiarError(passwordInput);
 
@@ -149,6 +149,7 @@ document.addEventListener("DOMContentLoaded", () => {
           title: "Sin usuarios",
           text: "No hay usuarios registrados.",
           confirmButtonText: "Aceptar",
+ 
         });
         return;
       }
@@ -160,6 +161,9 @@ document.addEventListener("DOMContentLoaded", () => {
           text: "El correo electrónico no está registrado.",
           confirmButtonText: "Aceptar",
         });
+
+    }
+
         return;
       }
 
@@ -190,6 +194,33 @@ document.addEventListener("DOMContentLoaded", () => {
           window.location.href = "../home-usuario/index.html";
         }
       });
+    
+     if (loginForm) {
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = document.getElementById('login-email').value.trim();
+            const password = document.getElementById('login-password').value;
+            const rememberMe = document.getElementById('remember-me').checked;
+
+            console.log('Login Submit:', { email, password, rememberMe });
+
+             const usuarioGuardadoString = localStorage.getItem('usuarioRegistrado');
+
+            if (!usuarioGuardadoString) {
+                alert('No hay ninguna cuenta registrada. Por favor, regístrate primero.');
+                return;
+            }
+
+            const usuarioRegistrado = JSON.parse(usuarioGuardadoString);
+
+            if (email === usuarioRegistrado.email && password === usuarioRegistrado.contrasena) {
+                localStorage.setItem('sesionIniciada', 'true');
+                actualizarInterfazNavbar();
+                alert(`¡Bienvenido de nuevo, ${usuarioRegistrado.nombreCompleto}!`);
+                loginForm.reset();
+            } else {
+                alert('Correo electrónico o contraseña incorrectos.');
+            }
     });
   }
 
@@ -330,4 +361,53 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     });
   }
+  // --- cambio de inicion de sesion en el navbar 
+    const authNavAction = document.getElementById('auth-nav-action');
+
+    const actualizarInterfazNavbar = () => {
+        if (!authNavAction) return;
+        const sesionIniciada = localStorage.getItem('sesionIniciada') === 'true';
+
+        if (sesionIniciada) {
+            authNavAction.innerHTML = `
+                <div class="dropdown">
+                  <a href="#" class="dropdown-toggle text-dark fs-5" id="userProfileDropdown" data-bs-toggle="dropdown"
+                    aria-expanded="false" aria-label="Cuenta de usuario">
+                    <i class="bi bi-person-circle"></i>
+                  </a>
+                  <ul class="dropdown-menu dropdown-menu-end shadow border-0" aria-labelledby="userProfileDropdown">
+                    <li>
+                      <button class="dropdown-item text-danger d-flex align-items-center gap-2" id="btn-logout">
+                        <i class="bi bi-box-arrow-right"></i> Cerrar sesión
+                      </button>
+                    </li>
+                  </ul>
+                </div>
+            `;
+
+            const btnLogout = document.getElementById('btn-logout');
+            if (btnLogout) {
+                btnLogout.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    localStorage.removeItem('sesionIniciada');
+                    actualizarInterfazNavbar();
+                    alert('Has cerrado sesión exitosamente.');
+                });
+            }
+      } else {
+            authNavAction.innerHTML = `
+                <a href="#" id="btn-show-login" class="fw-semibold text-decoration-none" style="font-size: 1rem !important; padding: 0.35rem 0.75rem !important; border: none !important; color: var(--primary);">Iniciar sesión</a>
+            `;
+
+            const nuevoBtnShowLogin = document.getElementById('btn-show-login');
+            if (nuevoBtnShowLogin) {
+                nuevoBtnShowLogin.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    showLogin();
+                });
+            }
+        }
+    };
+
+     actualizarInterfazNavbar();
 });
