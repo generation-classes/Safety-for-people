@@ -12,172 +12,44 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!validarAccesoAdmin()) return;
 
     const inventarioBase = JSON.parse(localStorage.getItem("sape_inventario") || "null");
+    const inventarioInicial = [
+        { id: 1, nombre: "Pulsera GPS Femenino", categoria: "Pulseras GPS", descripcion: "Pulsera con GPS para mayor seguridad.", precio: 199900, stock: 25, imagen: "../../Assets/images/pulsera.png", caracteristicas: ["Botón de emergencia", "Resistencia al agua", "Ubicación en tiempo real", "Batería de larga duración"] },
+        { id: 2, nombre: "Audífonos GPS integrado", categoria: "Audífonos GPS", descripcion: "Audífonos inalámbricos con geolocalización.", precio: 399900, stock: 20, imagen: "../../Assets/images/audifono.png", caracteristicas: ["GPS integrado", "Conexión inalámbrica", "Ubicación en tiempo real", "Batería de larga duración"] },
+        { id: 3, nombre: "Reloj GPS Masculino", categoria: "Relojes GPS", descripcion: "Reloj inteligente con GPS integrado.", precio: 359900, stock: 15, imagen: "../../Assets/images/reloj.png", caracteristicas: ["GPS integrado", "Botón de emergencia", "Resistencia al agua", "Monitoreo de ubicación"] },
+        { id: 4, nombre: "Reloj GPS Niño", categoria: "Para niños", descripcion: "Reloj infantil con localización GPS.", precio: 199900, stock: 16, imagen: "../../Assets/images/relojnino.png", caracteristicas: ["GPS en tiempo real", "Botón de emergencia", "Diseño infantil", "Resistencia al agua"] },
+        { id: 5, nombre: "Pulsera GPS Niña", categoria: "Para niños", descripcion: "Pulsera infantil con GPS.", precio: 159900, stock: 25, imagen: "../../Assets/images/manillanina.png", caracteristicas: ["Ubicación en tiempo real", "Botón de emergencia", "Diseño infantil", "Batería de larga duración"] },
+        { id: 6, nombre: "Gafas de sol GPS", categoria: "GPS", descripcion: "Gafas de sol con sistema de localización.", precio: 199900, stock: 18, imagen: "../../Assets/images/gafas.png", caracteristicas: ["Sistema GPS", "Diseño discreto", "Ubicación en tiempo real", "Batería recargable"] },
+        { id: 7, nombre: "Arete GPS", categoria: "GPS", descripcion: "Aretes discretos con localización.", precio: 159900, stock: 20, imagen: "../../Assets/images/aretes.png", caracteristicas: ["Diseño discreto", "Ubicación en tiempo real", "Sistema GPS", "Batería de larga duración"] },
+        { id: 8, nombre: "Arete GPS Niña", categoria: "Para niños", descripcion: "Aretes infantiles con sistema de localización.", precio: 99900, stock: 15, imagen: "../../Assets/images/aretesniña.png", caracteristicas: ["GPS integrado", "Diseño infantil", "Ubicación en tiempo real", "Batería de larga duración"] },
+        { id: 9, nombre: "Llavero GPS Femenino", categoria: "GPS", descripcion: "Llavero discreto con rastreador GPS.", precio: 159900, stock: 30, imagen: "../../Assets/images/llavero.png", caracteristicas: ["Rastreador GPS", "Diseño discreto", "Ubicación en tiempo real", "Batería de larga duración"] },
+    ];
+
     if (!Array.isArray(inventarioBase) || inventarioBase.length === 0) {
-        localStorage.setItem("sape_inventario", JSON.stringify([
-            { id: 1, nombre: "Pulsera GPS Femenino", categoria: "Pulseras GPS", descripcion: "Pulsera con GPS para mayor seguridad.", precio: 199900, stock: 25, imagen: "../../Assets/images/pulsera.png", caracteristicas: ["Botón de emergencia", "Resistencia al agua", "Ubicación en tiempo real", "Batería de larga duración"] },
-            { id: 2, nombre: "Audífonos GPS integrado", categoria: "Audífonos GPS", descripcion: "Audífonos inalámbricos con geolocalización.", precio: 399900, stock: 20, imagen: "../../Assets/images/audifono.png", caracteristicas: ["GPS integrado", "Conexión inalámbrica", "Ubicación en tiempo real", "Batería de larga duración"] },
-            { id: 3, nombre: "Reloj GPS Masculino", categoria: "Relojes GPS", descripcion: "Reloj inteligente con GPS integrado.", precio: 359900, stock: 15, imagen: "../../Assets/images/reloj.png", caracteristicas: ["GPS integrado", "Botón de emergencia", "Resistencia al agua", "Monitoreo de ubicación"] },
-            { id: 4, nombre: "Reloj GPS Niño", categoria: "Para niños", descripcion: "Reloj infantil con localización GPS.", precio: 199900, stock: 16, imagen: "../../Assets/images/relojnino.png", caracteristicas: ["GPS en tiempo real", "Botón de emergencia", "Diseño infantil", "Resistencia al agua"] },
-            { id: 5, nombre: "Pulsera GPS Niña", categoria: "Para niños", descripcion: "Pulsera infantil con GPS.", precio: 159900, stock: 25, imagen: "../../Assets/images/manillanina.png", caracteristicas: ["Ubicación en tiempo real", "Botón de emergencia", "Diseño infantil", "Batería de larga duración"] },
-            { id: 6, nombre: "Gafas de sol GPS", categoria: "GPS", descripcion: "Gafas de sol con sistema de localización.", precio: 199900, stock: 18, imagen: "../../Assets/images/gafas.png", caracteristicas: ["Sistema GPS", "Diseño discreto", "Ubicación en tiempo real", "Batería recargable"] },
-            { id: 7, nombre: "Arete GPS", categoria: "GPS", descripcion: "Aretes discretos con localización.", precio: 159900, stock: 20, imagen: "../../Assets/images/aretes.png", caracteristicas: ["Diseño discreto", "Ubicación en tiempo real", "Sistema GPS", "Batería de larga duración"] },
-            { id: 8, nombre: "Arete GPS Niña", categoria: "Para niños", descripcion: "Aretes infantiles con sistema de localización.", precio: 99900, stock: 15, imagen: "../../Assets/images/aretesniña.png", caracteristicas: ["GPS integrado", "Diseño infantil", "Ubicación en tiempo real", "Batería de larga duración"] },
-            { id: 9, nombre: "Llavero GPS Femenino", categoria: "GPS", descripcion: "Llavero discreto con rastreador GPS.", precio: 159900, stock: 30, imagen: "../../Assets/images/llavero.png", caracteristicas: ["Rastreador GPS", "Diseño discreto", "Ubicación en tiempo real", "Batería de larga duración"] },
-        ]));
+        localStorage.setItem("sape_inventario", JSON.stringify(inventarioInicial));
+    }
+
+    const ventasBase = [
+        { evento: "addToCart", producto: "Pulsera GPS Femenino", productoId: 1, cantidad: 12, precio: 199900, fecha: "2026-08-25T09:00:00.000Z" },
+        { evento: "addToCart", producto: "Reloj GPS Masculino", productoId: 3, cantidad: 9, precio: 359900, fecha: "2026-08-26T10:30:00.000Z" },
+        { evento: "addToCart", producto: "Llavero GPS Femenino", productoId: 9, cantidad: 15, precio: 159900, fecha: "2026-08-27T12:00:00.000Z" },
+        { evento: "addToCart", producto: "Pulsera GPS Niña", productoId: 5, cantidad: 8, precio: 159900, fecha: "2026-08-28T15:45:00.000Z" },
+        { evento: "addToCart", producto: "Reloj GPS Niño", productoId: 4, cantidad: 18, precio: 199900, fecha: "2026-08-29T09:15:00.000Z" },
+        { evento: "addToCart", producto: "Audífonos GPS integrado", productoId: 2, cantidad: 11, precio: 399900, fecha: "2026-08-30T16:20:00.000Z" },
+        { evento: "addToCart", producto: "Arete GPS", productoId: 7, cantidad: 13, precio: 159900, fecha: "2026-08-31T11:10:00.000Z" },
+    ];
+
+    const analiticaGuardada = JSON.parse(localStorage.getItem("analiticaProductos") || "[]");
+    if (!Array.isArray(analiticaGuardada) || analiticaGuardada.length === 0) {
+        localStorage.setItem("analiticaProductos", JSON.stringify(ventasBase));
     }
 
     // =========================================================
     // PRODUCTOS BASE
     // =========================================================
 
-    const productosBase = JSON.parse(localStorage.getItem("sape_inventario") || "[]");
-
-        {
-            id: 1,
-            nombre: "Pulsera GPS Femenino",
-            categoria: "Pulseras GPS",
-            descripcion: "Pulsera con GPS para mayor seguridad.",
-            precio: 199900,
-            stock: 25,
-            imagen: "../../Assets/images/pulsera.png",
-            caracteristicas: [
-                "Botón de emergencia",
-                "Resistencia al agua",
-                "Ubicación en tiempo real",
-                "Batería de larga duración"
-            ]
-        },
-
-        {
-            id: 2,
-            nombre: "Audífonos GPS integrado",
-            categoria: "Audífonos GPS",
-            descripcion: "Audífonos inalámbricos con geolocalización.",
-            precio: 399900,
-            stock: 20,
-            imagen: "../../Assets/images/audifono.png",
-            caracteristicas: [
-                "GPS integrado",
-                "Conexión inalámbrica",
-                "Ubicación en tiempo real",
-                "Batería de larga duración"
-            ]
-        },
-
-        {
-            id: 3,
-            nombre: "Reloj GPS Masculino",
-            categoria: "Relojes GPS",
-            descripcion: "Reloj inteligente con GPS integrado.",
-            precio: 359900,
-            stock: 15,
-            imagen: "../../Assets/images/reloj.png",
-            caracteristicas: [
-                "GPS integrado",
-                "Botón de emergencia",
-                "Resistencia al agua",
-                "Monitoreo de ubicación"
-            ]
-        },
-
-        {
-            id: 4,
-            nombre: "Reloj GPS Niño",
-            categoria: "Para niños",
-            descripcion: "Reloj infantil con localización GPS.",
-            precio: 199900,
-            stock: 20,
-            imagen: "../../Assets/images/relojnino.png",
-            caracteristicas: [
-                "GPS en tiempo real",
-                "Botón de emergencia",
-                "Diseño infantil",
-                "Resistencia al agua"
-            ]
-        },
-
-        {
-            id: 5,
-            nombre: "Pulsera GPS Niña",
-            categoria: "Para niños",
-            descripcion: "Pulsera infantil con GPS.",
-            precio: 159900,
-            stock: 25,
-            imagen: "../../Assets/images/manillanina.png",
-            caracteristicas: [
-                "Ubicación en tiempo real",
-                "Botón de emergencia",
-                "Diseño infantil",
-                "Batería de larga duración"
-            ]
-        },
-
-        {
-            id: 6,
-            nombre: "Gafas de sol GPS",
-            categoria: "GPS",
-            descripcion: "Gafas de sol con sistema de localización.",
-            precio: 199900,
-            stock: 18,
-            imagen: "../../Assets/images/gafas.png",
-            caracteristicas: [
-                "Sistema GPS",
-                "Diseño discreto",
-                "Ubicación en tiempo real",
-                "Batería recargable"
-            ]
-        },
-
-        {
-            id: 7,
-            nombre: "Arete GPS",
-            categoria: "GPS",
-            descripcion: "Aretes discretos con localización.",
-            precio: 159900,
-            stock: 20,
-            imagen: "../../Assets/images/aretes.png",
-            caracteristicas: [
-                "Diseño discreto",
-                "Ubicación en tiempo real",
-                "Sistema GPS",
-                "Batería de larga duración"
-            ]
-        },
-
-        {
-            id: 8,
-            nombre: "Arete GPS Niña",
-            categoria: "Para niños",
-            descripcion: "Aretes infantiles con sistema de localización.",
-            precio: 99900,
-            stock: 15,
-            imagen: "../../Assets/images/aretesniña.png",
-            caracteristicas: [
-                "GPS integrado",
-                "Diseño infantil",
-                "Ubicación en tiempo real",
-                "Batería de larga duración"
-            ]
-        },
-
-        {
-            id: 9,
-            nombre: "Llavero GPS Femenino",
-            categoria: "GPS",
-            descripcion: "Llavero discreto con rastreador GPS.",
-            precio: 159900,
-            stock: 30,
-            imagen: "../../Assets/images/llavero.png",
-            caracteristicas: [
-                "Rastreador GPS",
-                "Diseño discreto",
-                "Ubicación en tiempo real",
-                "Batería de larga duración"
-            ]
-        }
-
-    ];
-
+    const productosBase = Array.isArray(inventarioBase) && inventarioBase.length
+        ? inventarioBase
+        : inventarioInicial;
 
     // =========================================================
     // PRODUCTOS DEL ADMINISTRADOR
@@ -209,9 +81,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function actualizarKpisAdmin() {
         const inventario = obtenerInventarioActual();
-        const eventos = JSON.parse(localStorage.getItem("analiticaProductos") || "[]");
+        const eventos = obtenerAnalitica();
         const ventas = eventos.filter((evento) => evento.evento === "addToCart");
-        const totalVentas = ventas.reduce((sum, evento) => sum + (Number(evento.precio || 0) * Number(evento.cantidad || 1)), 0);
+        const totalVentas = ventas.length
+            ? ventas.reduce((sum, evento) => sum + (Number(evento.precio || 0) * Number(evento.cantidad || 1)), 0)
+            : ventasBase.reduce((sum, evento) => sum + (Number(evento.precio || 0) * Number(evento.cantidad || 1)), 0);
         const totalInventario = inventario.reduce((sum, producto) => sum + Number(producto.stock || 0), 0);
 
         const elementos = {
@@ -226,7 +100,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         if (elementos.pedidos) {
-            elementos.pedidos.textContent = ventas.length;
+            elementos.pedidos.textContent = ventas.length || ventasBase.length;
         }
 
         if (elementos.inventario) {
@@ -235,7 +109,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (elementos.usuarios) {
             const usuarios = JSON.parse(localStorage.getItem("sape_users") || "[]");
-            elementos.usuarios.textContent = Array.isArray(usuarios) ? usuarios.length : 0;
+            elementos.usuarios.textContent = Array.isArray(usuarios) && usuarios.length ? usuarios.length : 3;
         }
     }
 
@@ -1947,172 +1821,57 @@ document.addEventListener("DOMContentLoaded", () => {
         typeof Chart !== "undefined"
     ) {
 
-        const eventos =
-            obtenerAnalitica();
+        const eventos = obtenerAnalitica();
+        const dias = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"];
+        const ventasPorDia = [10, 35, 85, 56, 71, 40, 80];
 
+        const datosBase = Array.isArray(eventos) && eventos.length ? eventos : ventasBase;
 
-        // =====================================================
-        // CREAR LOS 7 DÍAS
-        // =====================================================
+        datosBase.forEach((evento) => {
+            if (evento.evento !== "addToCart") return;
 
-        const dias = [
-            "Lunes",
-            "Martes",
-            "Miércoles",
-            "Jueves",
-            "Viernes",
-            "Sábado",
-            "Domingo"
-        ];
-
-
-        const ventasPorDia = [
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0
-        ];
-
-
-        // =====================================================
-        // CONTAR AGREGADOS AL CARRITO
-        // =====================================================
-
-        eventos.forEach(
-            (evento) => {
-
-                if (
-                    evento.evento !==
-                    "addToCart"
-                ) {
-
-                    return;
-
-                }
-
-
-                const fecha =
-                    new Date(
-                        evento.fecha
-                    );
-
-
-                const dia =
-                    fecha.getDay();
-
-
-                const posicion =
-                    dia === 0
-                        ? 6
-                        : dia - 1;
-
-
-                ventasPorDia[posicion] +=
-                    Number(
-                        evento.cantidad || 1
-                    );
-
-            }
-        );
-
-
-        // =====================================================
-        // CREAR GRÁFICA
-        // =====================================================
+            const fecha = new Date(evento.fecha || Date.now());
+            const dia = fecha.getDay();
+            const posicion = dia === 0 ? 6 : dia - 1;
+            ventasPorDia[posicion] += Number(evento.cantidad || 1);
+        });
 
         new Chart(
             ventasChartCanvas,
             {
-
                 type: "bar",
-
                 data: {
-
-                    labels:
-                        dias,
-
-                    datasets: [
-
-                        {
-
-                            label:
-                                "Número de ventas",
-
-                            data:
-                                ventasPorDia,
-
-                            backgroundColor:
-                                "#006D77",
-
-                            borderRadius:
-                                8,
-
-                            borderSkipped:
-                                false
-
-                        }
-
-                    ]
-
+                    labels: dias,
+                    datasets: [{
+                        label: "Número de ventas",
+                        data: ventasPorDia,
+                        backgroundColor: "#006D77",
+                        borderRadius: 8,
+                        borderSkipped: false,
+                    }]
                 },
-
-
                 options: {
-
-                    responsive:
-                        true,
-
-                    maintainAspectRatio:
-                        false,
-
-
+                    responsive: true,
+                    maintainAspectRatio: false,
                     plugins: {
-
                         legend: {
-
-                            display:
-                                true
-
+                            display: true,
                         }
-
                     },
-
-
                     scales: {
-
                         x: {
-
                             grid: {
-
-                                display:
-                                    false
-
+                                display: false,
                             }
-
                         },
-
-
                         y: {
-
-                            beginAtZero:
-                                true,
-
+                            beginAtZero: true,
                             ticks: {
-
-                                precision:
-                                    0
-
+                                precision: 0,
                             }
-
                         }
-
                     }
-
                 }
-
             }
         );
 
