@@ -32,10 +32,12 @@ body {
 
 .detalle-breadcrumb .breadcrumb-item a:hover {
     color: var(--primary);
+    text-decoration: none;
 }
 
 .detalle-breadcrumb .breadcrumb-item.active {
-    color: var(--text);
+    color: var(--secondary);
+    text-decoration: none;
 }
 
 

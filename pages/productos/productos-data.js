@@ -1,4 +1,4 @@
-const productos = [
+const productosBase = [
     {
         id: 1,
         nombre: "Pulsera GPS Femenino",
@@ -164,10 +164,46 @@ const MapaCaracteristicas = {
     bateria: "Batería de larga duración"
 };
 
+function obtenerProductosGuardados() {
+    try {
+        const guardados = JSON.parse(localStorage.getItem("productos") || "[]");
+        const inventario = JSON.parse(localStorage.getItem("sape_inventario") || "[]");
+        const base = Array.isArray(guardados) ? guardados : [];
+        const existentes = Array.isArray(inventario) ? inventario : [];
+
+        const combinados = [...base, ...existentes.filter((producto) => !base.some((item) => String(item.id) === String(producto.id)))];
+
+        return combinados.map((producto) => {
+            const categoria = String(producto.categoria || "").trim().toLowerCase();
+            const nombre = producto.nombre || producto.title || "Producto";
+            const descripcion = producto.descripcion || "Producto disponible";
+            const precio = Number(producto.precio || 0);
+            const id = Number(producto.id || Date.now() + Math.random());
+            const img = producto.img || producto.imagen || "../../Assets/images/products/default.png";
+
+            return {
+                id,
+                nombre,
+                descripcion,
+                precio,
+                categoria: categoria.includes("reloj") ? "relojes" : categoria.includes("pulsera") ? "pulseras" : categoria.includes("llav") ? "llavero" : categoria.includes("arete") ? "aretes" : categoria.includes("gafa") ? "gafas" : categoria.includes("audif") ? "audifonos" : categoria.includes("niño") ? "ninos" : categoria || "otros",
+                grupo: String(producto.grupo || (categoria.includes("niño") ? "ninos" : "adultos")).toLowerCase(),
+                caracteristicas: Array.isArray(producto.caracteristicas) ? producto.caracteristicas.map((item) => String(item).toLowerCase()) : [],
+                color: producto.color || "#DDEFFB",
+                img
+            };
+        });
+    } catch {
+        return [];
+    }
+}
+
+const productos = [...productosBase, ...obtenerProductosGuardados()];
+
 function formatearPrecio(valor) {
     return "$" + valor.toLocaleString("es-CO") + " COP";
 }
 
 function obtenerImagenProducto(producto) {
-    return App.normalizeImagePath(producto.img, producto.id);
+    return App.ajustarRutaImagen(producto.img || producto.imagen, producto.id);
 }
