@@ -1,19 +1,4 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // --- VERIFICACIÓN DE SESIÓN ACTIVA AL CARGAR LA PÁGINA ---
-  const sesionActiva = JSON.parse(localStorage.getItem("sesionActiva"));
-  if (sesionActiva) {
-    if (
-      sesionActiva.rol === "admin" ||
-      sesionActiva.rol === "administrador"
-    ) {
-      window.location.href = "../home-administrador/index.html";
-      return;
-    } else {
-      window.location.href = "../home-usuario/index.html";
-      return;
-    }
-  }
-
   const loginFormContainer = document.getElementById("login-form-container");
   const registerFormContainer = document.getElementById(
     "register-form-container"
@@ -142,20 +127,13 @@ document.addEventListener("DOMContentLoaded", () => {
           email: emailVal,
           rememberMe,
         });
-
-        // Guardar estado de sesión activa
-        localStorage.setItem(
-          "sesionActiva",
-          JSON.stringify({ email: emailVal, rol: "admin" })
-        );
-
         Swal.fire({
           icon: "success",
           title: "¡Bienvenido Administrador!",
           text: "Inicio de sesión exitoso.",
           confirmButtonText: "Continuar",
         }).then(() => {
-          window.location.href = "../home-administrador/index.html";
+          window.location.href = "./../home-administrador/index.html";
         });
         return;
       }
@@ -196,16 +174,6 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       console.log("Login exitoso:", { email: emailVal, rememberMe });
-
-      // Guardar estado de sesión activa para usuarios dinámicos
-      localStorage.setItem(
-        "sesionActiva",
-        JSON.stringify({
-          email: usuarioGuardado.email,
-          rol: usuarioGuardado.rol || "usuario",
-        })
-      );
-
       Swal.fire({
         icon: "success",
         title: "¡Bienvenido!",

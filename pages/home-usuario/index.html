@@ -98,6 +98,17 @@
         integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
         crossorigin="anonymous"></script>
     <script src="../../app/app.js"></script>
+    <script src="../Inicio/inicio.js"></script>
+    <script>
+    (function () {
+      const sesion = JSON.parse(localStorage.getItem("sesionActiva"));
+
+      // Si no hay sesión o el rol no es usuario, redirige al login
+      if (!sesion || !sesion.isLogged || sesion.rol !== "usuario") {
+        window.location.href = "../Inicio/index.html";
+      }
+    })();
+  </script>
 </body>
 
 </html>

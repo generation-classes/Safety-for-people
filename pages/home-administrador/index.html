@@ -86,6 +86,7 @@
                                 
                                 <div class="d-flex justify-content-center">
                                     <input type="file" class="form-control form-control-sm w-75" id="archivoProducto"accept="image/*" style="border-color: #82C4C3;">
+>>>>>>> b16ff5cac79952b852a98ad2ca060e1a2ec74640
                                 </div>
                             </div>
                         </div>
@@ -116,7 +117,7 @@
                             <span class="material-icons fs-2">payments</span>
                         </div>
 
-                        <h2 class="fw-bold" id="kpiVentas">$0 COP</h2>
+                        <h2 class="fw-bold">$18.540.000</h2>
 
                         <div class="mt-auto">
                             <p class="text-success fw-semibold mb-1 d-flex align-items-center gap-1"><i class="material-icons" style="font-size:16px">arrow_upward</i>12.5%</p>
@@ -141,7 +142,7 @@
                             <span class="material-icons fs-2">receipt_long</span>
                         </div>
 
-                        <h2 class="fw-bold" id="kpiPedidos">0</h2>
+                        <h2 class="fw-bold">325</h2>
 
                         <div class="mt-auto">
                             <p class="text-success fw-semibold mb-1 d-flex align-items-center gap-1"><i class="material-icons" style="font-size:16px">arrow_upward</i>8.3%</p>
@@ -166,7 +167,7 @@
                             <span class="material-icons fs-2">inventory_2</span>
                         </div>
 
-                        <h2 class="fw-bold" id="kpiInventario">0</h2>
+                        <h2 class="fw-bold">1.254</h2>
 
                         <div class="mt-auto">
                             <p class="text-success fw-semibold mb-1 d-flex align-items-center gap-1"><i class="material-icons" style="font-size:16px">arrow_upward</i>4.7%</p>
@@ -191,7 +192,7 @@
                             <span class="material-icons fs-2">group</span>
                         </div>
 
-                        <h2 class="fw-bold" id="kpiUsuarios">0</h2>
+                        <h2 class="fw-bold">842</h2>
 
                         <div class="mt-auto">
                             <p class="text-success fw-semibold mb-1 d-flex align-items-center gap-1"><i class="material-icons" style="font-size:16px">arrow_upward</i>9.8%</p>
@@ -411,6 +412,17 @@
     <script src="../../app/app.js"></script>
 
     <script src="dashboard.js"></script>
+    <script src="../Inicio/inicio.js"></script>
+    <script>
+    (function () {
+      const sesion = JSON.parse(localStorage.getItem("sesionActiva"));
+
+      // Si no hay sesión o el rol no es admin/administrador, redirige al login
+      if (!sesion || !sesion.isLogged || (sesion.rol !== "administrador" && sesion.rol !== "admin")) {
+        window.location.href = "../Inicio/index.html";
+      }
+    })();
+  </script>
     
 </body>
 
