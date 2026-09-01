@@ -1,4 +1,36 @@
 document.addEventListener("DOMContentLoaded", () => {
+  const sessionActual = JSON.parse(localStorage.getItem("sape_session") || "null");
+  const linkInicio = document.querySelector(".navbar-brand");
+
+  if (linkInicio) {
+    const destino = sessionActual?.role === "admin"
+      ? "../home-administrador/index.html"
+      : "../home-usuario/index.html";
+    linkInicio.setAttribute("href", destino);
+  }
+
+  if (sessionActual && sessionActual.role) {
+    const destino = sessionActual.role === "admin"
+      ? "../home-administrador/index.html"
+      : "../home-usuario/index.html";
+    window.location.href = destino;
+    return;
+  }
+
+  const usuarios = [
+    { nombre: "Usuario Demo", email: "user@safety.com", password: "User123!", role: "user" },
+    { nombre: "Administrador", email: "admin@safety.com", password: "Admin123!", role: "admin" },
+  ];
+
+  const guardarUsuariosBase = () => {
+    const usuariosGuardados = JSON.parse(localStorage.getItem("sape_users") || "[]");
+    if (!Array.isArray(usuariosGuardados) || usuariosGuardados.length === 0) {
+      localStorage.setItem("sape_users", JSON.stringify(usuarios));
+    }
+  };
+
+  guardarUsuariosBase();
+
   const loginFormContainer = document.getElementById("login-form-container");
   const registerFormContainer = document.getElementById(
     "register-form-container",
@@ -115,48 +147,51 @@ document.addEventListener("DOMContentLoaded", () => {
       limpiarError(emailInput);
       limpiarError(passwordInput);
 
-      const usuarioGuardado = JSON.parse(
-        localStorage.getItem("usuarioRegistrado"),
+      const usuariosGuardados = JSON.parse(localStorage.getItem("sape_users") || "[]");
+      const usuarioValido = [...usuariosGuardados, ...usuarios].find(
+        (usuario) =>
+          usuario.email.toLowerCase() === emailInput.value.trim().toLowerCase() &&
+          usuario.password === passwordInput.value,
       );
 
-      if (!usuarioGuardado) {
-        Swal.fire({
-          icon: "warning",
-          title: "Sin usuarios",
-          text: "No hay usuarios registrados.",
-          confirmButtonText: "Aceptar",
-        });
-        return;
-      }
-
-      if (usuarioGuardado.email !== emailInput.value) {
+      if (!usuarioValido) {
         Swal.fire({
           icon: "error",
-          title: "Correo incorrecto",
-          text: "El correo electrónico no está registrado.",
+          title: "Credenciales inválidas",
+          text: "El correo o la contraseña no coinciden con un usuario autorizado.",
           confirmButtonText: "Aceptar",
         });
         return;
       }
 
-      if (usuarioGuardado.contrasena !== passwordInput.value) {
-        Swal.fire({
-          icon: "error",
-          title: "Contraseña incorrecta",
-          text: "La contraseña ingresada no es correcta.",
-          confirmButtonText: "Aceptar",
-        });
-        return;
-      }
+      localStorage.setItem("sape_role", usuarioValido.role);
+      localStorage.setItem(
+        "sape_session",
+        JSON.stringify({
+          email: usuarioValido.email,
+          nombre: usuarioValido.nombre,
+          role: usuarioValido.role,
+        }),
+      );
 
-      console.log("Login exitoso:", { email: emailInput.value, rememberMe });
+      console.log("Login exitoso:", {
+        email: usuarioValido.email,
+        role: usuarioValido.role,
+        rememberMe,
+      });
+
       Swal.fire({
         icon: "success",
         title: "¡Bienvenido!",
-        text: "Inicio de sesión exitoso.",
+        text: usuarioValido.role === "admin"
+          ? "Has iniciado sesión como administrador."
+          : "Inicio de sesión exitoso.",
         confirmButtonText: "Continuar",
       }).then(() => {
-        window.location.href = "../home-usuario/index.html";
+        const destino = usuarioValido.role === "admin"
+          ? "../home-administrador/index.html"
+          : "../home-usuario/index.html";
+        window.location.href = destino;
       });
     });
   }

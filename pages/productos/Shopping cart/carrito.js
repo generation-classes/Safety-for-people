@@ -4,6 +4,7 @@ const subtotalEtiqueta = document.getElementById("subtotalEtiqueta");
 const totalCarrito = document.getElementById("totalCarrito");
 const descuentoCarrito = document.getElementById("descuentoCarrito");
 const vaciarCarrito = document.getElementById("vaciarCarrito");
+const finalizarCompraBtn = document.getElementById("finalizarCompraBtn");
 
 function precioCarrito(valor) {
     return "$" + Number(valor).toLocaleString("es-CO") + " COP";
@@ -56,6 +57,11 @@ function crearItemCarrito(item) {
         App.changeCartQuantity(item.id, item.quantity - 1);
     });
     elemento.querySelector(".increment").addEventListener("click", () => {
+        const stockDisponible = App.getProductStock(item.id);
+        if (stockDisponible > 0 && item.quantity >= stockDisponible) {
+            App.notify(`Solo quedan ${stockDisponible} unidades disponibles.`, 'info');
+            return;
+        }
         App.changeCartQuantity(item.id, item.quantity + 1);
     });
 
@@ -81,5 +87,9 @@ function renderizarCarrito() {
 }
 
 vaciarCarrito.addEventListener("click", () => App.clearCart());
+finalizarCompraBtn?.addEventListener("click", (event) => {
+    event.preventDefault();
+    App.finalizePurchase();
+});
 document.addEventListener("sape:cart-updated", renderizarCarrito);
 renderizarCarrito();

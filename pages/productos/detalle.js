@@ -66,16 +66,25 @@ function pintarProducto(producto) {
     const disminuir = document.querySelector(".cantidad-btn:first-child");
     const aumentar = document.querySelector(".cantidad-btn:last-child");
     const agregar = document.querySelector(".detalle-btn-carrito");
+    const stockDisponible = Number(producto.stock || 0);
+    const maximoCantidad = Math.max(1, stockDisponible || 1);
+
+    if (cantidad) {
+        cantidad.max = String(maximoCantidad);
+        cantidad.value = String(Math.min(Number(cantidad.value || 1), maximoCantidad));
+    }
 
     const actualizarCantidad = cambio => {
-        const valor = Math.max(1, Number(cantidad.value || 1) + cambio);
+        if (!cantidad) return;
+        const valor = Math.min(maximoCantidad, Math.max(1, Number(cantidad.value || 1) + cambio));
         cantidad.value = valor;
     };
 
     disminuir?.addEventListener("click", () => actualizarCantidad(-1));
     aumentar?.addEventListener("click", () => actualizarCantidad(1));
     cantidad?.addEventListener("change", () => {
-        cantidad.value = Math.max(1, Number(cantidad.value || 1));
+        if (!cantidad) return;
+        cantidad.value = Math.min(maximoCantidad, Math.max(1, Number(cantidad.value || 1)));
     });
     agregar?.addEventListener("click", () => {
         App.addToCart(producto, cantidad.value);

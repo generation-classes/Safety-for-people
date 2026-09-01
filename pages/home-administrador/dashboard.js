@@ -1,10 +1,36 @@
 document.addEventListener("DOMContentLoaded", () => {
 
+    const validarAccesoAdmin = () => {
+        const session = JSON.parse(localStorage.getItem("sape_session") || "null");
+        if (!session || session.role !== "admin") {
+            window.location.href = "../Inicio/index.html";
+            return false;
+        }
+        return true;
+    };
+
+    if (!validarAccesoAdmin()) return;
+
+    const inventarioBase = JSON.parse(localStorage.getItem("sape_inventario") || "null");
+    if (!Array.isArray(inventarioBase) || inventarioBase.length === 0) {
+        localStorage.setItem("sape_inventario", JSON.stringify([
+            { id: 1, nombre: "Pulsera GPS Femenino", categoria: "Pulseras GPS", descripcion: "Pulsera con GPS para mayor seguridad.", precio: 199900, stock: 25, imagen: "../../Assets/images/pulsera.png", caracteristicas: ["Botón de emergencia", "Resistencia al agua", "Ubicación en tiempo real", "Batería de larga duración"] },
+            { id: 2, nombre: "Audífonos GPS integrado", categoria: "Audífonos GPS", descripcion: "Audífonos inalámbricos con geolocalización.", precio: 399900, stock: 20, imagen: "../../Assets/images/audifono.png", caracteristicas: ["GPS integrado", "Conexión inalámbrica", "Ubicación en tiempo real", "Batería de larga duración"] },
+            { id: 3, nombre: "Reloj GPS Masculino", categoria: "Relojes GPS", descripcion: "Reloj inteligente con GPS integrado.", precio: 359900, stock: 15, imagen: "../../Assets/images/reloj.png", caracteristicas: ["GPS integrado", "Botón de emergencia", "Resistencia al agua", "Monitoreo de ubicación"] },
+            { id: 4, nombre: "Reloj GPS Niño", categoria: "Para niños", descripcion: "Reloj infantil con localización GPS.", precio: 199900, stock: 16, imagen: "../../Assets/images/relojnino.png", caracteristicas: ["GPS en tiempo real", "Botón de emergencia", "Diseño infantil", "Resistencia al agua"] },
+            { id: 5, nombre: "Pulsera GPS Niña", categoria: "Para niños", descripcion: "Pulsera infantil con GPS.", precio: 159900, stock: 25, imagen: "../../Assets/images/manillanina.png", caracteristicas: ["Ubicación en tiempo real", "Botón de emergencia", "Diseño infantil", "Batería de larga duración"] },
+            { id: 6, nombre: "Gafas de sol GPS", categoria: "GPS", descripcion: "Gafas de sol con sistema de localización.", precio: 199900, stock: 18, imagen: "../../Assets/images/gafas.png", caracteristicas: ["Sistema GPS", "Diseño discreto", "Ubicación en tiempo real", "Batería recargable"] },
+            { id: 7, nombre: "Arete GPS", categoria: "GPS", descripcion: "Aretes discretos con localización.", precio: 159900, stock: 20, imagen: "../../Assets/images/aretes.png", caracteristicas: ["Diseño discreto", "Ubicación en tiempo real", "Sistema GPS", "Batería de larga duración"] },
+            { id: 8, nombre: "Arete GPS Niña", categoria: "Para niños", descripcion: "Aretes infantiles con sistema de localización.", precio: 99900, stock: 15, imagen: "../../Assets/images/aretesniña.png", caracteristicas: ["GPS integrado", "Diseño infantil", "Ubicación en tiempo real", "Batería de larga duración"] },
+            { id: 9, nombre: "Llavero GPS Femenino", categoria: "GPS", descripcion: "Llavero discreto con rastreador GPS.", precio: 159900, stock: 30, imagen: "../../Assets/images/llavero.png", caracteristicas: ["Rastreador GPS", "Diseño discreto", "Ubicación en tiempo real", "Batería de larga duración"] },
+        ]));
+    }
+
     // =========================================================
     // PRODUCTOS BASE
     // =========================================================
 
-    const productosBase = [
+    const productosBase = JSON.parse(localStorage.getItem("sape_inventario") || "[]");
 
         {
             id: 1,
@@ -173,6 +199,43 @@ document.addEventListener("DOMContentLoaded", () => {
             );
 
             return [];
+        }
+    }
+
+    function obtenerInventarioActual() {
+        const inventario = JSON.parse(localStorage.getItem("sape_inventario") || "[]");
+        return Array.isArray(inventario) && inventario.length ? inventario : productosBase;
+    }
+
+    function actualizarKpisAdmin() {
+        const inventario = obtenerInventarioActual();
+        const eventos = JSON.parse(localStorage.getItem("analiticaProductos") || "[]");
+        const ventas = eventos.filter((evento) => evento.evento === "addToCart");
+        const totalVentas = ventas.reduce((sum, evento) => sum + (Number(evento.precio || 0) * Number(evento.cantidad || 1)), 0);
+        const totalInventario = inventario.reduce((sum, producto) => sum + Number(producto.stock || 0), 0);
+
+        const elementos = {
+            ventas: document.getElementById("kpiVentas"),
+            pedidos: document.getElementById("kpiPedidos"),
+            inventario: document.getElementById("kpiInventario"),
+            usuarios: document.getElementById("kpiUsuarios")
+        };
+
+        if (elementos.ventas) {
+            elementos.ventas.textContent = `$${Number(totalVentas).toLocaleString("es-CO")} COP`;
+        }
+
+        if (elementos.pedidos) {
+            elementos.pedidos.textContent = ventas.length;
+        }
+
+        if (elementos.inventario) {
+            elementos.inventario.textContent = totalInventario;
+        }
+
+        if (elementos.usuarios) {
+            const usuarios = JSON.parse(localStorage.getItem("sape_users") || "[]");
+            elementos.usuarios.textContent = Array.isArray(usuarios) ? usuarios.length : 0;
         }
     }
 
@@ -1876,6 +1939,8 @@ document.addEventListener("DOMContentLoaded", () => {
             "ventasChart"
         );
 
+
+    actualizarKpisAdmin();
 
     if (
         ventasChartCanvas &&

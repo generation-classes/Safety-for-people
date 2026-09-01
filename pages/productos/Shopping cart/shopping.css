@@ -13,11 +13,36 @@
     color: var(--secondary);
     border-radius: 10px;
     background-color: transparent;
+    text-decoration: none;
     transition: all 0.3s ease;
 }
-.btn-carrito:hover{
+.btn-carrito:hover,
+.btn-carrito:focus,
+.btn-carrito:visited{
     background-color: var(--secondary);
     color: white;
+    text-decoration: none;
+}
+
+.breadcrumb {
+    --bs-breadcrumb-divider-color: var(--secondary);
+}
+
+.breadcrumb .breadcrumb-item,
+.breadcrumb .breadcrumb-item a,
+.breadcrumb .breadcrumb-item.active {
+    color: var(--secondary) !important;
+    text-decoration: none !important;
+}
+
+.breadcrumb .breadcrumb-item a:hover,
+.breadcrumb .breadcrumb-item a:focus {
+    color: var(--primary) !important;
+    text-decoration: none !important;
+}
+
+.breadcrumb-item + .breadcrumb-item::before {
+    color: var(--secondary);
 }
 .btn-eliminar{
     width: 48px;
