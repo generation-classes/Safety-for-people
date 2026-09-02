@@ -17,7 +17,11 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!inputElement) return;
     const grupoInput =
       inputElement.closest(".input-group") ||
-      inputElement.closest(".input-wrapper");
+      inputElement.closest(".input-wrapper") ||
+      inputElement.closest(".form-options") ||
+      inputElement.closest(".checkbox-container") ||
+      inputElement.parentElement;
+
     let elementoError = grupoInput.querySelector(".error-message");
     if (!elementoError) {
       elementoError = document.createElement("span");
@@ -33,7 +37,11 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!inputElement) return;
     const grupoInput =
       inputElement.closest(".input-group") ||
-      inputElement.closest(".input-wrapper");
+      inputElement.closest(".input-wrapper") ||
+      inputElement.closest(".form-options") ||
+      inputElement.closest(".checkbox-container") ||
+      inputElement.parentElement;
+
     const elementoError = grupoInput.querySelector(".error-message");
     if (elementoError) {
       elementoError.textContent = "";
@@ -105,8 +113,7 @@ document.addEventListener("DOMContentLoaded", () => {
       e.preventDefault();
       const emailInput = document.getElementById("login-email");
       const passwordInput = document.getElementById("login-password");
-      const rememberMe = document.getElementById("remember-me")?.checked || false;
-   
+
       limpiarError(emailInput);
       limpiarError(passwordInput);
 
@@ -118,14 +125,17 @@ document.addEventListener("DOMContentLoaded", () => {
         emailVal === "safetyforpeople2026@gmail.com" &&
         passwordVal === "Admin123!"
       ) {
-        localStorage.setItem('sesionIniciada', 'true');
-        localStorage.setItem('sape_role', 'admin');
-        localStorage.setItem('sape_session', JSON.stringify({
-          role: 'admin',
-          email: emailVal,
-          nombre: 'Administrador'
-        }));
-        if (window.App && typeof App.updateAuthUI === 'function') {
+        localStorage.setItem("sesionIniciada", "true");
+        localStorage.setItem("sape_role", "admin");
+        localStorage.setItem(
+          "sape_session",
+          JSON.stringify({
+            role: "admin",
+            email: emailVal,
+            nombre: "Administrador",
+          })
+        );
+        if (window.App && typeof App.updateAuthUI === "function") {
           App.updateAuthUI();
         }
 
@@ -176,15 +186,18 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       // LOGIN DE USUARIO EXITOSO
-      localStorage.setItem('sesionIniciada', 'true');
-      localStorage.setItem('sape_role', usuarioGuardado.rol || 'user');
-      localStorage.setItem('sape_session', JSON.stringify({
-        role: usuarioGuardado.rol || 'user',
-        email: emailVal,
-        nombre: usuarioGuardado.nombreCompleto
-      }));
-      
-      if (window.App && typeof App.updateAuthUI === 'function') {
+      localStorage.setItem("sesionIniciada", "true");
+      localStorage.setItem("sape_role", usuarioGuardado.rol || "user");
+      localStorage.setItem(
+        "sape_session",
+        JSON.stringify({
+          role: usuarioGuardado.rol || "user",
+          email: emailVal,
+          nombre: usuarioGuardado.nombreCompleto,
+        })
+      );
+
+      if (window.App && typeof App.updateAuthUI === "function") {
         App.updateAuthUI();
       }
 
@@ -213,17 +226,22 @@ document.addEventListener("DOMContentLoaded", () => {
     const correoElectronicoInput = document.getElementById("reg-email");
     const contrasenaInput = document.getElementById("reg-password");
     const confirmarContrasenaInput = document.getElementById("reg-confirm-password");
+    
+    // Referencia al ID real de tu HTML:
+    const terminosInput = document.getElementById("terms-accept");
 
-    // Limpieza de errores en tiempo real mientras el usuario escribe
+    // Limpieza de errores en tiempo real
     [
       nombreCompletoInput,
       numeroTelefonoInput,
       correoElectronicoInput,
       contrasenaInput,
       confirmarContrasenaInput,
+      terminosInput,
     ].forEach((input) => {
       if (input) {
-        input.addEventListener("input", () => limpiarError(input));
+        const evento = input.type === "checkbox" ? "change" : "input";
+        input.addEventListener(evento, () => limpiarError(input));
       }
     });
 
@@ -303,6 +321,15 @@ document.addEventListener("DOMContentLoaded", () => {
           );
           formularioValido = false;
         }
+      }
+
+      // Validar Términos y Condiciones
+      if (terminosInput && !terminosInput.checked) {
+        mostrarError(
+          terminosInput,
+          "Debes aceptar los términos y condiciones para continuar."
+        );
+        formularioValido = false;
       }
 
       if (!formularioValido) return;
