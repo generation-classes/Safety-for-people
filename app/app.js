@@ -12,7 +12,7 @@ const App = {
 
 App.DEFAULT_USERS = [
     { nombre: 'Usuario Demo', email: 'user@safety.com', password: 'User123!', role: 'user' },
-    { nombre: 'Administrador', email: 'admin@safety.com', password: 'Admin123!', role: 'admin' },
+    { nombre: 'Administrador', email: 'safetyforpeople2026@gmail.com', password: 'Admin123!', role: 'admin' },
 ];
 
 App.DEFAULT_INVENTORY = [
@@ -156,6 +156,7 @@ App.getRole = function () {
 App.logout = function () {
     localStorage.removeItem('sape_session');
     localStorage.removeItem('sape_role');
+    localStorage.removeItem('sesionIniciada');
     localStorage.removeItem('sape_carrito');
     window.location.href = `${App.getBasePath()}pages/Inicio/index.html`;
 };
@@ -431,43 +432,22 @@ App.setupRoleSwitch = function (base) {
     });
 };
 
-// NUEVO: Función que evalúa si el usuario tiene sesión y renderiza el botón o el perfil.
+// Función que evalúa si el usuario tiene sesión y muestra el avatar o el botón de inicio de sesión.
 App.updateAuthUI = function () {
     const authNavAction = document.getElementById('auth-nav-action');
     if (!authNavAction) return;
 
     const base = App.getBasePath();
-    const sesionIniciada = localStorage.getItem('sesionIniciada') === 'true';
+    const sesionIniciada = App.isLoggedIn();
+    const roleSwitch = document.querySelector('.user-role-switch');
+
+    if (roleSwitch) {
+        roleSwitch.classList.toggle('d-none', !sesionIniciada);
+    }
 
     if (sesionIniciada) {
-        // Renderizar icono de cuenta si está logueado
-        authNavAction.innerHTML = `
-            <div class="dropdown">
-              <a href="#" class="dropdown-toggle text-dark fs-5" id="userProfileDropdown" data-bs-toggle="dropdown"
-                aria-expanded="false" aria-label="Cuenta de usuario">
-                <i class="bi bi-person-circle"></i>
-              </a>
-              <ul class="dropdown-menu dropdown-menu-end shadow border-0" aria-labelledby="userProfileDropdown">
-                <li>
-                  <button class="dropdown-item text-danger d-flex align-items-center gap-2" id="btn-logout">
-                    <i class="bi bi-box-arrow-right"></i> Cerrar sesión
-                  </button>
-                </li>
-              </ul>
-            </div>
-        `;
-
-        const btnLogout = document.getElementById('btn-logout');
-        if (btnLogout) {
-            btnLogout.addEventListener('click', (e) => {
-                e.preventDefault();
-                localStorage.removeItem('sesionIniciada');
-                App.updateAuthUI(); // Volver a pintar el botón de Iniciar Sesión
-                App.notify('Has cerrado sesión exitosamente.', 'info');
-            });
-        }
+        authNavAction.innerHTML = '';
     } else {
-        // Renderizar botón de Iniciar Sesión que redirige a tu ruta si NO está logueado
         authNavAction.innerHTML = `
             <a href="${base}${App.pages.login}" id="btn-show-login" class="fw-semibold text-decoration-none" style="font-size: 1rem !important; padding: 0.35rem 0.75rem !important; border: none !important; color: var(--primary);">Iniciar sesión</a>
         `;

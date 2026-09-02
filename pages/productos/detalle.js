@@ -66,8 +66,9 @@ function pintarProducto(producto) {
     const disminuir = document.querySelector(".cantidad-btn:first-child");
     const aumentar = document.querySelector(".cantidad-btn:last-child");
     const agregar = document.querySelector(".detalle-btn-carrito");
-    const stockDisponible = Number(producto.stock || 0);
-    const maximoCantidad = Math.max(1, stockDisponible || 1);
+    const stockSistema = typeof App.getProductStock === "function" ? App.getProductStock(producto.id) : 0;
+    const stockDisponible = Number(stockSistema) || Number(producto.stock || 0) || 10;
+    const maximoCantidad = Math.max(1, stockDisponible);
 
     if (cantidad) {
         cantidad.max = String(maximoCantidad);

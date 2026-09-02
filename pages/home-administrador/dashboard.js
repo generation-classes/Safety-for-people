@@ -1,8 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
 
     const validarAccesoAdmin = () => {
-        const session = JSON.parse(localStorage.getItem("sape_session") || "null");
-        if (!session || session.role !== "admin") {
+        if (!window.App || !App.isLoggedIn() || App.getRole() !== "admin") {
             window.location.href = "../Inicio/index.html";
             return false;
         }

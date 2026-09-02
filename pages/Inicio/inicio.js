@@ -116,10 +116,15 @@ document.addEventListener("DOMContentLoaded", () => {
       // 1. VALIDACIÓN CREDENCIALES ADMINISTRADOR MASTER
       if (
         emailVal === "safetyforpeople2026@gmail.com" &&
-        passwordVal === "1234"
+        passwordVal === "Admin123!"
       ) {
         localStorage.setItem('sesionIniciada', 'true');
         localStorage.setItem('sape_role', 'admin');
+        localStorage.setItem('sape_session', JSON.stringify({
+          role: 'admin',
+          email: emailVal,
+          nombre: 'Administrador'
+        }));
         if (window.App && typeof App.updateAuthUI === 'function') {
           App.updateAuthUI();
         }
@@ -173,6 +178,11 @@ document.addEventListener("DOMContentLoaded", () => {
       // LOGIN DE USUARIO EXITOSO
       localStorage.setItem('sesionIniciada', 'true');
       localStorage.setItem('sape_role', usuarioGuardado.rol || 'user');
+      localStorage.setItem('sape_session', JSON.stringify({
+        role: usuarioGuardado.rol || 'user',
+        email: emailVal,
+        nombre: usuarioGuardado.nombreCompleto
+      }));
       
       if (window.App && typeof App.updateAuthUI === 'function') {
         App.updateAuthUI();

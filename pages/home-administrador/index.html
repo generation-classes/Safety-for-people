@@ -86,7 +86,6 @@
                                 
                                 <div class="d-flex justify-content-center">
                                     <input type="file" class="form-control form-control-sm w-75" id="archivoProducto"accept="image/*" style="border-color: #82C4C3;">
->>>>>>> b16ff5cac79952b852a98ad2ca060e1a2ec74640
                                 </div>
                             </div>
                         </div>
@@ -415,10 +414,7 @@
     <script src="../Inicio/inicio.js"></script>
     <script>
     (function () {
-      const sesion = JSON.parse(localStorage.getItem("sesionActiva"));
-
-      // Si no hay sesión o el rol no es admin/administrador, redirige al login
-      if (!sesion || !sesion.isLogged || (sesion.rol !== "administrador" && sesion.rol !== "admin")) {
+      if (!window.App || !App.isLoggedIn() || App.getRole() !== "admin") {
         window.location.href = "../Inicio/index.html";
       }
     })();
