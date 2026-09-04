@@ -4,44 +4,44 @@ const team = [
         rol: 'Desarrolladora Full Stack',
         foto: '../../Assets/images/profile pics/lizeth.png',
         bio: 'Desarrolladora Full Stack enfocada en crear soluciones tecnológicas innovadoras y experiencias digitales de extremo a extremo.',
-        github: '#',
-        email: '#',
-        linkedin: '#',
+        github: 'https://github.com/lizethcarosilva',
+        // email: '#',
+        linkedin: 'https://www.linkedin.com/in/liancasi/',
     },
     {
         nombre: 'Martha Caro',
         rol: 'Desarrolladora Full Stack',
         foto: '../../Assets/images/profile pics/martha.jpeg',
         bio: 'Especialista en experiencias de usuario intuitivas y diseños atractivos.',
-        github: '#',
-        email: '#',
-        linkedin: '#',
+        github: 'https://github.com/MarthajCaro',
+        // email: '#',
+        linkedin: 'https://www.linkedin.com/in/marthacaro/',
     },
     {
         nombre: 'Jhojan Sebastian Cordoba',
         rol: 'Desarrollador Full Stack',
         foto: '../../Assets/images/profile pics/sebastian.png',
         bio: 'Experto en bases de datos y aseguramiento de calidad de software.',
-        github: '#',
-        email: '#',
-        linkedin: '#',
+        github: 'https://github.com/sebascba',
+        // email: '#',
+        linkedin: 'https://www.linkedin.com/in/jhohan-sebastian-cordoba-palacios-8174b8188/',
     },
     {
         nombre: 'Julian Steven Castellanos Niño',
         rol: 'Desarrollador Full Stack',
         foto: '../../Assets/images/profile pics/Julian.png',
         bio: 'Desarrollador backend enfocado en construir sistemas robustos y escalables.',
-        github: '#',
-        email: '#',
-        linkedin: '#',
+        github: 'https://github.com/iTzJulians',
+        // email: '#',
+        linkedin: 'https://www.linkedin.com/in/julian-castellanos-/',
     },
     {
         nombre: 'Santiago David Garcia',
         rol: 'Desarrollador Full Stack',
         foto: '../../Assets/images/profile pics/santiago.jpeg',
         bio: 'Ingeniero en DevOps y Cloud, encargado de la infraestructura y despliegue continuo.',
-        github: '#',
-        email: '#',
+        github: 'https://github.com/dargarciacol',
+        // email: '#',
         linkedin: '#',
     },
 ];
@@ -66,9 +66,6 @@ function renderTeam() {
                             <a href="${miembro.github}"
                                 class="icono border border-2 border-success rounded-3 d-flex justify-content-center align-items-center"><i
                                     class="bi bi-github text-success fs-4"></i></a>
-                            <a href="${miembro.email}"
-                                class="icono border border-2 border-success rounded-3 d-flex justify-content-center align-items-center"><i
-                                    class="bi bi-envelope text-success fs-4"></i></a>
                             <a href="${miembro.linkedin}"
                                 class="icono border border-2 border-success rounded-3 d-flex justify-content-center align-items-center"><i
                                     class="bi bi-linkedin text-success fs-4"></i></a>
