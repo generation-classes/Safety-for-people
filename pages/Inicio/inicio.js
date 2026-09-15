@@ -1,30 +1,25 @@
 // Ajusta este ID al id real del rol "USER" en tu tabla `role` de Supabase.
 const DEFAULT_USER_ROLE_ID = 1;
 
-async function obtenerPerfilDesdeToken(token, email) {
-  const headers = { Authorization: `Bearer ${token}` };
-
+function decodificarJwt(token) {
   try {
-    const usuarios = await apiRequest(ENDPOINTS.users.base, { headers });
-    const miUsuario = usuarios.find(
-      (u) => String(u.email).toLowerCase() === email.toLowerCase()
+    const payload = token.split(".")[1];
+    const normalizado = payload.replace(/-/g, "+").replace(/_/g, "/");
+    const json = decodeURIComponent(
+      atob(normalizado)
+        .split("")
+        .map((c) => "%" + c.charCodeAt(0).toString(16).padStart(2, "0"))
+        .join("")
     );
-
-    if (!miUsuario) {
-      return { nombre: email, rol: "user" };
-    }
-
-    let rol = "user";
-    if (miUsuario.roleId) {
-      const rolInfo = await apiRequest(ENDPOINTS.roles.byId(miUsuario.roleId), { headers });
-      rol = String(rolInfo?.name || "").toUpperCase() === "ADMIN" ? "admin" : "user";
-    }
-
-    return { nombre: miUsuario.name || email, rol };
-  } catch (error) {
-    console.warn("No se pudo resolver el perfil/rol del usuario:", error);
-    return { nombre: email, rol: "user" };
+    return JSON.parse(json);
+  } catch {
+    return {};
   }
+}
+
+function resolverRolDesdeToken(token) {
+  const claims = decodificarJwt(token);
+  return String(claims.role || "").toUpperCase().includes("ADMIN") ? "admin" : "user";
 }
 
 function guardarSesion(token, email, nombre, rol) {
@@ -164,7 +159,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
       try {
         const { token } = await AuthService.login(emailVal, passwordVal);
-        const { nombre, rol } = await obtenerPerfilDesdeToken(token, emailVal);
+        const rol = resolverRolDesdeToken(token);
+        const nombre = emailVal.split("@")[0];
 
         guardarSesion(token, emailVal, nombre, rol);
 
@@ -315,8 +311,8 @@ document.addEventListener("DOMContentLoaded", () => {
           roleId: DEFAULT_USER_ROLE_ID,
         });
 
-        const { nombre, rol } = await obtenerPerfilDesdeToken(token, correoElectronico);
-        guardarSesion(token, correoElectronico, nombre, rol);
+        const rol = resolverRolDesdeToken(token);
+        guardarSesion(token, correoElectronico, nombreCompleto, rol);
 
         await Swal.fire({
           icon: "success",
