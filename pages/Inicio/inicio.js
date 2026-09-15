@@ -1,3 +1,42 @@
+// Ajusta este ID al id real del rol "USER" en tu tabla `role` de Supabase.
+const DEFAULT_USER_ROLE_ID = 1;
+
+async function obtenerPerfilDesdeToken(token, email) {
+  const headers = { Authorization: `Bearer ${token}` };
+
+  try {
+    const usuarios = await apiRequest(ENDPOINTS.users.base, { headers });
+    const miUsuario = usuarios.find(
+      (u) => String(u.email).toLowerCase() === email.toLowerCase()
+    );
+
+    if (!miUsuario) {
+      return { nombre: email, rol: "user" };
+    }
+
+    let rol = "user";
+    if (miUsuario.roleId) {
+      const rolInfo = await apiRequest(ENDPOINTS.roles.byId(miUsuario.roleId), { headers });
+      rol = String(rolInfo?.name || "").toUpperCase() === "ADMIN" ? "admin" : "user";
+    }
+
+    return { nombre: miUsuario.name || email, rol };
+  } catch (error) {
+    console.warn("No se pudo resolver el perfil/rol del usuario:", error);
+    return { nombre: email, rol: "user" };
+  }
+}
+
+function guardarSesion(token, email, nombre, rol) {
+  localStorage.setItem("sape_token", token);
+  localStorage.setItem("sape_role", rol);
+  localStorage.setItem("sape_session", JSON.stringify({ role: rol, email, nombre }));
+
+  if (window.App && typeof App.updateAuthUI === "function") {
+    App.updateAuthUI();
+  }
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   const loginFormContainer = document.getElementById("login-form-container");
   const registerFormContainer = document.getElementById("register-form-container");
@@ -109,7 +148,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // --- FORMULARIO DE LOGIN ---
   const loginForm = document.getElementById("login-form");
   if (loginForm) {
-    loginForm.addEventListener("submit", (e) => {
+    loginForm.addEventListener("submit", async (e) => {
       e.preventDefault();
       const emailInput = document.getElementById("login-email");
       const passwordInput = document.getElementById("login-password");
@@ -120,100 +159,34 @@ document.addEventListener("DOMContentLoaded", () => {
       const emailVal = emailInput.value.trim();
       const passwordVal = passwordInput.value;
 
-      // 1. VALIDACIÓN CREDENCIALES ADMINISTRADOR MASTER
-      if (
-        emailVal === "safetyforpeople2026@gmail.com" &&
-        passwordVal === "Admin123!"
-      ) {
-        localStorage.setItem("sesionIniciada", "true");
-        localStorage.setItem("sape_role", "admin");
-        localStorage.setItem(
-          "sape_session",
-          JSON.stringify({
-            role: "admin",
-            email: emailVal,
-            nombre: "Administrador",
-          })
-        );
-        if (window.App && typeof App.updateAuthUI === "function") {
-          App.updateAuthUI();
-        }
+      const submitButton = loginForm.querySelector('button[type="submit"]');
+      if (submitButton) submitButton.disabled = true;
 
-        Swal.fire({
+      try {
+        const { token } = await AuthService.login(emailVal, passwordVal);
+        const { nombre, rol } = await obtenerPerfilDesdeToken(token, emailVal);
+
+        guardarSesion(token, emailVal, nombre, rol);
+
+        await Swal.fire({
           icon: "success",
-          title: "¡Bienvenido Administrador!",
+          title: rol === "admin" ? "¡Bienvenido Administrador!" : `¡Bienvenido de nuevo, ${nombre}!`,
           text: "Inicio de sesión exitoso.",
           confirmButtonText: "Continuar",
-        }).then(() => {
-          window.location.href = "../home-administrador/index.html";
         });
-        return;
-      }
 
-      // 2. VALIDACIÓN USUARIO REGISTRADO EN LOCALSTORAGE
-      const usuarioGuardado = JSON.parse(
-        localStorage.getItem("usuarioRegistrado")
-      );
-
-      if (!usuarioGuardado) {
-        Swal.fire({
-          icon: "warning",
-          title: "Sin usuarios",
-          text: "No hay ninguna cuenta registrada. Por favor, regístrate primero.",
-          confirmButtonText: "Aceptar",
-        });
-        return;
-      }
-
-      if (usuarioGuardado.email !== emailVal) {
-        Swal.fire({
-          icon: "error",
-          title: "Correo incorrecto",
-          text: "El correo electrónico no está registrado.",
-          confirmButtonText: "Aceptar",
-        });
-        return;
-      }
-
-      if (usuarioGuardado.contrasena !== passwordVal) {
-        Swal.fire({
-          icon: "error",
-          title: "Contraseña incorrecta",
-          text: "La contraseña ingresada no es correcta.",
-          confirmButtonText: "Aceptar",
-        });
-        return;
-      }
-
-      // LOGIN DE USUARIO EXITOSO
-      localStorage.setItem("sesionIniciada", "true");
-      localStorage.setItem("sape_role", usuarioGuardado.rol || "user");
-      localStorage.setItem(
-        "sape_session",
-        JSON.stringify({
-          role: usuarioGuardado.rol || "user",
-          email: emailVal,
-          nombre: usuarioGuardado.nombreCompleto,
-        })
-      );
-
-      if (window.App && typeof App.updateAuthUI === "function") {
-        App.updateAuthUI();
-      }
-
-      Swal.fire({
-        icon: "success",
-        title: `¡Bienvenido de nuevo, ${usuarioGuardado.nombreCompleto}!`,
-        text: "Inicio de sesión exitoso.",
-        confirmButtonText: "Continuar",
-      }).then(() => {
         loginForm.reset();
-        if (window.App) {
-          window.location.href = App.getBasePath() + App.pages.inicio;
-        } else {
-          window.location.href = "../home-usuario/index.html";
-        }
-      });
+        window.location.href = window.App ? App.getRoleHomePage() : "../home-usuario/index.html";
+      } catch (error) {
+        Swal.fire({
+          icon: "error",
+          title: "No se pudo iniciar sesión",
+          text: error.message || "Verifica tu correo y contraseña.",
+          confirmButtonText: "Aceptar",
+        });
+      } finally {
+        if (submitButton) submitButton.disabled = false;
+      }
     });
   }
 
@@ -245,7 +218,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
 
-    registerForm.addEventListener("submit", (e) => {
+    registerForm.addEventListener("submit", async (e) => {
       e.preventDefault();
 
       const nombreCompleto = nombreCompletoInput ? nombreCompletoInput.value.trim() : "";
@@ -253,9 +226,6 @@ document.addEventListener("DOMContentLoaded", () => {
       const correoElectronico = correoElectronicoInput ? correoElectronicoInput.value.trim() : "";
       const contrasena = contrasenaInput ? contrasenaInput.value : "";
       const confirmarContrasena = confirmarContrasenaInput ? confirmarContrasenaInput.value : "";
-
-      const rolSeleccionado =
-        document.querySelector('input[name="userRole"]:checked')?.value || "user";
 
       let formularioValido = true;
 
@@ -334,25 +304,39 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (!formularioValido) return;
 
-      // Guardar en LocalStorage incluyendo el rol
-      const usuarioJson = JSON.stringify({
-        nombreCompleto,
-        telefono: numeroTelefono,
-        email: correoElectronico,
-        contrasena,
-        rol: rolSeleccionado,
-      });
+      const submitButton = registerForm.querySelector('button[type="submit"]');
+      if (submitButton) submitButton.disabled = true;
 
-      localStorage.setItem("usuarioRegistrado", usuarioJson);
-      Swal.fire({
-        icon: "success",
-        title: "¡Registro exitoso!",
-        text: "Tu cuenta ha sido creada correctamente.",
-        confirmButtonText: "Iniciar sesión",
-      }).then(() => {
+      try {
+        const { token } = await AuthService.register({
+          email: correoElectronico,
+          password: contrasena,
+          nombre: nombreCompleto,
+          roleId: DEFAULT_USER_ROLE_ID,
+        });
+
+        const { nombre, rol } = await obtenerPerfilDesdeToken(token, correoElectronico);
+        guardarSesion(token, correoElectronico, nombre, rol);
+
+        await Swal.fire({
+          icon: "success",
+          title: "¡Registro exitoso!",
+          text: "Tu cuenta ha sido creada. Ya iniciaste sesión.",
+          confirmButtonText: "Continuar",
+        });
+
         registerForm.reset();
-        showLogin();
-      });
+        window.location.href = window.App ? App.getRoleHomePage() : "../home-usuario/index.html";
+      } catch (error) {
+        Swal.fire({
+          icon: "error",
+          title: "No se pudo completar el registro",
+          text: error.message || "Intenta de nuevo más tarde.",
+          confirmButtonText: "Aceptar",
+        });
+      } finally {
+        if (submitButton) submitButton.disabled = false;
+      }
     });
   }
 });

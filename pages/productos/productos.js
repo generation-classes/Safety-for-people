@@ -18,6 +18,58 @@ const filtroChecks = document.querySelectorAll(".filtro-check");
 const chkFavoritos = document.getElementById("chkFavoritos");
 const buscador = document.querySelector('.buscador input[type="search"]');
 
+function normalizarCategoria(nombre) {
+    const texto = String(nombre || "").trim().toLowerCase();
+    if (texto.includes("reloj")) return "relojes";
+    if (texto.includes("cadena")) return "cadenas";
+    if (texto.includes("puls")) return "pulseras";
+    if (texto.includes("audif")) return "audifonos";
+    if (texto.includes("gafa")) return "gafas";
+    if (texto.includes("arete")) return "aretes";
+    if (texto.includes("llav")) return "llavero";
+    return texto || "otros";
+}
+
+function normalizarCaracteristicas(lista) {
+    if (!Array.isArray(lista)) return [];
+    return lista.map(item => {
+        const texto = String(item || "").toLowerCase();
+        if (texto.includes("emerg")) return "emergencia";
+        if (texto.includes("agua")) return "agua";
+        if (texto.includes("ubicac") || texto.includes("gps") || texto.includes("tiempo real")) return "ubicacion";
+        if (texto.includes("bater")) return "bateria";
+        return texto;
+    });
+}
+
+function mapearProducto(producto, categoriasPorId) {
+    const categoriaNombre = categoriasPorId.get(producto.categoryId)?.name || "";
+    const textoCompleto = `${producto.name || ""} ${producto.description || ""}`.toLowerCase();
+
+    return {
+        id: producto.id,
+        nombre: producto.name || "Producto",
+        descripcion: producto.description || "",
+        precio: Number(producto.price) || 0,
+        stock: Number(producto.stock) || 0,
+        categoria: normalizarCategoria(categoriaNombre),
+        grupo: textoCompleto.includes("niñ") || textoCompleto.includes("infantil") ? "ninos" : "adultos",
+        caracteristicas: normalizarCaracteristicas(producto.characteristics),
+        color: producto.backgroundColor || "#DDEFFB",
+        imagen: producto.image
+    };
+}
+
+async function cargarCatalogoProductos() {
+    const [productosApi, categoriasApi] = await Promise.all([
+        ProductsService.getAll(),
+        CategoriesService.getAll().catch(() => [])
+    ]);
+
+    const categoriasPorId = new Map(categoriasApi.map(categoria => [categoria.id, categoria]));
+    return productosApi.map(producto => mapearProducto(producto, categoriasPorId));
+}
+
 const PRODUCTOS_POR_PAGINA = 9;
 let categoriaActiva = "todos";
 let paginaActual = 1;
@@ -60,8 +112,10 @@ function productoCoincideBusqueda(producto) {
         .some(valor => valor.toLowerCase().includes(terminoBusqueda));
 }
 
+let catalogoProductos = [];
+
 function obtenerProductosFiltrados() {
-    let resultado = productos.filter(p =>
+    let resultado = catalogoProductos.filter(p =>
         productoCoincideCategoria(p) &&
         productoCoincidePrecio(p) &&
         productoCoincideCaracteristicas(p) &&
@@ -208,4 +262,15 @@ precioMax.addEventListener("change", aplicarFiltros);
 ordenarPor.addEventListener("change", aplicarFiltros);
 chkFavoritos.addEventListener("change", aplicarFiltros);
 
-renderizarProductos();
+async function inicializar() {
+    try {
+        catalogoProductos = await cargarCatalogoProductos();
+    } catch (error) {
+        console.error("Error al cargar productos:", error);
+        App.notify("No se pudieron cargar los productos. Intenta de nuevo más tarde.", "danger");
+        catalogoProductos = [];
+    }
+    renderizarProductos();
+}
+
+inicializar();

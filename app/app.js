@@ -156,6 +156,7 @@ App.getRole = function () {
 App.logout = function () {
     localStorage.removeItem('sape_session');
     localStorage.removeItem('sape_role');
+    localStorage.removeItem('sape_token');
     localStorage.removeItem('sesionIniciada');
     localStorage.removeItem('sape_carrito');
     window.location.href = `${App.getBasePath()}pages/Inicio/index.html`;
