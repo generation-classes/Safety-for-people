@@ -17,6 +17,7 @@ const ENDPOINTS = {
     products: {
         base: `${API_BASE_URL}/api/productos`,
         byId: (id) => `${API_BASE_URL}/api/productos/${id}`,
+        imagen: (id) => `${API_BASE_URL}/api/productos/${id}/imagen`,
     },
     roles: {
         base: `${API_BASE_URL}/api/roles`,

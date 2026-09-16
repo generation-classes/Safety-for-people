@@ -10,7 +10,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const modalProducto = new bootstrap.Modal(modalProductoEl);
     const modalProductoTitulo = document.getElementById("modalProductoTitulo");
     const btnNuevoProducto = document.getElementById("btnNuevoProducto");
+    const productoImagenTipo = document.getElementById("productoImagenTipo");
+    const bloqueImagenUrl = document.getElementById("bloqueImagenUrl");
+    const bloqueImagenArchivo = document.getElementById("bloqueImagenArchivo");
     const productoImagenUrl = document.getElementById("productoImagenUrl");
+    const productoImagenArchivo = document.getElementById("productoImagenArchivo");
+    const productoImagenArchivoTexto = document.getElementById("productoImagenArchivoTexto");
     const productoImagenPreview = document.getElementById("productoImagenPreview");
 
     const selectPorPagina = document.getElementById("productosPorPagina");
@@ -18,6 +23,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let categorias = [];
     let favoritoActual = false;
+    let imagenOriginal = "";
+    let archivoSeleccionado = null;
     let productosCache = [];
     let paginaActual = 1;
     let productosPorPagina = Number(selectPorPagina.value) || 5;
@@ -192,12 +199,23 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
+    function mostrarBloqueImagen(tipo) {
+        bloqueImagenUrl.classList.toggle("d-none", tipo !== "url");
+        bloqueImagenArchivo.classList.toggle("d-none", tipo !== "archivo");
+    }
+
     function limpiarFormulario() {
         formProducto.reset();
         document.getElementById("productoId").value = "";
         productoImagenPreview.classList.add("d-none");
         productoImagenPreview.src = "";
+        productoImagenArchivoTexto.textContent = "Seleccionar imagen";
+        productoImagenArchivo.value = "";
+        productoImagenTipo.value = "url";
+        mostrarBloqueImagen("url");
         favoritoActual = false;
+        imagenOriginal = "";
+        archivoSeleccionado = null;
         modalProductoTitulo.innerHTML = '<i class="bi bi-tag-fill me-2"></i> Agregar producto';
     }
 
@@ -213,9 +231,10 @@ document.addEventListener("DOMContentLoaded", () => {
         document.getElementById("productoCaracteristicas").value = parsearCaracteristicas(producto.characteristics).join(", ");
 
         favoritoActual = Boolean(producto.favorite);
-        productoImagenUrl.value = producto.image || "";
-        if (producto.image) {
-            productoImagenPreview.src = producto.image;
+        imagenOriginal = producto.image || "";
+        productoImagenUrl.value = imagenOriginal;
+        if (imagenOriginal) {
+            productoImagenPreview.src = imagenOriginal;
             productoImagenPreview.classList.remove("d-none");
         }
 
@@ -247,6 +266,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     btnNuevoProducto.addEventListener("click", limpiarFormulario);
 
+    productoImagenTipo.addEventListener("change", () => {
+        mostrarBloqueImagen(productoImagenTipo.value);
+    });
+
     productoImagenUrl.addEventListener("input", () => {
         const url = productoImagenUrl.value.trim();
         if (url) {
@@ -257,6 +280,18 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
+    productoImagenArchivo.addEventListener("change", () => {
+        const archivo = productoImagenArchivo.files[0];
+        if (!archivo) {
+            archivoSeleccionado = null;
+            return;
+        }
+        archivoSeleccionado = archivo;
+        productoImagenArchivoTexto.textContent = archivo.name;
+        productoImagenPreview.src = URL.createObjectURL(archivo);
+        productoImagenPreview.classList.remove("d-none");
+    });
+
     productoImagenPreview.addEventListener("error", () => {
         productoImagenPreview.classList.add("d-none");
     });
@@ -265,6 +300,13 @@ document.addEventListener("DOMContentLoaded", () => {
         evento.preventDefault();
 
         const id = document.getElementById("productoId").value;
+        const tipoImagen = productoImagenTipo.value;
+
+        if (tipoImagen === "archivo" && !archivoSeleccionado && !imagenOriginal) {
+            Swal.fire("Falta la imagen", "Selecciona un archivo para subir.", "warning");
+            return;
+        }
+
         const caracteristicasTexto = document.getElementById("productoCaracteristicas").value
             .split(",")
             .map(item => item.trim())
@@ -278,22 +320,29 @@ document.addEventListener("DOMContentLoaded", () => {
             active: document.getElementById("productoActivo").checked,
             categoryId: Number(document.getElementById("productoCategoria").value) || null,
             characteristics: JSON.stringify(caracteristicasTexto),
-            image: productoImagenUrl.value.trim(),
+            image: tipoImagen === "url" ? productoImagenUrl.value.trim() : imagenOriginal,
             favorite: favoritoActual,
         };
 
         const boton = document.getElementById("btnGuardarProducto");
         boton.disabled = true;
-        boton.textContent = "Guardando...";
+        boton.textContent = archivoSeleccionado ? "Subiendo imagen..." : "Guardando...";
 
         try {
+            let productoId = id;
+
             if (id) {
                 await ProductsService.update(id, payload);
-                App.notify("Producto actualizado.");
             } else {
-                await ProductsService.create(payload);
-                App.notify("Producto creado.");
+                const creado = await ProductsService.create(payload);
+                productoId = creado.id;
             }
+
+            if (tipoImagen === "archivo" && archivoSeleccionado) {
+                await ProductsService.uploadImagen(productoId, archivoSeleccionado);
+            }
+
+            App.notify(id ? "Producto actualizado." : "Producto creado.");
             modalProducto.hide();
             cargarProductos();
         } catch (error) {

@@ -115,8 +115,24 @@
                                 placeholder="Botón de emergencia, Resistencia al agua">
                         </div>
                         <div class="mb-3">
-                            <label class="form-label fw-semibold text-secondary small">Imagen (URL)</label>
-                            <input type="url" class="form-control" id="productoImagenUrl" placeholder="https://ejemplo.com/imagen.jpg">
+                            <label class="form-label fw-semibold text-secondary small">Imagen</label>
+                            <select class="form-select mb-2" id="productoImagenTipo" style="max-width:180px;">
+                                <option value="url" selected>URL</option>
+                                <option value="archivo">Archivo</option>
+                            </select>
+
+                            <div id="bloqueImagenUrl">
+                                <input type="url" class="form-control" id="productoImagenUrl" placeholder="https://ejemplo.com/imagen.jpg">
+                            </div>
+
+                            <div id="bloqueImagenArchivo" class="d-none">
+                                <label for="productoImagenArchivo" class="upload-imagen-btn">
+                                    <i class="bi bi-cloud-arrow-up-fill"></i>
+                                    <span id="productoImagenArchivoTexto">Seleccionar imagen</span>
+                                </label>
+                                <input type="file" class="d-none" id="productoImagenArchivo" accept="image/*">
+                            </div>
+
                             <div><img id="productoImagenPreview" class="mt-2 d-none" style="max-height:100px;border-radius:8px;"></div>
                         </div>
                         <div class="form-check">

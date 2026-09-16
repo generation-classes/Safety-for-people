@@ -12,10 +12,11 @@ async function apiRequest(url, options = {}) {
     });
 
     if (!response.ok) {
-        let message = `Error ${response.status} al conectar con la API`;
+        // Nunca se muestra el código HTTP crudo: un usuario común no sabe qué es un 403.
+        let message = "No se pudo completar la solicitud. Intenta de nuevo más tarde.";
         try {
             const errorBody = await response.json();
-            message = errorBody.message || errorBody.error || message;
+            if (errorBody.message) message = errorBody.message;
         } catch {
             // el backend no siempre devuelve un cuerpo JSON en los errores
         }
@@ -25,6 +26,34 @@ async function apiRequest(url, options = {}) {
     if (response.status === 204) return null;
 
     // Algunos endpoints (ej. POST /api/favorites/{id}) responden 200/201 sin cuerpo.
+    const texto = await response.text();
+    return texto ? JSON.parse(texto) : null;
+}
+
+// Para subir archivos (multipart/form-data): no se fija Content-Type manualmente,
+// el navegador arma el boundary correcto al usar FormData.
+async function apiUpload(url, formData) {
+    const token = localStorage.getItem('sape_token');
+    const authHeader = token ? { Authorization: `Bearer ${token}` } : {};
+
+    const response = await fetch(url, {
+        method: 'POST',
+        headers: { ...authHeader },
+        body: formData,
+    });
+
+    if (!response.ok) {
+        // Nunca se muestra el código HTTP crudo: un usuario común no sabe qué es un 403.
+        let message = "No se pudo completar la solicitud. Intenta de nuevo más tarde.";
+        try {
+            const errorBody = await response.json();
+            if (errorBody.message) message = errorBody.message;
+        } catch {
+            // el backend no siempre devuelve un cuerpo JSON en los errores
+        }
+        throw new Error(message);
+    }
+
     const texto = await response.text();
     return texto ? JSON.parse(texto) : null;
 }
@@ -71,6 +100,11 @@ const ProductsService = {
     remove: (id) => apiRequest(ENDPOINTS.products.byId(id), {
         method: 'DELETE',
     }),
+    uploadImagen: (id, file) => {
+        const formData = new FormData();
+        formData.append('file', file);
+        return apiUpload(ENDPOINTS.products.imagen(id), formData);
+    },
 };
 
 const RolesService = {

@@ -185,7 +185,7 @@ document.addEventListener("DOMContentLoaded", () => {
         Swal.fire({
           icon: "error",
           title: "No se pudo iniciar sesión",
-          text: error.message || "Verifica tu correo y contraseña.",
+          text: "Verifica tu correo y contraseña e intenta de nuevo.",
           confirmButtonText: "Aceptar",
         });
       } finally {
