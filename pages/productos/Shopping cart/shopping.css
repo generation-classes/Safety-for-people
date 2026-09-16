@@ -14,11 +14,9 @@
     border-radius: 10px;
     background-color: transparent;
     text-decoration: none;
-    transition: all 0.3s ease;
 }
 .btn-carrito:hover,
-.btn-carrito:focus,
-.btn-carrito:visited{
+.btn-carrito:focus{
     background-color: var(--secondary);
     color: white;
     text-decoration: none;
