@@ -146,10 +146,14 @@ App.getBasePath = function () {
 };
 
 App.isLoggedIn = function () {
-    return Boolean(localStorage.getItem('sape_session'));
+    return Boolean(localStorage.getItem('sape_session') || localStorage.getItem('sape_token'));
 };
 
 App.getRole = function () {
+    const session = JSON.parse(localStorage.getItem('sape_session') || 'null');
+    if (session && session.role) {
+        return session.role;
+    }
     return localStorage.getItem('sape_role') || 'user';
 };
 
@@ -163,14 +167,14 @@ App.logout = function () {
 };
 
 App.updateUserMenu = function () {
-    const session = JSON.parse(localStorage.getItem('sape_session') || 'null');
-    const role = session?.role || localStorage.getItem('sape_role');
+    const role = App.getRole();
+    const isLoggedIn = App.isLoggedIn();
     const loginItem = document.getElementById('loginMenuItem');
     const logoutItem = document.getElementById('logoutMenuItem');
     const sessionLabel = document.getElementById('sessionUserLabel');
     const logoutButton = document.getElementById('logoutButton');
 
-    if (role) {
+    if (isLoggedIn) {
         if (sessionLabel) {
             sessionLabel.textContent = role === 'admin' ? 'Administrador' : 'Usuario';
         }
@@ -192,10 +196,9 @@ App.updateUserMenu = function () {
 App.getRoleHomePage = function () {
     const base = App.getBasePath();
     const role = App.getRole();
-    const target = role === 'admin'
+    return role === 'admin'
         ? `${base}pages/home-administrador/index.html`
         : `${base}pages/home-usuario/index.html`;
-    return target;
 };
 
 App.redirectToLogin = function () {
@@ -253,13 +256,13 @@ App.getCart = function () {
             const id = item.id ?? product.id;
 
             return {
-            ...item,
-            id,
-            nombre: item.nombre || item.name || product.nombre || product.name || 'Producto',
-            descripcion: item.descripcion || product.descripcion || '',
-            precio: Number(item.precio ?? item.price ?? product.precio ?? product.price) || 0,
-            quantity: Math.max(1, Number(item.quantity ?? item.cantidad ?? product.quantity ?? 1) || 1),
-            imagen: App.ajustarRutaImagen(item.imagen || item.img || item.image || product.imagen || product.img, id)
+                ...item,
+                id,
+                nombre: item.nombre || item.name || product.nombre || product.name || 'Producto',
+                descripcion: item.descripcion || product.descripcion || '',
+                precio: Number(item.precio ?? item.price ?? product.precio ?? product.price) || 0,
+                quantity: Math.max(1, Number(item.quantity ?? item.cantidad ?? product.quantity ?? 1) || 1),
+                imagen: App.ajustarRutaImagen(item.imagen || item.img || item.image || product.imagen || product.img, id)
             };
         });
     } catch {
@@ -414,6 +417,7 @@ App.updateHomeLinks = function () {
     });
 };
 
+// Desactivado el cambio manual de rol por HTML para respetar la sesión real ingresada
 App.setupRoleSwitch = function (base) {
     const radios = document.querySelectorAll('input[name="userRole"]');
     if (!radios.length) return;
@@ -422,18 +426,9 @@ App.setupRoleSwitch = function (base) {
     radios.forEach(radio => {
         radio.checked = radio.value === currentRole;
     });
-
-    radios.forEach(radio => {
-        radio.addEventListener('change', () => {
-            if (!radio.checked) return;
-            localStorage.setItem('sape_role', radio.value);
-            const target = radio.value === 'admin' ? App.pages.admin : App.pages.inicio;
-            window.location.href = base + target;
-        });
-    });
 };
 
-// Función que evalúa si el usuario tiene sesión y muestra el avatar o el botón de inicio de sesión.
+// Evalúa si el usuario tiene sesión y muestra el avatar o el botón de inicio de sesión
 App.updateAuthUI = function () {
     const authNavAction = document.getElementById('auth-nav-action');
     if (!authNavAction) return;
@@ -478,7 +473,7 @@ App.loadLayout = async function () {
         });
     }
 
-    // AHORA SÍ: Como la navbar ya cargó en el paso anterior, pintamos el botón o perfil
+    // Pinta interfaz de usuario o botón de login
     App.updateAuthUI();
 
     App.setupRoleSwitch(base);
