@@ -1,5 +1,5 @@
-// Ajusta este ID al id real del rol "USER" en tu tabla `role` de Supabase.
-const DEFAULT_USER_ROLE_ID = 1;
+// Ajustado al id real del rol "USER" en tu base de datos (1 = ADMIN, 2 = USER)
+const DEFAULT_USER_ROLE_ID = 2;
 
 function decodificarJwt(token) {
   try {
@@ -19,7 +19,9 @@ function decodificarJwt(token) {
 
 function resolverRolDesdeToken(token) {
   const claims = decodificarJwt(token);
-  return String(claims.role || "").toUpperCase().includes("ADMIN") ? "admin" : "user";
+  // Revisa si las claims o autoridades traen ADMIN explícitamente, de lo contrario fuerza 'user'
+  const rolesCadena = JSON.stringify(claims).toUpperCase();
+  return rolesCadena.includes("ADMIN") ? "admin" : "user";
 }
 
 function guardarSesion(token, email, nombre, rol) {
@@ -308,7 +310,7 @@ document.addEventListener("DOMContentLoaded", () => {
           email: correoElectronico,
           password: contrasena,
           nombre: nombreCompleto,
-          roleId: DEFAULT_USER_ROLE_ID,
+          roleId: DEFAULT_USER_ROLE_ID, // <-- AHORA ENVÍA EL 2 (ROLE_USER)
         });
 
         const rol = resolverRolDesdeToken(token);
