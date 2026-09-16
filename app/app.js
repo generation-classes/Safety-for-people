@@ -153,6 +153,30 @@ App.getRole = function () {
     return localStorage.getItem('sape_role') || 'user';
 };
 
+App.getSession = function () {
+    try {
+        return JSON.parse(localStorage.getItem('sape_session') || 'null');
+    } catch {
+        return null;
+    }
+};
+
+App.getUserId = function () {
+    return App.getSession()?.userId ?? null;
+};
+
+// Restringe un input de teléfono a solo dígitos, máximo 10 (celulares en Colombia).
+App.setupPhoneInput = function (input) {
+    if (!input) return;
+    input.addEventListener('input', () => {
+        input.value = input.value.replace(/\D/g, '').slice(0, 10);
+    });
+};
+
+App.esTelefonoValido = function (valor) {
+    return /^[0-9]{10}$/.test(String(valor || '').trim());
+};
+
 App.logout = function () {
     localStorage.removeItem('sape_session');
     localStorage.removeItem('sape_role');
@@ -179,6 +203,8 @@ App.updateUserMenu = function () {
         if (logoutButton) {
             logoutButton.onclick = () => App.logout();
         }
+        document.querySelectorAll('.menu-item-user').forEach(item => item.classList.toggle('d-none', role !== 'user'));
+        document.querySelectorAll('.menu-item-admin').forEach(item => item.classList.toggle('d-none', role !== 'admin'));
         return;
     }
 
@@ -300,6 +326,12 @@ App.saveCart = function (cart) {
 };
 
 App.getProductStock = function (productId) {
+    // Si el producto está en el carrito, ya trae el stock real del backend guardado al agregarlo.
+    const enCarrito = App.getCart().find(item => String(item.id) === String(productId));
+    if (enCarrito && enCarrito.stock !== undefined) {
+        return Number(enCarrito.stock) || 0;
+    }
+
     const inventory = App.getInventory();
     const product = inventory.find(item => String(item.id) === String(productId));
     return Number(product?.stock || 0);
@@ -313,7 +345,8 @@ App.addToCart = function (product, quantity = 1) {
         return;
     }
 
-    const stockDisponible = App.getProductStock(product.id);
+    // Se usa el stock real del producto (viene del backend) en vez del inventario simulado.
+    const stockDisponible = product.stock !== undefined ? Number(product.stock) || 0 : App.getProductStock(product.id);
     if (stockDisponible <= 0) {
         App.notify('Este producto no tiene stock disponible.', 'danger');
         return;
@@ -340,6 +373,7 @@ App.addToCart = function (product, quantity = 1) {
             imagen: App.ajustarRutaImagen(typeof obtenerImagenProducto === 'function'
                 ? obtenerImagenProducto(product)
                 : product.imagen || product.img, product.id),
+            stock: stockDisponible,
             quantity: amount
         });
     }
@@ -461,6 +495,7 @@ App.loadLayout = async function () {
     const targets = [
         { id: 'site-header', file: 'components/navbar.html' },
         { id: 'site-footer', file: 'components/footer.html' },
+        { id: 'admin-sidebar', file: 'components/admin-sidebar.html' },
     ];
 
     // Carga asíncrona de la navbar
@@ -474,6 +509,13 @@ App.loadLayout = async function () {
 
     if (currentPage) {
         document.querySelectorAll(`[data-page="${currentPage}"]`).forEach(link => {
+            link.classList.add('active');
+        });
+    }
+
+    const currentAdminPage = document.body.dataset.adminPage;
+    if (currentAdminPage) {
+        document.querySelectorAll(`[data-admin-page="${currentAdminPage}"]`).forEach(link => {
             link.classList.add('active');
         });
     }

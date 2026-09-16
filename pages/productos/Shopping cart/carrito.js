@@ -88,8 +88,14 @@ function renderizarCarrito() {
 
 vaciarCarrito.addEventListener("click", () => App.clearCart());
 finalizarCompraBtn?.addEventListener("click", (event) => {
-    event.preventDefault();
-    App.finalizePurchase();
+    if (!App.getCart().length) {
+        event.preventDefault();
+        App.notify("Tu carrito está vacío.", "info");
+        return;
+    }
+    if (!App.requireLogin()) {
+        event.preventDefault();
+    }
 });
 document.addEventListener("sape:cart-updated", renderizarCarrito);
 renderizarCarrito();

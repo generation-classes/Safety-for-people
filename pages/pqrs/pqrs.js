@@ -1,4 +1,11 @@
 const formPQRS = document.getElementById('formPQRS');
+const evidenciaInput = document.getElementById('evidencia');
+const evidenciaNombre = document.getElementById('evidenciaNombre');
+
+evidenciaInput?.addEventListener('change', () => {
+    evidenciaNombre.textContent = evidenciaInput.files[0]?.name || '';
+});
+
 const pqrsToastEl = document.getElementById('pqrsToast');
 const pqrsToastIcon = document.getElementById('pqrsToastIcon');
 const pqrsToastMessage = document.getElementById('pqrsToastMessage');
@@ -21,6 +28,7 @@ formPQRS.addEventListener('submit', function (event) {
             if (response.ok) {
                 showPqrsToast('success', 'Envío exitoso', '¡Tu solicitud fue enviada! Te responderemos pronto.');
                 formPQRS.reset();
+                evidenciaNombre.textContent = '';
             } else {
                 return response.json().then((data) => {
                     const message = data?.errors?.map((err) => err.message).join(', ')

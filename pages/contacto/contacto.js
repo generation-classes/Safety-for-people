@@ -1,4 +1,5 @@
 const form = document.querySelector(`#contactForm`);
+App.setupPhoneInput(form.Numero);
 
 form.addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -25,6 +26,10 @@ form.addEventListener("submit", async (e) => {
         Swal.fire("Error", "Ingresa un numero", "error");
         return;
 
+    }
+    if (!App.esTelefonoValido(numero)) {
+        Swal.fire("Error", "El número debe tener exactamente 10 dígitos numéricos.", "error");
+        return;
     }
     if (mensaje === "") {
         Swal.fire("Error", "Ingresa un mensaje", "error");

@@ -355,7 +355,7 @@ body {
     justify-content: center;
     gap: 10px;
 
-    background: linear-gradient(to right, var(--dark), var(--secondary));
+    background: linear-gradient(to left, var(--dark), var(--secondary));
     color: #ffffff;
 
     border: none;
@@ -370,11 +370,16 @@ body {
 
     cursor: pointer;
 
-    transition: opacity 0.2s ease;
+    transition: background 0.2s ease;
 }
 
 .detalle-btn-carrito:hover {
-    opacity: 0.92;
+    background: linear-gradient(to right, var(--dark), var(--secondary));
+}
+
+.detalle-btn-carrito:disabled {
+    background: #b7c2c2;
+    cursor: not-allowed;
 }
 
 

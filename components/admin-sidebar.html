@@ -1,0 +1,28 @@
+<div class="d-flex align-items-center gap-3 mb-4 admin-topbar">
+    <button class="btn-admin-menu" type="button" data-bs-toggle="offcanvas" data-bs-target="#adminOffcanvas"
+        aria-controls="adminOffcanvas" aria-label="Abrir menú de administración">
+        <i class="bi bi-list fs-3"></i>
+    </button>
+    <h5 class="m-0 fw-bold" style="color:#004D40;">Panel de administración</h5>
+</div>
+
+<div class="offcanvas offcanvas-start" tabindex="-1" id="adminOffcanvas" aria-labelledby="adminOffcanvasLabel">
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title fw-bold" id="adminOffcanvasLabel">SAPE Admin</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Cerrar"></button>
+    </div>
+    <div class="offcanvas-body d-flex flex-column gap-1 p-2">
+        <a class="admin-nav-link" data-admin-page="dashboard" href="{{base}}pages/home-administrador/index.html">
+            <i class="bi bi-speedometer2"></i> Dashboard
+        </a>
+        <a class="admin-nav-link" data-admin-page="productos" href="{{base}}pages/home-administrador/productos.html">
+            <i class="bi bi-box-seam"></i> Productos
+        </a>
+        <a class="admin-nav-link" data-admin-page="ventas" href="{{base}}pages/home-administrador/ventas.html">
+            <i class="bi bi-receipt"></i> Ventas
+        </a>
+        <a class="admin-nav-link" data-admin-page="cuenta" href="{{base}}pages/home-administrador/cuenta.html">
+            <i class="bi bi-person-circle"></i> Cuenta
+        </a>
+    </div>
+</div>

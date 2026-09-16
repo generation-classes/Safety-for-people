@@ -1,5 +1,6 @@
-// Ajusta este ID al id real del rol "USER" en tu tabla `role` de Supabase.
-const DEFAULT_USER_ROLE_ID = 1;
+// El registro público siempre crea usuarios normales (rol "USER" = id 2 en Supabase).
+// Los administradores no se crean desde el frontend, solo directamente en la base de datos.
+const DEFAULT_USER_ROLE_ID = 2;
 
 function decodificarJwt(token) {
   try {
@@ -23,9 +24,14 @@ function resolverRolDesdeToken(token) {
 }
 
 function guardarSesion(token, email, nombre, rol) {
+  const claims = decodificarJwt(token);
+
   localStorage.setItem("sape_token", token);
   localStorage.setItem("sape_role", rol);
-  localStorage.setItem("sape_session", JSON.stringify({ role: rol, email, nombre }));
+  localStorage.setItem(
+    "sape_session",
+    JSON.stringify({ role: rol, email, nombre, userId: claims.userId ?? null })
+  );
 
   if (window.App && typeof App.updateAuthUI === "function") {
     App.updateAuthUI();
@@ -199,6 +205,8 @@ document.addEventListener("DOMContentLoaded", () => {
     // Referencia al ID real de tu HTML:
     const terminosInput = document.getElementById("terms-accept");
 
+    App.setupPhoneInput(numeroTelefonoInput);
+
     // Limpieza de errores en tiempo real
     [
       nombreCompletoInput,
@@ -308,6 +316,7 @@ document.addEventListener("DOMContentLoaded", () => {
           email: correoElectronico,
           password: contrasena,
           nombre: nombreCompleto,
+          phoneNumber: numeroTelefono,
           roleId: DEFAULT_USER_ROLE_ID,
         });
 

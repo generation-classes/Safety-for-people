@@ -1,11 +1,3 @@
-let favoritosGuardados = [];
-try {
-    favoritosGuardados = JSON.parse(localStorage.getItem("sape_favoritos") || "[]");
-} catch {
-    favoritosGuardados = [];
-}
-const favoritos = new Set(Array.isArray(favoritosGuardados) ? favoritosGuardados : []);
-
 const gridProductos = document.getElementById("gridProductos");
 const contadorProductos = document.getElementById("contadorProductos");
 const sinResultados = document.getElementById("sinResultados");
@@ -30,8 +22,19 @@ function normalizarCategoria(nombre) {
     return texto || "otros";
 }
 
-function normalizarCaracteristicas(lista) {
-    if (!Array.isArray(lista)) return [];
+function parsearCaracteristicas(valor) {
+    if (Array.isArray(valor)) return valor;
+    if (typeof valor !== "string" || !valor.trim()) return [];
+    try {
+        const parseado = JSON.parse(valor);
+        return Array.isArray(parseado) ? parseado : [];
+    } catch {
+        return [];
+    }
+}
+
+function normalizarCaracteristicas(valor) {
+    const lista = parsearCaracteristicas(valor);
     return lista.map(item => {
         const texto = String(item || "").toLowerCase();
         if (texto.includes("emerg")) return "emergencia";
@@ -42,7 +45,7 @@ function normalizarCaracteristicas(lista) {
     });
 }
 
-function mapearProducto(producto, categoriasPorId) {
+function mapearProducto(producto, categoriasPorId, favoritosIds) {
     const categoriaNombre = categoriasPorId.get(producto.categoryId)?.name || "";
     const textoCompleto = `${producto.name || ""} ${producto.description || ""}`.toLowerCase();
 
@@ -56,18 +59,20 @@ function mapearProducto(producto, categoriasPorId) {
         grupo: textoCompleto.includes("niñ") || textoCompleto.includes("infantil") ? "ninos" : "adultos",
         caracteristicas: normalizarCaracteristicas(producto.characteristics),
         color: producto.backgroundColor || "#DDEFFB",
-        imagen: producto.image
+        imagen: producto.image,
+        isFavorite: favoritosIds.has(producto.id)
     };
 }
 
 async function cargarCatalogoProductos() {
-    const [productosApi, categoriasApi] = await Promise.all([
+    const [productosApi, categoriasApi, favoritosIds] = await Promise.all([
         ProductsService.getAll(),
-        CategoriesService.getAll().catch(() => [])
+        CategoriesService.getAll().catch(() => []),
+        App.isLoggedIn() ? FavoritesService.getMine().then(ids => new Set(ids)).catch(() => new Set()) : Promise.resolve(new Set())
     ]);
 
     const categoriasPorId = new Map(categoriasApi.map(categoria => [categoria.id, categoria]));
-    return productosApi.map(producto => mapearProducto(producto, categoriasPorId));
+    return productosApi.map(producto => mapearProducto(producto, categoriasPorId, favoritosIds));
 }
 
 const PRODUCTOS_POR_PAGINA = 9;
@@ -142,14 +147,15 @@ function crearTarjeta(producto) {
     const col = document.createElement("div");
     col.className = "col-12 col-sm-6 col-lg-4";
 
-    producto.isFavorite = favoritos.has(producto.id);
     const esFavorito = producto.isFavorite;
+    const sinStock = Number(producto.stock) <= 0;
 
     col.innerHTML = `
-        <div class="producto-card" data-id="${producto.id}">
+        <div class="producto-card ${sinStock ? "agotado" : ""}" data-id="${producto.id}">
             <button type="button" class="producto-fav-btn ${esFavorito ? "active" : ""}" aria-label="Marcar como favorito">
                 <i class="bi ${esFavorito ? "bi-star-fill" : "bi-star"}"></i>
             </button>
+            ${sinStock ? '<span class="producto-sin-stock">Sin stock</span>' : ""}
             <div class="producto-img-wrap" style="background:${producto.color};">
                 <img src="${obtenerImagenProducto(producto)}" alt="${producto.nombre}">
             </div>
@@ -157,22 +163,33 @@ function crearTarjeta(producto) {
             <p class="producto-desc">${producto.descripcion}</p>
             <div class="producto-footer">
                 <span class="producto-precio">${formatearPrecio(producto.precio)}</span>
-                <button type="button" class="producto-cart-btn" aria-label="Agregar al carrito">
+                <button type="button" class="producto-cart-btn" aria-label="Agregar al carrito" ${sinStock ? "disabled" : ""}>
                     <i class="bi bi-cart3"></i>
                 </button>
             </div>
         </div>
     `;
 
-    col.querySelector(".producto-fav-btn").addEventListener("click", () => {
-        if (favoritos.has(producto.id)) {
-            favoritos.delete(producto.id);
-        } else {
-            favoritos.add(producto.id);
+    col.querySelector(".producto-fav-btn").addEventListener("click", async (evento) => {
+        if (!App.requireLogin()) return;
+
+        const boton = evento.currentTarget;
+        const nuevoValor = !producto.isFavorite;
+
+        boton.disabled = true;
+        try {
+            if (nuevoValor) {
+                await FavoritesService.add(producto.id);
+            } else {
+                await FavoritesService.remove(producto.id);
+            }
+            producto.isFavorite = nuevoValor;
+            renderizarProductos();
+        } catch (error) {
+            App.notify("No se pudo actualizar el favorito.", "danger");
+        } finally {
+            boton.disabled = false;
         }
-        producto.isFavorite = favoritos.has(producto.id);
-        localStorage.setItem("sape_favoritos", JSON.stringify([...favoritos]));
-        renderizarProductos();
     });
 
     col.querySelector(".producto-cart-btn").addEventListener("click", () => {

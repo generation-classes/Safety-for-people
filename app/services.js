@@ -1,8 +1,12 @@
 async function apiRequest(url, options = {}) {
+    const token = localStorage.getItem('sape_token');
+    const authHeader = token ? { Authorization: `Bearer ${token}` } : {};
+
     const response = await fetch(url, {
         ...options,
         headers: {
             'Content-Type': 'application/json',
+            ...authHeader,
             ...(options.headers || {}),
         },
     });
@@ -19,8 +23,17 @@ async function apiRequest(url, options = {}) {
     }
 
     if (response.status === 204) return null;
-    return response.json();
+
+    // Algunos endpoints (ej. POST /api/favorites/{id}) responden 200/201 sin cuerpo.
+    const texto = await response.text();
+    return texto ? JSON.parse(texto) : null;
 }
+
+const FavoritesService = {
+    getMine: () => apiRequest(ENDPOINTS.favorites.mine),
+    add: (productId) => apiRequest(ENDPOINTS.favorites.byProductId(productId), { method: 'POST' }),
+    remove: (productId) => apiRequest(ENDPOINTS.favorites.byProductId(productId), { method: 'DELETE' }),
+};
 
 const AuthService = {
     login: (email, password) => apiRequest(ENDPOINTS.auth.login, {
@@ -72,6 +85,7 @@ const RolesService = {
 
 const SalesService = {
     getAll: () => apiRequest(ENDPOINTS.sales.base),
+    getMine: () => apiRequest(ENDPOINTS.sales.mine),
     getById: (id) => apiRequest(ENDPOINTS.sales.byId(id)),
     create: (data) => apiRequest(ENDPOINTS.sales.base, {
         method: 'POST',
@@ -119,6 +133,7 @@ const UsersService = {
 };
 
 window.AuthService = AuthService;
+window.FavoritesService = FavoritesService;
 window.CategoriesService = CategoriesService;
 window.ProductsService = ProductsService;
 window.RolesService = RolesService;

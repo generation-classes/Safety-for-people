@@ -5,6 +5,10 @@ const ENDPOINTS = {
         login: `${API_BASE_URL}/api/auth/login`,
         register: `${API_BASE_URL}/api/auth/register`,
     },
+    favorites: {
+        mine: `${API_BASE_URL}/api/favorites/mine`,
+        byProductId: (productId) => `${API_BASE_URL}/api/favorites/${productId}`,
+    },
     categories: {
         base: `${API_BASE_URL}/api/categories`,
         active: `${API_BASE_URL}/api/categories/active`,
@@ -21,6 +25,7 @@ const ENDPOINTS = {
     },
     sales: {
         base: `${API_BASE_URL}/api/sales`,
+        mine: `${API_BASE_URL}/api/sales/mine`,
         byId: (id) => `${API_BASE_URL}/api/sales/${id}`,
     },
     statuses: {
