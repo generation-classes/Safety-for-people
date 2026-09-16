@@ -1183,9 +1183,6 @@ textarea.form-control{
 
 /*  ESTRUCTURA GENERAL */
 
-.dashboard-row {
-    min-height: 500px;
-}
 
 
 .dashboard-card {
@@ -3294,9 +3291,6 @@ body[data-page="productos"] .buscador {
 
 /*  ESTRUCTURA GENERAL */
 
-.dashboard-row {
-    min-height: 500px;
-}
 
 
 .dashboard-card {
@@ -5047,9 +5041,6 @@ textarea.form-control{
 
 /*  ESTRUCTURA GENERAL */
 
-.dashboard-row {
-    min-height: 500px;
-}
 
 
 .dashboard-card {
@@ -6803,9 +6794,6 @@ textarea.form-control{
 
 /*  ESTRUCTURA GENERAL */
 
-.dashboard-row {
-    min-height: 500px;
-}
 
 
 .dashboard-card {
@@ -7829,4 +7817,54 @@ textarea.form-control{
 .banner-contacto {
     min-height: auto;
     padding: 36px 0;
+}
+/* El espacio sobrante al estirar una tarjeta se reparte entre sus elementos. */
+.dashboard-card .card-body {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.dashboard-card .card-body > .list-group,
+.dashboard-card .card-body > ol {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.dashboard-card,
+.dashboard-card .card-body {
+    min-height: 0;
+}
+
+.dashboard-card .card-body > .chart-container {
+    flex: 1 1 auto;
+    position: relative;
+    height: auto;
+    min-height: 0;
+}
+
+.dashboard-card .card-body > .chart-container canvas {
+    position: absolute;
+    inset: 0;
+    width: 100% !important;
+    height: 100% !important;
+}
+
+.pedidos-recientes-card {
+    height: 450px;
+}
+
+.pedidos-recientes-card .card-body > .list-group {
+    overflow-y: auto;
+}
+
+.columna-alertas {
+    height: 450px;
+}
+
+#alertasList {
+    overflow-y: auto;
+    padding-bottom: 12px;
 }

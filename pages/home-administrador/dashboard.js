@@ -128,6 +128,8 @@ document.addEventListener("DOMContentLoaded", () => {
         const canvas = document.getElementById("ventasChart");
         if (!canvas || typeof Chart === "undefined") return;
 
+        Chart.getChart(canvas)?.destroy();
+
         const dias = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"];
         const ventasPorDia = [0, 0, 0, 0, 0, 0, 0];
 
@@ -194,7 +196,9 @@ document.addEventListener("DOMContentLoaded", () => {
             pintarPedidosRecientes(ventasActivas, statusesPorId);
             pintarProductosMasVendidos(ventasActivas, productosPorId);
             pintarAlertasStockBajo(productos);
-            pintarGraficaVentas(ventasActivas);
+
+            // Se espera al siguiente frame para que flexbox ya haya calculado la altura final.
+            requestAnimationFrame(() => pintarGraficaVentas(ventasActivas));
         } catch (error) {
             console.error("Error cargando el dashboard:", error);
             App.notify("No se pudo cargar la información del dashboard.", "danger");
