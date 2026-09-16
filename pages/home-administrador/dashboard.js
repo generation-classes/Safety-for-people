@@ -10,1922 +10,413 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (!validarAccesoAdmin()) return;
 
-    const inventarioBase = JSON.parse(localStorage.getItem("sape_inventario") || "null");
-    const inventarioInicial = [
-        { id: 1, nombre: "Pulsera GPS Femenino", categoria: "Pulseras GPS", descripcion: "Pulsera con GPS para mayor seguridad.", precio: 199900, stock: 25, imagen: "../../Assets/images/pulsera.png", caracteristicas: ["Botón de emergencia", "Resistencia al agua", "Ubicación en tiempo real", "Batería de larga duración"] },
-        { id: 2, nombre: "Audífonos GPS integrado", categoria: "Audífonos GPS", descripcion: "Audífonos inalámbricos con geolocalización.", precio: 399900, stock: 20, imagen: "../../Assets/images/audifono.png", caracteristicas: ["GPS integrado", "Conexión inalámbrica", "Ubicación en tiempo real", "Batería de larga duración"] },
-        { id: 3, nombre: "Reloj GPS Masculino", categoria: "Relojes GPS", descripcion: "Reloj inteligente con GPS integrado.", precio: 359900, stock: 15, imagen: "../../Assets/images/reloj.png", caracteristicas: ["GPS integrado", "Botón de emergencia", "Resistencia al agua", "Monitoreo de ubicación"] },
-        { id: 4, nombre: "Reloj GPS Niño", categoria: "Para niños", descripcion: "Reloj infantil con localización GPS.", precio: 199900, stock: 16, imagen: "../../Assets/images/relojnino.png", caracteristicas: ["GPS en tiempo real", "Botón de emergencia", "Diseño infantil", "Resistencia al agua"] },
-        { id: 5, nombre: "Pulsera GPS Niña", categoria: "Para niños", descripcion: "Pulsera infantil con GPS.", precio: 159900, stock: 25, imagen: "../../Assets/images/manillanina.png", caracteristicas: ["Ubicación en tiempo real", "Botón de emergencia", "Diseño infantil", "Batería de larga duración"] },
-        { id: 6, nombre: "Gafas de sol GPS", categoria: "GPS", descripcion: "Gafas de sol con sistema de localización.", precio: 199900, stock: 18, imagen: "../../Assets/images/gafas.png", caracteristicas: ["Sistema GPS", "Diseño discreto", "Ubicación en tiempo real", "Batería recargable"] },
-        { id: 7, nombre: "Arete GPS", categoria: "GPS", descripcion: "Aretes discretos con localización.", precio: 159900, stock: 20, imagen: "../../Assets/images/aretes.png", caracteristicas: ["Diseño discreto", "Ubicación en tiempo real", "Sistema GPS", "Batería de larga duración"] },
-        { id: 8, nombre: "Arete GPS Niña", categoria: "Para niños", descripcion: "Aretes infantiles con sistema de localización.", precio: 99900, stock: 15, imagen: "../../Assets/images/aretesniña.png", caracteristicas: ["GPS integrado", "Diseño infantil", "Ubicación en tiempo real", "Batería de larga duración"] },
-        { id: 9, nombre: "Llavero GPS Femenino", categoria: "GPS", descripcion: "Llavero discreto con rastreador GPS.", precio: 159900, stock: 30, imagen: "../../Assets/images/llavero.png", caracteristicas: ["Rastreador GPS", "Diseño discreto", "Ubicación en tiempo real", "Batería de larga duración"] },
-    ];
+    const API_BASE = 'http://localhost:8080/api';
 
-    if (!Array.isArray(inventarioBase) || inventarioBase.length === 0) {
-        localStorage.setItem("sape_inventario", JSON.stringify(inventarioInicial));
+    function obtenerToken() {
+        return localStorage.getItem('sape_token') || '';
     }
 
-    const ventasBase = [
-        { evento: "addToCart", producto: "Pulsera GPS Femenino", productoId: 1, cantidad: 12, precio: 199900, fecha: "2026-08-25T09:00:00.000Z" },
-        { evento: "addToCart", producto: "Reloj GPS Masculino", productoId: 3, cantidad: 9, precio: 359900, fecha: "2026-08-26T10:30:00.000Z" },
-        { evento: "addToCart", producto: "Llavero GPS Femenino", productoId: 9, cantidad: 15, precio: 159900, fecha: "2026-08-27T12:00:00.000Z" },
-        { evento: "addToCart", producto: "Pulsera GPS Niña", productoId: 5, cantidad: 8, precio: 159900, fecha: "2026-08-28T15:45:00.000Z" },
-        { evento: "addToCart", producto: "Reloj GPS Niño", productoId: 4, cantidad: 18, precio: 199900, fecha: "2026-08-29T09:15:00.000Z" },
-        { evento: "addToCart", producto: "Audífonos GPS integrado", productoId: 2, cantidad: 11, precio: 399900, fecha: "2026-08-30T16:20:00.000Z" },
-        { evento: "addToCart", producto: "Arete GPS", productoId: 7, cantidad: 13, precio: 159900, fecha: "2026-08-31T11:10:00.000Z" },
-    ];
-
-    const analiticaGuardada = JSON.parse(localStorage.getItem("analiticaProductos") || "[]");
-    if (!Array.isArray(analiticaGuardada) || analiticaGuardada.length === 0) {
-        localStorage.setItem("analiticaProductos", JSON.stringify(ventasBase));
-    }
-
-    // =========================================================
-    // PRODUCTOS BASE
-    // =========================================================
-
-    const productosBase = Array.isArray(inventarioBase) && inventarioBase.length
-        ? inventarioBase
-        : inventarioInicial;
-
-    // =========================================================
-    // PRODUCTOS DEL ADMINISTRADOR
-    // =========================================================
-
-    function obtenerProductosAdministrador() {
-
-        try {
-
-            return JSON.parse(
-                localStorage.getItem("productos")
-            ) || [];
-
-        } catch (error) {
-
-            console.error(
-                "Error al obtener productos:",
-                error
-            );
-
-            return [];
-        }
-    }
-
-    function obtenerInventarioActual() {
-        const inventario = JSON.parse(localStorage.getItem("sape_inventario") || "[]");
-        return Array.isArray(inventario) && inventario.length ? inventario : productosBase;
-    }
-
-    function actualizarKpisAdmin() {
-        const inventario = obtenerInventarioActual();
-        const eventos = obtenerAnalitica();
-        const ventas = eventos.filter((evento) => evento.evento === "addToCart");
-        const totalVentas = ventas.length
-            ? ventas.reduce((sum, evento) => sum + (Number(evento.precio || 0) * Number(evento.cantidad || 1)), 0)
-            : ventasBase.reduce((sum, evento) => sum + (Number(evento.precio || 0) * Number(evento.cantidad || 1)), 0);
-        const totalInventario = inventario.reduce((sum, producto) => sum + Number(producto.stock || 0), 0);
-
-        const elementos = {
-            ventas: document.getElementById("kpiVentas"),
-            pedidos: document.getElementById("kpiPedidos"),
-            inventario: document.getElementById("kpiInventario"),
-            usuarios: document.getElementById("kpiUsuarios")
+    function obtenerHeaders() {
+        const headers = {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
         };
-
-        if (elementos.ventas) {
-            elementos.ventas.textContent = `$${Number(totalVentas).toLocaleString("es-CO")} COP`;
+        const token = obtenerToken();
+        if (token) {
+            headers['Authorization'] = `Bearer ${token}`;
         }
+        return headers;
+    }
 
-        if (elementos.pedidos) {
-            elementos.pedidos.textContent = ventas.length || ventasBase.length;
-        }
-
-        if (elementos.inventario) {
-            elementos.inventario.textContent = totalInventario;
-        }
-
-        if (elementos.usuarios) {
-            const usuarios = JSON.parse(localStorage.getItem("sape_users") || "[]");
-            elementos.usuarios.textContent = Array.isArray(usuarios) && usuarios.length ? usuarios.length : 3;
+    function obtenerUserIdDesdeToken() {
+        const token = obtenerToken();
+        if (!token) return null;
+        try {
+            const payload = token.split('.')[1];
+            const normalizado = payload.replace(/-/g, '+').replace(/_/g, '/');
+            const json = JSON.parse(decodeURIComponent(atob(normalizado).split('').map((c) => '%' + c.charCodeAt(0).toString(16).padStart(2, '0')).join('')));
+            return json.userId || json.userid || null;
+        } catch (error) {
+            console.error('Error decodificando el token:', error);
+            return null;
         }
     }
 
-
     // =========================================================
-    // GUARDAR PRODUCTOS
+    // FUNCIONES DE CONEXIÓN AL BACKEND
     // =========================================================
 
-    function guardarProductosAdministrador(productos) {
-
+    async function fetchFromBackend(endpoint) {
         try {
-
-            localStorage.setItem(
-                "productos",
-                JSON.stringify(productos)
-            );
-
-            const inventarioActual = JSON.parse(localStorage.getItem("sape_inventario") || "[]");
-            const inventario = Array.isArray(inventarioActual) ? inventarioActual : [];
-
-            productos.forEach((producto) => {
-                const existe = inventario.some((item) => String(item.id) === String(producto.id));
-                if (existe) {
-                    const item = inventario.find((entry) => String(entry.id) === String(producto.id));
-                    item.nombre = producto.nombre;
-                    item.descripcion = producto.descripcion;
-                    item.precio = Number(producto.precio || 0);
-                    item.stock = Number(producto.stock || 0);
-                    item.categoria = producto.categoria;
-                    item.imagen = producto.imagen || item.imagen;
-                    item.caracteristicas = Array.isArray(producto.caracteristicas) ? producto.caracteristicas : item.caracteristicas || [];
-                    return;
-                }
-
-                inventario.push({
-                    id: producto.id,
-                    nombre: producto.nombre,
-                    categoria: producto.categoria,
-                    descripcion: producto.descripcion,
-                    precio: Number(producto.precio || 0),
-                    stock: Number(producto.stock || 0),
-                    imagen: producto.imagen,
-                    caracteristicas: Array.isArray(producto.caracteristicas) ? producto.caracteristicas : []
-                });
+            const response = await fetch(`${API_BASE}${endpoint}`, {
+                method: 'GET',
+                headers: obtenerHeaders()
             });
-
-            localStorage.setItem("sape_inventario", JSON.stringify(inventario));
-
-            return true;
-
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+            }
+            return await response.json();
         } catch (error) {
-
-            console.error(
-                "No se pudo guardar el producto:",
-                error
-            );
-
-            return false;
+            console.error(`Error fetching ${endpoint}:`, error);
+            return null;
         }
     }
 
-
-    // =========================================================
-    // COMPRIMIR IMAGEN
-    // =========================================================
-
-    function comprimirImagen(archivo) {
-
-        return new Promise((resolve, reject) => {
-
-            const lector = new FileReader();
-
-
-            lector.onload = (evento) => {
-
-                const imagen = new Image();
-
-
-                imagen.onload = () => {
-
-                    const canvas =
-                        document.createElement("canvas");
-
-
-                    const MAX_WIDTH = 500;
-                    const MAX_HEIGHT = 500;
-
-
-                    let ancho =
-                        imagen.width;
-
-                    let alto =
-                        imagen.height;
-
-
-                    if (
-                        ancho > MAX_WIDTH ||
-                        alto > MAX_HEIGHT
-                    ) {
-
-                        const proporcion =
-                            Math.min(
-                                MAX_WIDTH / ancho,
-                                MAX_HEIGHT / alto
-                            );
-
-
-                        ancho =
-                            Math.round(
-                                ancho * proporcion
-                            );
-
-
-                        alto =
-                            Math.round(
-                                alto * proporcion
-                            );
-
-                    }
-
-
-                    canvas.width =
-                        ancho;
-
-                    canvas.height =
-                        alto;
-
-
-                    const contexto =
-                        canvas.getContext("2d");
-
-
-                    contexto.drawImage(
-                        imagen,
-                        0,
-                        0,
-                        ancho,
-                        alto
-                    );
-
-
-                    const imagenComprimida =
-                        canvas.toDataURL(
-                            "image/jpeg",
-                            0.55
-                        );
-
-
-                    resolve(
-                        imagenComprimida
-                    );
-
-                };
-
-
-                imagen.onerror = () => {
-
-                    reject(
-                        new Error(
-                            "No se pudo procesar la imagen."
-                        )
-                    );
-
-                };
-
-
-                imagen.src =
-                    evento.target.result;
-
-            };
-
-
-            lector.onerror = () => {
-
-                reject(
-                    new Error(
-                        "No se pudo leer la imagen."
-                    )
-                );
-
-            };
-
-
-            lector.readAsDataURL(archivo);
-
-        });
-    }
-
-
-    // =========================================================
-    // FORMULARIO DEL ADMINISTRADOR
-    // =========================================================
-
-    const formulario =
-        document.getElementById(
-            "formularioAgregarProducto"
-        );
-
-
-    if (formulario) {
-
-        formulario.addEventListener(
-            "submit",
-            async (evento) => {
-
-                evento.preventDefault();
-
-
-                const nombre =
-                    document
-                        .getElementById("nombreProducto")
-                        ?.value
-                        .trim();
-
-
-                const categoria =
-                    document
-                        .getElementById("categoriaProducto")
-                        ?.value
-                        .trim();
-
-
-                const descripcion =
-                    document
-                        .getElementById("descripcionProducto")
-                        ?.value
-                        .trim();
-
-
-                const precio =
-                    document
-                        .getElementById("precioRegular")
-                        ?.value
-                        .trim();
-
-
-                const stock =
-                    document
-                        .getElementById("stockDisponible")
-                        ?.value
-                        .trim();
-
-
-                const archivo =
-                    document.getElementById(
-                        "archivoProducto"
-                    );
-
-
-                // =================================================
-                // VALIDACIONES
-                // =================================================
-
-                if (!nombre) {
-
-                    mostrarMensaje(
-                        "Campo obligatorio",
-                        "Ingresa el nombre del producto",
-                        "error"
-                    );
-
-                    return;
-                }
-
-
-                if (!categoria) {
-
-                    mostrarMensaje(
-                        "Campo obligatorio",
-                        "Ingresa la categoría",
-                        "error"
-                    );
-
-                    return;
-                }
-
-
-                if (!descripcion) {
-
-                    mostrarMensaje(
-                        "Campo obligatorio",
-                        "Ingresa una descripción",
-                        "error"
-                    );
-
-                    return;
-                }
-
-
-                if (!precio || Number(precio) <= 0) {
-
-                    mostrarMensaje(
-                        "Precio inválido",
-                        "Ingresa un precio válido",
-                        "error"
-                    );
-
-                    return;
-                }
-
-
-                if (!stock || Number(stock) < 0) {
-
-                    mostrarMensaje(
-                        "Stock inválido",
-                        "Ingresa un stock válido",
-                        "error"
-                    );
-
-                    return;
-                }
-
-
-                if (
-                    !archivo ||
-                    archivo.files.length === 0
-                ) {
-
-                    mostrarMensaje(
-                        "Campo obligatorio",
-                        "Selecciona una imagen",
-                        "error"
-                    );
-
-                    return;
-                }
-
-
-                const imagenArchivo =
-                    archivo.files[0];
-
-
-                if (
-                    !imagenArchivo.type.startsWith(
-                        "image/"
-                    )
-                ) {
-
-                    mostrarMensaje(
-                        "Archivo no válido",
-                        "Selecciona una imagen válida",
-                        "error"
-                    );
-
-                    return;
-                }
-
-
-                // =================================================
-                // MOSTRAR CARGANDO
-                // =================================================
-
-                const botonGuardar =
-                    document.getElementById(
-                        "btnGuardarProducto"
-                    );
-
-
-                if (botonGuardar) {
-
-                    botonGuardar.disabled =
-                        true;
-
-                    botonGuardar.textContent =
-                        "Guardando...";
-
-                }
-
-
-                try {
-
-                    // =================================================
-                    // COMPRIMIR IMAGEN
-                    // =================================================
-
-                    const imagen =
-                        await comprimirImagen(
-                            imagenArchivo
-                        );
-
-
-                    // =================================================
-                    // CREAR PRODUCTO
-                    // =================================================
-
-                    const productoNuevo = {
-
-                        id: Date.now(),
-
-                        nombre:
-                            nombre,
-
-                        categoria:
-                            categoria,
-
-                        descripcion:
-                            descripcion,
-
-                        precio:
-                            Number(precio),
-
-                        stock:
-                            Number(stock),
-
-                        imagen:
-                            imagen,
-
-                        caracteristicas: [
-                            "Botón de emergencia",
-                            "Ubicación en tiempo real",
-                            "Batería de larga duración",
-                            "Diseño seguro"
-                        ]
-
-                    };
-
-
-                    // =================================================
-                    // OBTENER PRODUCTOS
-                    // =================================================
-
-                    const productos =
-                        obtenerProductosAdministrador();
-
-
-                    productos.push(
-                        productoNuevo
-                    );
-
-
-                    // =================================================
-                    // GUARDAR
-                    // =================================================
-
-                    const guardado =
-                        guardarProductosAdministrador(
-                            productos
-                        );
-
-
-                    if (!guardado) {
-
-                        mostrarMensaje(
-                            "No se pudo guardar",
-                            "El almacenamiento del navegador está lleno. Elimina productos de prueba y vuelve a intentarlo.",
-                            "error"
-                        );
-
-                        return;
-                    }
-
-
-                    // =================================================
-                    // ANALÍTICA
-                    // =================================================
-
-                    registrarEventoAnalitica(
-                        "createProduct",
-                        productoNuevo
-                    );
-
-
-                    // =================================================
-                    // ÉXITO
-                    // =================================================
-
-                    mostrarMensaje(
-                        "Producto agregado",
-                        "El producto fue creado correctamente.",
-                        "success"
-                    );
-
-
-                    formulario.reset();
-
-
-                    // =================================================
-                    // CERRAR MODAL
-                    // =================================================
-
-                    const modal =
-                        document.getElementById(
-                            "modalAgregarProducto"
-                        );
-
-
-                    if (
-                        modal &&
-                        typeof bootstrap !== "undefined"
-                    ) {
-
-                        const instancia =
-                            bootstrap.Modal.getInstance(
-                                modal
-                            );
-
-
-                        if (instancia) {
-
-                            instancia.hide();
-
-                        }
-
-                    }
-
-
-                } catch (error) {
-
-                    console.error(
-                        "Error creando producto:",
-                        error
-                    );
-
-
-                    mostrarMensaje(
-                        "Error",
-                        "No fue posible guardar el producto.",
-                        "error"
-                    );
-
-                } finally {
-
-                    if (botonGuardar) {
-
-                        botonGuardar.disabled =
-                            false;
-
-                        botonGuardar.textContent =
-                            "Guardar";
-
-                    }
-
-                }
-
-            }
-        );
-
-    }
-
-
-    // =========================================================
-    // PÁGINA DE PRODUCTOS
-    // =========================================================
-// Guarda el producto del formulario
-
-    const contenedorProductos =
-        document.querySelector(
-            ".productos-grid"
-        );
-
-
-    if (contenedorProductos) {
-
-        configurarProductosExistentes();
-
-        agregarProductosAdministrador();
-
-        actualizarCantidadProductos();
-
-    }
-
-
-    // =========================================================
-    // PRODUCTOS EXISTENTES
-    // =========================================================
-
-    function configurarProductosExistentes() {
-
-        const tarjetas =
-            document.querySelectorAll(
-                ".producto-card"
-            );
-
-
-        tarjetas.forEach(
-            (tarjeta) => {
-
-                const id =
-                    tarjeta.dataset.productoId;
-
-
-                if (!id) {
-
-                    return;
-
-                }
-
-
-                tarjeta.style.cursor =
-                    "pointer";
-
-
-                tarjeta.addEventListener(
-                    "click",
-                    (evento) => {
-
-                        if (
-                            evento.target.closest(
-                                "button"
-                            )
-                        ) {
-
-                            return;
-
-                        }
-
-
-                        window.location.href =
-                            `detalle.html?id=${id}`;
-
-                    }
-                );
-
-            }
-        );
-
-    }
-
-
-    // =========================================================
-    // PRODUCTOS CREADOS POR ADMINISTRADOR
-    // =========================================================
-
-    function agregarProductosAdministrador() {
-
-        const productos =
-            obtenerProductosAdministrador();
-
-
-        productos.forEach(
-            (producto) => {
-
-                crearTarjetaProducto(
-                    producto
-                );
-
-            }
-        );
-
-    }
-
-
-    // =========================================================
-    // CREAR TARJETA
-    // =========================================================
-
-    function crearTarjetaProducto(producto) {
-
-        const tarjeta =
-            document.createElement(
-                "article"
-            );
-
-
-        tarjeta.classList.add(
-            "producto-card"
-        );
-
-
-        tarjeta.dataset.productoId =
-            producto.id;
-
-
-        const contenedorImagen =
-            document.createElement(
-                "div"
-            );
-
-
-        contenedorImagen.classList.add(
-            "producto-imagen"
-        );
-
-
-        const imagen =
-            document.createElement(
-                "img"
-            );
-
-
-        imagen.src =
-            producto.imagen;
-
-
-        imagen.alt =
-            producto.nombre;
-
-
-        contenedorImagen.appendChild(
-            imagen
-        );
-
-
-        const informacion =
-            document.createElement(
-                "div"
-            );
-
-
-        informacion.classList.add(
-            "producto-info"
-        );
-
-
-        const titulo =
-            document.createElement(
-                "h3"
-            );
-
-
-        titulo.textContent =
-            producto.nombre;
-
-
-        const descripcion =
-            document.createElement(
-                "p"
-            );
-
-
-        descripcion.textContent =
-            producto.descripcion;
-
-
-        const footer =
-            document.createElement(
-                "div"
-            );
-
-
-        footer.classList.add(
-            "producto-footer"
-        );
-
-
-        const precio =
-            document.createElement(
-                "span"
-            );
-
-
-        precio.classList.add(
-            "producto-precio"
-        );
-
-
-        precio.textContent =
-            `$${Number(
-                producto.precio
-            ).toLocaleString(
-                "es-CO"
-            )} COP`;
-
-
-        const boton =
-            document.createElement(
-                "button"
-            );
-
-
-        boton.type =
-            "button";
-
-
-        boton.setAttribute(
-            "aria-label",
-            "Agregar al carrito"
-        );
-
-
-        boton.innerHTML =
-            `<i class="bi bi-cart3"></i>`;
-
-
-        footer.appendChild(
-            precio
-        );
-
-
-        footer.appendChild(
-            boton
-        );
-
-
-        informacion.appendChild(
-            titulo
-        );
-
-
-        informacion.appendChild(
-            descripcion
-        );
-
-
-        informacion.appendChild(
-            footer
-        );
-
-
-        tarjeta.appendChild(
-            contenedorImagen
-        );
-
-
-        tarjeta.appendChild(
-            informacion
-        );
-
-
-        contenedorProductos.appendChild(
-            tarjeta
-        );
-
-
-        tarjeta.addEventListener(
-            "click",
-            (evento) => {
-
-                if (
-                    evento.target.closest(
-                        "button"
-                    )
-                ) {
-
-                    return;
-
-                }
-
-
-                window.location.href =
-                    `detalle.html?id=${producto.id}`;
-
-            }
-        );
-
-    }
-
-
-    // =========================================================
-    // CANTIDAD DE PRODUCTOS
-    // =========================================================
-
-    function actualizarCantidadProductos() {
-
-        const elemento =
-            document.getElementById(
-                "cantidadProductos"
-            );
-
-
-        if (!elemento) {
-
-            return;
-
-        }
-
-
-        const productosAdmin =
-            obtenerProductosAdministrador();
-
-
-        const total =
-            productosBase.length +
-            productosAdmin.length;
-
-
-        elemento.textContent =
-            `Mostrando ${total} productos`;
-
-    }
-
-
-    // =========================================================
-    // DETALLE DEL PRODUCTO
-    // =========================================================
-
-    const elementoNombre =
-        document.getElementById(
-            "nombreProducto"
-        );
-
-
-    if (
-        elementoNombre &&
-        window.location.pathname.includes(
-            "detalle.html"
-        )
-    ) {
-
-        cargarDetalleProducto();
-
-    }
-
-
-    // =========================================================
-    // CARGAR DETALLE SEGÚN ID
-    // =========================================================
-
-    function cargarDetalleProducto() {
-
-        const parametros =
-            new URLSearchParams(
-                window.location.search
-            );
-
-
-        const id =
-            parametros.get("id");
-
-
-        if (!id) {
-
-            mostrarProductoNoEncontrado();
-
-            return;
-
-        }
-
-
-        let producto =
-            productosBase.find(
-                (item) =>
-                    String(item.id) ===
-                    String(id)
-            );
-
-
-        if (!producto) {
-
-            const productosAdmin =
-                obtenerProductosAdministrador();
-
-
-            producto =
-                productosAdmin.find(
-                    (item) =>
-                        String(item.id) ===
-                        String(id)
-                );
-
-        }
-
-
-        if (!producto) {
-
-            mostrarProductoNoEncontrado();
-
-            return;
-
-        }
-
-
-        // =====================================================
-        // REGISTRAR VISUALIZACIÓN
-        // =====================================================
-
-        registrarEventoAnalitica(
-            "viewProduct",
-            producto
-        );
-
-
-        const imagen =
-            document.getElementById(
-                "imagenProducto"
-            );
-
-
-        const categoria =
-            document.getElementById(
-                "categoriaProducto"
-            );
-
-
-        const nombre =
-            document.getElementById(
-                "nombreProducto"
-            );
-
-
-        const precio =
-            document.getElementById(
-                "precioProducto"
-            );
-
-
-        const descripcion =
-            document.getElementById(
-                "descripcionProducto"
-            );
-
-
-        const stock =
-            document.getElementById(
-                "stockProducto"
-            );
-
-
-        const breadcrumb =
-            document.getElementById(
-                "breadcrumbProducto"
-            );
-
-
-        const caracteristicas =
-            document.getElementById(
-                "caracteristicasProducto"
-            );
-
-
-        if (imagen) {
-
-            imagen.src =
-                producto.imagen;
-
-            imagen.alt =
-                producto.nombre;
-
-        }
-
-
-        if (categoria) {
-
-            categoria.innerHTML =
-                `
-                <i class="bi bi-tag-fill"></i>
-                ${producto.categoria}
-                `;
-
-        }
-
-
-        if (nombre) {
-
-            nombre.textContent =
-                producto.nombre;
-
-        }
-
-
-        if (precio) {
-
-            precio.textContent =
-                `$${Number(
-                    producto.precio
-                ).toLocaleString(
-                    "es-CO"
-                )} COP`;
-
-        }
-
-
-        if (descripcion) {
-
-            descripcion.textContent =
-                producto.descripcion;
-
-        }
-
-
-        if (stock) {
-
-            if (
-                Number(producto.stock) > 0
-            ) {
-
-                stock.classList.remove(
-                    "agotado"
-                );
-
-
-                stock.classList.add(
-                    "disponible"
-                );
-
-
-                stock.innerHTML =
-                    `
-                    <i class="bi bi-check-circle-fill"></i>
-                    Stock disponible: ${producto.stock} unidades
-                    `;
-
-            } else {
-
-                stock.classList.remove(
-                    "disponible"
-                );
-
-
-                stock.classList.add(
-                    "agotado"
-                );
-
-
-                stock.innerHTML =
-                    `
-                    <i class="bi bi-x-circle-fill"></i>
-                    Producto agotado
-                    `;
-
-            }
-
-        }
-
-
-        if (caracteristicas) {
-
-            caracteristicas.innerHTML =
-                "";
-
-
-            if (
-                Array.isArray(
-                    producto.caracteristicas
-                )
-            ) {
-
-                producto.caracteristicas.forEach(
-                    (caracteristica) => {
-
-                        const li =
-                            document.createElement(
-                                "li"
-                            );
-
-
-                        li.innerHTML =
-                            `
-                            <i class="bi bi-check2"></i>
-                            ${caracteristica}
-                            `;
-
-
-                        caracteristicas.appendChild(
-                            li
-                        );
-
-                    }
-                );
-
-            }
-
-        }
-
-
-        if (breadcrumb) {
-
-            breadcrumb.textContent =
-                producto.nombre;
-
-        }
-
-
-        document.title =
-            `${producto.nombre} | SAPE`;
-
-    }
-
-
-    // =========================================================
-    // CARRITO
-    // =========================================================
-
-    const botonCarrito =
-        document.getElementById(
-            "btnAgregarCarrito"
-        );
-
-
-    if (botonCarrito) {
-
-        botonCarrito.addEventListener(
-            "click",
-            () => {
-
-                const parametros =
-                    new URLSearchParams(
-                        window.location.search
-                    );
-
-
-                const id =
-                    parametros.get("id");
-
-
-                if (!id) {
-
-                    return;
-
-                }
-
-
-                let producto =
-                    productosBase.find(
-                        (item) =>
-                            String(item.id) ===
-                            String(id)
-                    );
-
-
-                if (!producto) {
-
-                    const productosAdmin =
-                        obtenerProductosAdministrador();
-
-
-                    producto =
-                        productosAdmin.find(
-                            (item) =>
-                                String(item.id) ===
-                                String(id)
-                        );
-
-                }
-
-
-                if (!producto) {
-
-                    return;
-
-                }
-
-
-                const cantidad =
-                    Number(
-                        document.getElementById(
-                            "cantidadProducto"
-                        )?.value || 1
-                    );
-
-
-                registrarEventoAnalitica(
-                    "addToCart",
-                    producto,
-                    cantidad
-                );
-
-
-                mostrarMensaje(
-                    "Producto agregado",
-                    `${producto.nombre} fue agregado al carrito`,
-                    "success"
-                );
-
-            }
-        );
-
-    }
-
-
-    // =========================================================
-    // CANTIDAD
-    // =========================================================
-
-    const btnAumentar =
-        document.getElementById(
-            "btnAumentar"
-        );
-
-
-    const btnDisminuir =
-        document.getElementById(
-            "btnDisminuir"
-        );
-
-
-    const cantidadInput =
-        document.getElementById(
-            "cantidadProducto"
-        );
-
-
-    if (
-        btnAumentar &&
-        cantidadInput
-    ) {
-
-        btnAumentar.addEventListener(
-            "click",
-            () => {
-
-                let cantidad =
-                    Number(
-                        cantidadInput.value
-                    );
-
-
-                cantidad++;
-
-
-                cantidadInput.value =
-                    cantidad;
-
-            }
-        );
-
-    }
-
-
-    if (
-        btnDisminuir &&
-        cantidadInput
-    ) {
-
-        btnDisminuir.addEventListener(
-            "click",
-            () => {
-
-                let cantidad =
-                    Number(
-                        cantidadInput.value
-                    );
-
-
-                if (cantidad > 1) {
-
-                    cantidad--;
-
-                }
-
-
-                cantidadInput.value =
-                    cantidad;
-
-            }
-        );
-
-    }
-
-
-    // =========================================================
-    // PRODUCTO NO ENCONTRADO
-    // =========================================================
-
-    function mostrarProductoNoEncontrado() {
-
-        const contenido =
-            document.querySelector(
-                ".detalle-contenido"
-            );
-
-
-        if (!contenido) {
-
-            return;
-
-        }
-
-
-        contenido.innerHTML =
-            `
-            <div class="alert alert-danger text-center">
-
-                <h4>
-                    Producto no encontrado
-                </h4>
-
-                <p>
-                    El producto que estás buscando
-                    no existe o ya no está disponible.
-                </p>
-
-                <a
-                    href="index.html"
-                    class="btn btn-primary"
-                >
-                    Volver a productos
-                </a>
-
-            </div>
-            `;
-
-    }
-
-
-    // =========================================================
-    // MENSAJES
-    // =========================================================
-
-    function mostrarMensaje(
-        titulo,
-        mensaje,
-        tipo
-    ) {
-
-        if (
-            typeof Swal !== "undefined"
-        ) {
-
-            Swal.fire(
-                titulo,
-                mensaje,
-                tipo
-            );
-
-        } else {
-
-            alert(
-                `${titulo}\n${mensaje}`
-            );
-
-        }
-
-    }
-
-
-    // =========================================================
-    // ANALÍTICA
-    // =========================================================
-
-    function registrarEventoAnalitica(
-        tipoEvento,
-        producto,
-        cantidad = 1
-    ) {
-
-        if (!producto) {
-
-            return;
-
-        }
-
-
+    async function postToBackend(endpoint, data) {
         try {
-
-            let eventos =
-                JSON.parse(
-                    localStorage.getItem(
-                        "analiticaProductos"
-                    )
-                ) || [];
-
-
-            const nuevoEvento = {
-
-                id:
-                    Date.now() +
-                    Math.random(),
-
-                evento:
-                    tipoEvento,
-
-                productoId:
-                    producto.id,
-
-                producto:
-                    producto.nombre,
-
-                categoria:
-                    producto.categoria,
-
-                precio:
-                    producto.precio,
-
-                cantidad:
-                    cantidad,
-
-                fecha:
-                    new Date().toISOString()
-
-            };
-
-
-            eventos.push(
-                nuevoEvento
-            );
-
-
-            // Evita que la analítica crezca
-            // indefinidamente
-
-            if (eventos.length > 500) {
-
-                eventos =
-                    eventos.slice(-500);
-
+            const response = await fetch(`${API_BASE}${endpoint}`, {
+                method: 'POST',
+                headers: obtenerHeaders(),
+                body: JSON.stringify(data)
+            });
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status}: ${response.statusText}`);
             }
-
-
-            localStorage.setItem(
-                "analiticaProductos",
-                JSON.stringify(eventos)
-            );
-
-
+            return await response.json();
         } catch (error) {
-
-            console.error(
-                "Error guardando analítica:",
-                error
-            );
-
+            console.error(`Error posting ${endpoint}:`, error);
+            return null;
         }
-
     }
 
-
     // =========================================================
-    // OBTENER ANALÍTICA
+    // SIMULAR COMPRA (SEEDING DE VENTAS EN EL BACKEND)
     // =========================================================
 
-    function obtenerAnalitica() {
+    async function simularCompra() {
+        const products = [
+            { id: 1, nombre: "Pulsera GPS Femenino", precio: 199900 },
+            { id: 2, nombre: "Audífonos GPS integrado", precio: 399900 },
+            { id: 3, nombre: "Reloj GPS Masculino", precio: 359900 },
+            { id: 4, nombre: "Reloj GPS Niño", precio: 199900 },
+            { id: 5, nombre: "Pulsera GPS Niña", precio: 159900 },
+            { id: 6, nombre: "Gafas de sol GPS", precio: 199900 },
+            { id: 7, nombre: "Arete GPS", precio: 159900 },
+            { id: 8, nombre: "Arete GPS Niña", precio: 99900 },
+            { id: 9, nombre: "Llavero GPS Femenino", precio: 159900 }
+        ];
 
-        try {
+        const randomProduct = products[Math.floor(Math.random() * products.length)];
+        const randomQuantity = Math.floor(Math.random() * 3) + 1;
+        const randomStatus = ['Pendiente', 'Enviado', 'Entregado', 'Pagado'][Math.floor(Math.random() * 4)];
 
-            return JSON.parse(
-                localStorage.getItem(
-                    "analiticaProductos"
-                )
-            ) || [];
-
-        } catch (error) {
-
-            return [];
-
+        const statusResponse = await fetchFromBackend('/statuses');
+        if (!statusResponse) {
+            console.error('No se pudieron cargar los estados');
+            return;
+        }
+        const statusObj = statusResponse.find(s => s.name === randomStatus);
+        if (!statusObj) {
+            console.error('Estado no encontrado:', randomStatus);
+            return;
         }
 
-    }
-
-
-    // =========================================================
-    // RESUMEN
-    // =========================================================
-
-    function obtenerResumenAnalitica() {
-
-        const eventos =
-            obtenerAnalitica();
-
-
-        const resumen = {
-
-            totalEventos:
-                eventos.length,
-
-            visualizaciones:
-                0,
-
-            agregadosCarrito:
-                0,
-
-            productosCreados:
-                0
-
+        const saleData = {
+            quantity: randomQuantity,
+            totalAmount: randomProduct.precio * randomQuantity,
+            active: true,
+            statusId: statusObj.id,
+            userId: obtenerUserIdDesdeToken(),
+            items: [
+                {
+                    productId: randomProduct.id,
+                    quantity: randomQuantity
+                }
+            ]
         };
 
-
-        eventos.forEach(
-            (evento) => {
-
-                if (
-                    evento.evento ===
-                    "viewProduct"
-                ) {
-
-                    resumen.visualizaciones++;
-
-                }
-
-
-                if (
-                    evento.evento ===
-                    "addToCart"
-                ) {
-
-                    resumen.agregadosCarrito++;
-
-                }
-
-
-                if (
-                    evento.evento ===
-                    "createProduct"
-                ) {
-
-                    resumen.productosCreados++;
-
-                }
-
+        const result = await postToBackend('/sales', saleData);
+        if (result) {
+            console.log('Venta simulada creada:', result);
+            cargarDatosDashboard();
+            if (typeof window.App !== 'undefined') {
+                window.App.notify(`Venta #${result.id} simulada (${randomProduct.nombre} x${randomQuantity})`, 'success');
             }
-        );
-
-
-        return resumen;
-
+        } else {
+            console.error('Error al crear la venta simulada');
+        }
     }
 
-
     // =========================================================
-    // PRODUCTOS MÁS VISTOS
+    // CARGAR Y MOSTRAR KPIs DEL DASHBOARD
     // =========================================================
 
-    function obtenerProductosMasVistos() {
+    async function cargarKPIs() {
+        const summary = await fetchFromBackend('/dashboard/summary');
+        if (!summary) return;
 
-        const eventos =
-            obtenerAnalitica();
+        const ventasEl = document.getElementById('kpiVentas');
+        const pedidosEl = document.getElementById('kpiPedidos');
+        const inventarioEl = document.getElementById('kpiInventario');
+        const usuariosEl = document.getElementById('kpiUsuarios');
 
+        if (ventasEl) {
+            const ventasTotales = summary.ventasTotales || 0;
+            ventasEl.textContent = `$${Number(ventasTotales).toLocaleString("es-CO")} COP`;
+        }
 
-        const productos = {};
+        if (pedidosEl) {
+            pedidosEl.textContent = summary.totalPedidos || 0;
+        }
 
+        if (inventarioEl) {
+            inventarioEl.textContent = summary.productosEnInventario || summary.totalProductos || 0;
+        }
 
-        eventos.forEach(
-            (evento) => {
-
-                if (
-                    evento.evento !==
-                    "viewProduct"
-                ) {
-
-                    return;
-
-                }
-
-
-                const id =
-                    evento.productoId;
-
-
-                if (
-                    !productos[id]
-                ) {
-
-                    productos[id] = {
-
-                        id:
-                            id,
-
-                        nombre:
-                            evento.producto,
-
-                        visitas:
-                            0
-
-                    };
-
-                }
-
-
-                productos[id].visitas++;
-
-            }
-        );
-
-
-        return Object.values(
-            productos
-        ).sort(
-            (a, b) =>
-                b.visitas -
-                a.visitas
-        );
-
+        if (usuariosEl) {
+            usuariosEl.textContent = summary.totalUsuarios || 0;
+        }
     }
 
-
     // =========================================================
-    // PRODUCTOS MÁS AGREGADOS
+    // CARGAR PEDIDOS RECIENTES
     // =========================================================
 
-    function obtenerProductosMasAgregados() {
+    async function cargarPedidosRecientes() {
+        const orders = await fetchFromBackend('/dashboard/pedidos-recientes');
+        if (!orders) return;
 
-        const eventos =
-            obtenerAnalitica();
+        const list = document.getElementById('pedidosRecientesList');
+        if (!list) return;
 
+        if (orders.length === 0) {
+            list.innerHTML = '<li class="list-group-item text-center text-muted">No hay pedidos aún</li>';
+            return;
+        }
 
-        const productos = {};
-
-
-        eventos.forEach(
-            (evento) => {
-
-                if (
-                    evento.evento !==
-                    "addToCart"
-                ) {
-
-                    return;
-
-                }
-
-
-                const id =
-                    evento.productoId;
-
-
-                if (
-                    !productos[id]
-                ) {
-
-                    productos[id] = {
-
-                        id:
-                            id,
-
-                        nombre:
-                            evento.producto,
-
-                        cantidad:
-                            0
-
-                    };
-
-                }
-
-
-                productos[id].cantidad +=
-                    Number(
-                        evento.cantidad || 1
-                    );
-
-            }
-        );
-
-
-        return Object.values(
-            productos
-        ).sort(
-            (a, b) =>
-                b.cantidad -
-                a.cantidad
-        );
-
+        list.innerHTML = orders.map(order => {
+            const badgeClass = obtenerBadgeEstado(order.estado);
+            return `
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <div>
+                        <strong>${order.pedido}</strong> - ${order.producto || 'Producto'}
+                        <br><small class="text-muted">${order.fecha ? order.fecha.substring(0, 10) : 'Fecha'}</small>
+                    </div>
+                    <span class="badge ${badgeClass}">${order.estado}</span>
+                </li>
+            `;
+        }).join('');
     }
 
+    function obtenerBadgeEstado(estado) {
+        const map = {
+            'Entregado': 'bg-success',
+            'Enviado': 'bg-primary',
+            'Pendiente': 'bg-warning text-dark',
+            'Pagado': 'bg-success',
+            'Cancelado': 'bg-secondary'
+        };
+        return map[estado] || 'bg-secondary';
+    }
 
     // =========================================================
-    // DASHBOARD - GRÁFICA
+    // CARGAR PRODUCTOS MÁS VENDIDOS
     // =========================================================
 
-    const ventasChartCanvas =
-        document.getElementById(
-            "ventasChart"
-        );
+    async function cargarProductosMasVendidos() {
+        const bestSellers = await fetchFromBackend('/dashboard/productos-mas-vendidos');
+        if (!bestSellers) return;
 
+        const list = document.getElementById('productosMasVendidosList');
+        if (!list) return;
 
-    actualizarKpisAdmin();
+        if (bestSellers.length === 0) {
+            list.innerHTML = '<li class="mb-2 d-flex justify-content-between text-muted">Sin datos aún</li>';
+            return;
+        }
 
-    if (
-        ventasChartCanvas &&
-        typeof Chart !== "undefined"
-    ) {
+        list.innerHTML = bestSellers.map((item, index) => {
+            const emoji = ['🥇', '🥈', '🥉', '⭐', '🏅'][index] || '⭐';
+            const color = index === 0 ? '#D4AF37' : index === 1 ? '#A8A9AD' : '#CD7F32';
+            return `
+                <li class="mb-2 d-flex justify-content-between">
+                    <span class="d-flex align-items-center gap-1">
+                        <i class="material-icons" style="font-size:18px; color:${color}">${emoji}</i>
+                        ${item.nombre}
+                    </span>
+                    <strong>${item.cantidadVendida}</strong>
+                </li>
+            `;
+        }).join('');
+    }
 
-        const eventos = obtenerAnalitica();
-        const dias = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"];
-        const ventasPorDia = [10, 35, 85, 56, 71, 40, 80];
+    // =========================================================
+    // CARGAR ALERTAS
+    // =========================================================
 
-        const datosBase = Array.isArray(eventos) && eventos.length ? eventos : ventasBase;
+    async function cargarAlertas() {
+        const stats = await fetchFromBackend('/dashboard/estadisticas');
+        if (!stats) return;
 
-        datosBase.forEach((evento) => {
-            if (evento.evento !== "addToCart") return;
+        const list = document.getElementById('alertasList');
+        if (!list) return;
 
-            const fecha = new Date(evento.fecha || Date.now());
-            const dia = fecha.getDay();
-            const posicion = dia === 0 ? 6 : dia - 1;
-            ventasPorDia[posicion] += Number(evento.cantidad || 1);
+        const alertas = [];
+
+        const pendientes = stats.pedidosPendientes || 0;
+        const enviados = stats.pedidosEnviados || 0;
+        const entregados = stats.pedidosEntregados || 0;
+
+        if (pendientes > 0) {
+            alertas.push(`<i class="material-icons" style="font-size:18px; color:#f59e0b">schedule</i> ${pendientes} pedidos pendientes por despachar`);
+        }
+        if (enviados > 0) {
+            alertas.push(`<i class="material-icons" style="font-size:18px; color:#3b82f6">local_shipping</i> ${enviados} pedidos en camino`);
+        }
+        alertas.push(`<i class="material-icons" style="font-size:18px; color:#10b981">group</i> ${stats.totalUsuarios || 0} usuarios registrados`);
+
+        const ingresoTotal = stats.ingresoTotal || 0;
+        alertas.push(`<i class="material-icons" style="font-size:18px; color:#8b5cf6">payments</i> Ingreso total: $${Number(ingresoTotal).toLocaleString("es-CO")} COP`);
+
+        list.innerHTML = alertas.map(a => `
+            <div class="list-group-item border-0 px-0 d-flex align-items-center gap-2">${a}</div>
+        `).join('');
+    }
+
+    // =========================================================
+    // GRÁFICA DE VENTAS CON CHART.JS
+    // =========================================================
+
+    async function cargarGraficaVentas() {
+        const stats = await fetchFromBackend('/dashboard/estadisticas');
+        if (!stats) return;
+
+        const canvas = document.getElementById('ventasChart');
+        if (!canvas || typeof Chart === 'undefined') return;
+
+        const dias = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
+        const ventasPorDia = [0, 0, 0, 0, 0, 0, 0];
+
+        const ventasData = await fetchFromBackend('/dashboard/pedidos-recientes');
+        if (ventasData) {
+            ventasData.forEach(order => {
+                if (order.fecha) {
+                    const fecha = new Date(order.fecha);
+                    const dia = fecha.getDay();
+                    const posicion = dia === 0 ? 6 : dia - 1;
+                    const monto = Number(order.total) || 0;
+                    ventasPorDia[posicion] += monto;
+                }
+            });
+        }
+
+        new Chart(canvas, {
+            type: "bar",
+            data: {
+                labels: dias,
+                datasets: [{
+                    label: "Ventas ($ COP)",
+                    data: ventasPorDia,
+                    backgroundColor: "#006D77",
+                    borderRadius: 8,
+                    borderSkipped: false,
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: true }
+                },
+                scales: {
+                    x: { grid: { display: false } },
+                    y: { beginAtZero: true, ticks: { precision: 0 } }
+                }
+            }
+        });
+    }
+
+    // =========================================================
+    // DATOS SIMULADOS (FALLBACK si el backend no está disponible)
+    // =========================================================
+
+    function usarDatosSimulados() {
+        const kpiVentas = document.getElementById('kpiVentas');
+        const kpiPedidos = document.getElementById('kpiPedidos');
+        const kpiInventario = document.getElementById('kpiInventario');
+        const kpiUsuarios = document.getElementById('kpiUsuarios');
+
+        if (kpiVentas) kpiVentas.textContent = '$18.540.000 COP';
+        if (kpiPedidos) kpiPedidos.textContent = '325';
+        if (kpiInventario) kpiInventario.textContent = '1.254';
+        if (kpiUsuarios) kpiUsuarios.textContent = '842';
+
+        const pedidosList = document.getElementById('pedidosRecientesList');
+        if (pedidosList) {
+            const pedidos = [
+                { pedido: '#001', producto: 'Pulsera GPS', estado: 'Entregado', fecha: '2026-09-10' },
+                { pedido: '#002', producto: 'Reloj GPS', estado: 'Enviado', fecha: '2026-09-09' },
+                { pedido: '#003', producto: 'Audífonos GPS', estado: 'Pendiente', fecha: '2026-09-08' },
+                { pedido: '#004', producto: 'Gafas GPS', estado: 'Pagado', fecha: '2026-09-07' },
+                { pedido: '#005', producto: 'Arete GPS', estado: 'Entregado', fecha: '2026-09-06' },
+            ];
+            pedidosList.innerHTML = pedidos.map(p => `
+                <li class="list-group-item d-flex justify-content-between">
+                    <div><strong>${p.pedido}</strong> - ${p.producto}<br><small class="text-muted">${p.fecha}</small></div>
+                    <span class="badge ${obtenerBadgeEstado(p.estado)}">${p.estado}</span>
+                </li>
+            `).join('');
+        }
+    }
+
+    // =========================================================
+    // BOTÓN DE SIMULAR COMPRA
+    // =========================================================
+
+    function agregarBotonSimularCompra() {
+        const botonExistente = document.getElementById('btnSimularVenta');
+        if (botonExistente) return;
+
+        const container = document.querySelector('.welcome-admin');
+        if (!container) return;
+
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.id = 'btnSimularVenta';
+        btn.className = 'btn btn-sm shadow-sm ms-2';
+        btn.style.cssText = 'background-color: #E63946; color: white; border-radius: 10px;';
+        btn.innerHTML = '<i class="bi bi-lightning-fill me-1"></i> Simular Venta';
+        btn.addEventListener('click', () => {
+            simularCompra();
         });
 
-        new Chart(
-            ventasChartCanvas,
-            {
-                type: "bar",
-                data: {
-                    labels: dias,
-                    datasets: [{
-                        label: "Número de ventas",
-                        data: ventasPorDia,
-                        backgroundColor: "#006D77",
-                        borderRadius: 8,
-                        borderSkipped: false,
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            display: true,
-                        }
-                    },
-                    scales: {
-                        x: {
-                            grid: {
-                                display: false,
-                            }
-                        },
-                        y: {
-                            beginAtZero: true,
-                            ticks: {
-                                precision: 0,
-                            }
-                        }
-                    }
-                }
-            }
-        );
-
+        const adminBtn = container.querySelector('[data-bs-target="#modalAgregarProducto"]');
+        if (adminBtn) {
+            adminBtn.parentNode.insertBefore(btn, adminBtn.nextSibling);
+        }
     }
 
-
     // =========================================================
-    // EXPONER ANALÍTICA
+    // INICIALIZACIÓN
     // =========================================================
 
-    window.analiticaProductos = {
+    async function init() {
+        // Intentar cargar datos del backend
+        const summary = await fetchFromBackend('/dashboard/summary');
 
-        obtenerEventos:
-            obtenerAnalitica,
+        if (summary) {
+            // Backend disponible - cargar datos reales
+            await cargarKPIs();
+            await cargarPedidosRecientes();
+            await cargarProductosMasVendidos();
+            await cargarAlertas();
+            await cargarGraficaVentas();
+        } else {
+            // Backend no disponible - usar datos simulados
+            console.warn('Backend no disponible, usando datos simulados');
+            usarDatosSimulados();
+        }
 
-        obtenerResumen:
-            obtenerResumenAnalitica,
+        // Agregar botón de simular compra
+        agregarBotonSimularCompra();
+    }
 
-        productosMasVistos:
-            obtenerProductosMasVistos,
+    init();
 
-        productosMasAgregados:
-            obtenerProductosMasAgregados
-
+    // Exponer función global para debug
+    window.adminDashboard = {
+        cargarDatos: () => init(),
+        simularVenta: simularCompra,
+        fetchSummary: () => fetchFromBackend('/dashboard/summary')
     };
-
 });

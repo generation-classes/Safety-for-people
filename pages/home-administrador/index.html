@@ -34,6 +34,9 @@
             <button type="button" class="btn btn-sm shadow-sm" style="background-color: #006D77; color: white; border-radius: 10px;" data-bs-toggle="modal" data-bs-target="#modalAgregarProducto">
             <i class="bi bi-tag-fill me-2"></i> Agregar nuevo producto
         </button>
+        <button type="button" id="btnSimularVenta" class="btn btn-sm shadow-sm ms-2" style="background-color: #E63946; color: white; border-radius: 10px;">
+            <i class="bi bi-lightning-fill me-1"></i> Simular Venta
+        </button>
         </section>
 
          <div class="modal fade" id="modalAgregarProducto" tabindex="-1">
@@ -118,7 +121,7 @@
                             <span class="material-icons fs-2">payments</span>
                         </div>
 
-                        <h2 class="fw-bold">$18.540.000</h2>
+                        <h2 class="fw-bold" id="kpiVentas">$0</h2>
 
                         <div class="mt-auto">
                             <p class="text-success fw-semibold mb-1 d-flex align-items-center gap-1"><i class="material-icons" style="font-size:16px">arrow_upward</i>12.5%</p>
@@ -143,7 +146,7 @@
                             <span class="material-icons fs-2">receipt_long</span>
                         </div>
 
-                        <h2 class="fw-bold">325</h2>
+                        <h2 class="fw-bold" id="kpiPedidos">0</h2>
 
                         <div class="mt-auto">
                             <p class="text-success fw-semibold mb-1 d-flex align-items-center gap-1"><i class="material-icons" style="font-size:16px">arrow_upward</i>8.3%</p>
@@ -168,7 +171,7 @@
                             <span class="material-icons fs-2">inventory_2</span>
                         </div>
 
-                        <h2 class="fw-bold">1.254</h2>
+                        <h2 class="fw-bold" id="kpiInventario">0</h2>
 
                         <div class="mt-auto">
                             <p class="text-success fw-semibold mb-1 d-flex align-items-center gap-1"><i class="material-icons" style="font-size:16px">arrow_upward</i>4.7%</p>
@@ -193,7 +196,7 @@
                             <span class="material-icons fs-2">group</span>
                         </div>
 
-                        <h2 class="fw-bold">842</h2>
+                        <h2 class="fw-bold" id="kpiUsuarios">0</h2>
 
                         <div class="mt-auto">
                             <p class="text-success fw-semibold mb-1 d-flex align-items-center gap-1"><i class="material-icons" style="font-size:16px">arrow_upward</i>9.8%</p>
@@ -249,46 +252,10 @@
 
                         </div>
 
-                        <ul class="list-group list-group-flush">
+                        <ul class="list-group list-group-flush" id="pedidosRecientesList">
 
                             <li class="list-group-item d-flex justify-content-between">
-                                <span>Pedido #001</span>
-                                <span class="badge bg-success">Entregado</span>
-                            </li>
-
-                            <li class="list-group-item d-flex justify-content-between">
-                                <span>Pedido #002</span>
-                                <span class="badge bg-primary">Enviado</span>
-                            </li>
-
-                            <li class="list-group-item d-flex justify-content-between">
-                                <span>Pedido #003</span>
-                                <span class="badge bg-warning text-dark">Pendiente</span>
-                            </li>
-
-                            <li class="list-group-item d-flex justify-content-between">
-                                <span>Pedido #004</span>
-                                <span class="badge bg-success">Pagado</span>
-                            </li>
-
-                            <li class="list-group-item d-flex justify-content-between">
-                                <span>Pedido #005</span>
-                                <span class="badge bg-success">Entregado</span>
-                            </li>
-
-                            <li class="list-group-item d-flex justify-content-between">
-                                <span>Pedido #006</span>
-                                <span class="badge bg-primary">Enviado</span>
-                            </li>
-
-                            <li class="list-group-item d-flex justify-content-between">
-                                <span>Pedido #007</span>
-                                <span class="badge bg-warning text-dark">Pendiente</span>
-                            </li>
-
-                            <li class="list-group-item d-flex justify-content-between">
-                                <span>Pedido #008</span>
-                                <span class="badge bg-success">Pagado</span>
+                                <span>Cargando pedidos...</span>
                             </li>
 
                         </ul>
@@ -315,40 +282,14 @@
 
                         </div>
 
-                        <ol class="mb-0">
+                        <ol class="mb-0" id="productosMasVendidosList">
 
                             <li class="mb-2 d-flex justify-content-between">
                                 <span class="d-flex align-items-center gap-1">
                                     <i class="material-icons" style="font-size:18px; color:#D4AF37">emoji_events</i>
-                                    Anillos
+                                    Cargando...
                                 </span>
-                                <strong>520</strong>
-                            </li>
-
-                            <li class="mb-2 d-flex justify-content-between">
-                                <span class="d-flex align-items-center gap-1">
-                                    <i class="material-icons" style="font-size:18px; color:#A8A9AD">emoji_events</i>
-                                    Relojes
-                                </span>
-                                <strong>468</strong>
-                            </li>
-
-                            <li class="mb-2 d-flex justify-content-between">
-                                <span class="d-flex align-items-center gap-1">
-                                    <i class="material-icons" style="font-size:18px; color:#CD7F32">emoji_events</i>
-                                    Pulseras
-                                </span>
-                                <strong>391</strong>
-                            </li>
-
-                            <li class="mb-2 d-flex justify-content-between">
-                                <span>Collares</span>
-                                <strong>287</strong>
-                            </li>
-
-                            <li class="d-flex justify-content-between">
-                                <span>Aretes</span>
-                                <strong>251</strong>
+                                <strong>-</strong>
                             </li>
 
                         </ol>
@@ -370,26 +311,11 @@
 
                         </div>
 
-                        <div class="list-group list-group-flush">
+                        <div class="list-group list-group-flush" id="alertasList">
 
                             <div class="list-group-item border-0 px-0 d-flex align-items-center gap-2">
                                 <i class="material-icons" style="font-size:18px">warning</i>
-                                Stock bajo en 5 productos
-                            </div>
-
-                            <div class="list-group-item border-0 px-0 d-flex align-items-center gap-2">
-                                <i class="material-icons" style="font-size:18px">inventory_2</i>
-                                3 pedidos pendientes por despachar
-                            </div>
-
-                            <div class="list-group-item border-0 px-0 d-flex align-items-center gap-2">
-                                <i class="material-icons" style="font-size:18px">person</i>
-                                2 usuarios nuevos registrados
-                            </div>
-
-                            <div class="list-group-item border-0 px-0 d-flex align-items-center gap-2">
-                                <i class="material-icons" style="font-size:18px">credit_card</i>
-                                4 pagos por confirmar
+                                Cargando alertas...
                             </div>
 
                         </div>

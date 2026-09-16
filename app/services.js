@@ -140,3 +140,4 @@ window.RolesService = RolesService;
 window.SalesService = SalesService;
 window.StatusesService = StatusesService;
 window.UsersService = UsersService;
+

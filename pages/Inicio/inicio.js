@@ -20,7 +20,9 @@ function decodificarJwt(token) {
 
 function resolverRolDesdeToken(token) {
   const claims = decodificarJwt(token);
-  return String(claims.role || "").toUpperCase().includes("ADMIN") ? "admin" : "user";
+  // Revisa si las claims o autoridades traen ADMIN explícitamente, de lo contrario fuerza 'user'
+  const rolesCadena = JSON.stringify(claims).toUpperCase();
+  return rolesCadena.includes("ADMIN") ? "admin" : "user";
 }
 
 function guardarSesion(token, email, nombre, rol) {
