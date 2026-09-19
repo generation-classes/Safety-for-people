@@ -72,7 +72,10 @@ async function cargarCatalogoProductos() {
     ]);
 
     const categoriasPorId = new Map(categoriasApi.map(categoria => [categoria.id, categoria]));
-    return productosApi.map(producto => mapearProducto(producto, categoriasPorId, favoritosIds));
+    // "Eliminar" en el admin es un soft delete (active=false); no deben verse en la tienda.
+    return productosApi
+        .filter(producto => producto.active !== false)
+        .map(producto => mapearProducto(producto, categoriasPorId, favoritosIds));
 }
 
 const PRODUCTOS_POR_PAGINA = 9;

@@ -64,7 +64,10 @@ document.addEventListener("DOMContentLoaded", () => {
     async function cargarProductos() {
         tablaProductos.innerHTML = '<tr><td colspan="7" class="text-center text-muted py-4">Cargando productos...</td></tr>';
         try {
-            productosCache = await ProductsService.getAll();
+            // "Eliminar" es un soft delete en el backend (active=false) para no romper
+            // el historial de ventas que ya referencian el producto; se ocultan aquí.
+            const productos = await ProductsService.getAll();
+            productosCache = productos.filter(producto => producto.active !== false);
             paginaActual = 1;
             renderizarTabla();
         } catch (error) {

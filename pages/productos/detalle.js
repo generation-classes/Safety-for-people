@@ -160,6 +160,11 @@ async function cargarProducto() {
     try {
         const productoApi = await ProductsService.getById(id);
 
+        if (productoApi.active === false) {
+            mostrarProductoNoEncontrado();
+            return;
+        }
+
         const producto = {
             id: productoApi.id,
             nombre: productoApi.name || "Producto",
